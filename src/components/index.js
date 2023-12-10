@@ -1,0 +1,5 @@
+export { Background } from "./background/background"
+export { Profile } from "./profile/profile"
+export { Contact } from "./contact/contact"
+export { Theme } from "./theme/theme"
+export { Nav } from "./nav/nav"

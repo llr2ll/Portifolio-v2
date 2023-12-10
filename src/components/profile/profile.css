@@ -1,0 +1,139 @@
+.home-container {
+  position: relative;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home-container .logo {
+  position: inherit;
+  margin-top: -50px;
+  height: 520px;
+  width: 520px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  user-select: none;
+}
+.home-container .logo .hover-show {
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+  
+.home-container .logo .hover-show.active { animation: showspin 10s linear 1s infinite }
+  
+.home-container img {
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  border: 3px solid rgb(82, 188, 250);
+  box-shadow:0 0 0.1em rgb(108, 161, 197), 0 0 0.1em rgb(108, 161, 197),0 0 
+  0.1em rgb(108, 161, 197);;
+  opacity: 0;
+  animation: fade-in 20s ease 1 3s forwards;
+}
+
+.home-container .logo .circle {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: transparent;
+  background: rgba(0, 0, 0, 0.200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fade-out 10s ease 1 forwards;
+}
+
+.home-container .logo .hover-show.active .circle { opacity: 1 }
+
+@keyframes fade-in { to { transform: translate(0); opacity: 1 } }
+
+@keyframes fade-out { 
+  from { opacity: 0; transform: translate(0) }
+  to { transform: translate(100); opacity: 1 }
+}
+
+@keyframes showspin { to { transform: rotate(360deg) } }
+
+.home-container .logo .hover-show.active .circle:nth-child(1) {
+  font-size: 4rem;
+  color: lightblue;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  transform: translateY(-210%);
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(2) {
+  position: absolute;
+  transform: translateX(150%) translateY(-150%);
+  font-size: 4rem;
+  color: green;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(3) {
+  position: absolute;
+  transform: translateX(210%);
+  font-size: 4rem;
+  color: yellow;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(4) {
+  position: absolute;
+  transform: translateX(150%) translateY(150%);
+  font-size: 4rem;
+  color: rgb(0, 255, 255);
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(5) {
+  position: absolute;
+  transform: translateY(210%);
+  font-size: 4rem;
+  color: #a20912;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(6) {
+  position: absolute;
+  transform: translateX(-150%) translateY(150%);
+  font-size: 4rem;
+  color: #42b883;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(7) {
+  position: absolute;
+  transform: translateX(-210%);
+  font-size: 4rem;
+  color: #dd0031;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(8) {
+  position: absolute;
+  transform: translateX(-150%) translateY(-150%);
+  font-size: 4rem;
+  color: rgb(0, 255, 255);
+  background-size: cover;
+  background-position: center;
+}
