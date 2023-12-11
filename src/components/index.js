@@ -1,3 +1,4 @@
+export { Certificates } from "./certificates/certificates"
 export { Background } from "./background/background"
 export { Profile } from "./profile/profile"
 export { Contact } from "./contact/contact"

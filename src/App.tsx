@@ -1,4 +1,4 @@
-import { Background, Profile, Contact, Nav, Theme } from './components';
+import { Background, Profile, Contact, Nav, Theme, Certificates} from './components';
 
 function App() {
   return <main>
@@ -6,6 +6,7 @@ function App() {
     <Nav/>
     <Theme />
     <Profile/>
+    <Certificates/>
     <Contact/>
   </main>
 };
