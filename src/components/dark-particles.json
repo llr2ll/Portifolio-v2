@@ -14,7 +14,7 @@
     "composite": "destination-out",
     "cover": {
       "color": {
-        "value": "#fff"
+        "value": "white"
       },
       "opacity": 1
     },
@@ -277,7 +277,7 @@
         "length": 3,
         "fill": {
           "color": {
-            "value": "#000000"
+            "value": "#02021a"
           }
         }
       },

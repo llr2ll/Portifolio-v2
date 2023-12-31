@@ -1,30 +1,42 @@
-import { IFramework, ISkill } from '../../types';
+import { IFramework, ILanguage, ISkill } from '../../types';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { SkillsJson } from "./skill";
-import Box from '@mui/material/Box';
+import "./skills.css"
 
-export function Skills(){
-    
+export function Skills({ language }: ILanguage) {
+    let Title = ["Skills", "Habilidades", "Habilidades"]
+
     const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
+        backgroundColor: "var(--card-bg)",
         padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+        color: "var(--card-color)",
+        boxShadow: "none"
     }));
 
-    return <section style={{ padding: "5%" }}>
-        {SkillsJson.map((categories: ISkill, index: number) =>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {categories.Data.map((framework: IFramework, index) => 
-                    <Item key={index} style={{fontSize: "4rem"}}>
-                        {framework.icon}
-                        <Item>{framework.name}</Item>
-                    </Item>
+    return <section id='skills' className='fade'>
+        <h1>{Title[language]}</h1>
+        <div className='skills'>
+            <div className='pulse-border'>
+                {SkillsJson.map((categories: ISkill, index: number) =>
+                    <div className='skills-container' key={index}>
+                        <div>
+                            <h1 style={{color: categories.Title.color}}>{categories.Title.language[language]}</h1>
+                        </div>
+                        <Grid container spacing={2} justifyContent="center">
+                            {categories.Data.map((framework: IFramework, index: number) => (
+                                <Grid className='skills-container-grid' item xs={6} md={4} lg={3} key={index} sx={{ padding: "15px" }}>
+                                    <Item className='skills-item-box' sx={{ borderRadius: "20px" }} onClick={() => window.open(framework.link, "_blank")}>
+                                        <Item className='skills-item' sx={{ background: "transparent" }}>{framework.icon}</Item>
+                                        <Item sx={{ background: "transparent" }}>{framework.name}</Item> 
+                                    </Item>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
                 )}
-            </Grid>
-        )}
+            </div>
+        </div>
     </section>
 }

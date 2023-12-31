@@ -8,17 +8,17 @@ import "./profile.css"
 export function Profile(){
     return <section id="home" className="container home-container">
         <div className="logo">
-            <div className="hover-show active">
-            <span className='circle'><FaReact /></span>
-            <span className='circle' ><FaNode /></span>
-            <span className='circle'><SiJavascript /></span>
-            <span className='circle'><SiElectron /></span>
-            <span className='circle'><TbSql /></span>
-            <span className='circle'><FaVuejs /></span>
-            <span className='circle'><FaAngular /></span>
-            <span className='circle'><GrMysql /></span>
+            <div className="hover-show active showspin">
+                <span className='circle fade-out'><FaReact /></span>
+                <span className='circle fade-out'><FaNode /></span>
+                <span className='circle fade-out'><SiJavascript /></span>
+                <span className='circle fade-out'><SiElectron /></span>
+                <span className='circle fade-out'><TbSql /></span>
+                <span className='circle fade-out'><FaVuejs /></span>
+                <span className='circle fade-out'><FaAngular /></span>
+                <span className='circle fade-out'><GrMysql /></span>
             </div>
-            <img src={img}/>
+            <img src={img} className='pulse-border-profile'/>
         </div>
     </section>
 }

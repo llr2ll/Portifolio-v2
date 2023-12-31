@@ -1,21 +1,21 @@
 .home-container {
   position: relative;
-  padding: 50px 40px;
+  padding: 50px 5% 0px 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .home-container .logo {
   position: inherit;
-  margin-top: -50px;
   height: 520px;
-  width: 520px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   user-select: none;
 }
+
 .home-container .logo .hover-show {
   position: absolute;
   height: 300px;
@@ -26,19 +26,16 @@
   align-items: center;
   z-index: 5;
 }
-  
-.home-container .logo .hover-show.active { animation: showspin 10s linear 1s infinite }
-  
+
 .home-container img {
   position: absolute;
   height: 300px;
   width: 300px;
   border-radius: 50%;
-  border: 3px solid rgb(82, 188, 250);
-  box-shadow:0 0 0.1em rgb(108, 161, 197), 0 0 0.1em rgb(108, 161, 197),0 0 
-  0.1em rgb(108, 161, 197);;
+  border: 3px solid var(--pulse-blue);
+  box-shadow:0 0 0.1em var(--pulse-blue-shadow), 0 0 0.1em var(--pulse-blue-shadow),0 0 
+  0.1em var(--pulse-blue-shadow);
   opacity: 0;
-  animation: fade-in 20s ease 1 3s forwards;
 }
 
 .home-container .logo .circle {
@@ -52,19 +49,9 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  animation: fade-out 12s ease 1 forwards;
 }
 
 .home-container .logo .hover-show.active .circle { opacity: 1 }
-
-@keyframes fade-in { to { transform: translate(0); opacity: 1 } }
-
-@keyframes fade-out { 
-  from { opacity: 0; transform: translate(0) }
-  to { transform: translate(100); opacity: 1 }
-}
-
-@keyframes showspin { to { transform: rotate(360deg) } }
 
 .home-container .logo .hover-show.active .circle:nth-child(1) {
   font-size: 4rem;
@@ -97,7 +84,7 @@
   position: absolute;
   transform: translateX(150%) translateY(150%);
   font-size: 4rem;
-  color: rgb(0, 255, 255);
+  color: var(--secundary-color);
   background-size: cover;
   background-position: center;
 }
@@ -133,7 +120,7 @@
   position: absolute;
   transform: translateX(-150%) translateY(-150%);
   font-size: 4rem;
-  color: rgb(0, 255, 255);
+  color: var(--secundary-color);
   background-size: cover;
   background-position: center;
 }

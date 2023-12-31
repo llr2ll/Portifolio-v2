@@ -1,14 +1,21 @@
-import { Background, Profile, Contact, Nav, Theme, Certificates, Skills } from './components';
+import { Background, Profile, Contact, Nav, Theme, Certificates, Skills, Language, About } from './components';
+import DarkParticlesConfig from "./components/dark-particles.json";
+import { useState } from 'react';
 
 function App() {
+  const [ bgConfig, setBgConfig ] = useState<any>(DarkParticlesConfig)
+  const [ language, setLanguage ] = useState(0)
+
   return <main>
-    <Background/>
+    <Background bgConfig={bgConfig}/>
     <Nav/>
-    <Theme />
+    <Language language={language} setLanguage={setLanguage}/>
+    <Theme setBgConfig={setBgConfig}/>
     <Profile/>
-    <Skills />
-    <Certificates/>
-    <Contact/>
+    <About language={language}/>
+    <Certificates language={language}/>
+    <Skills language={language}/>
+    <Contact language={language}/>
   </main>
 };
 
