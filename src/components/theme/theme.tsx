@@ -17,7 +17,8 @@ export function Theme({ setBgConfig }: any){
             root.style.setProperty('--main-bg-color', 'white');
             root.style.setProperty('--main-color', 'rgba(0, 0, 0)');
             root.style.setProperty('--secundary-color', '#9e11d5');
-            root.style.setProperty('--pulse-blue', 'rgb(82, 188, 250');
+            root.style.setProperty('--tertiary-color', 'rgb(82, 188, 250)');
+            root.style.setProperty('--pulse-blue', 'rgb(82, 188, 250)');
             root.style.setProperty('--pulse-blue-shadow', 'rgb(108, 161, 197)');
             root.style.setProperty('--pulse-purple', 'rgb(234, 0, 255)');
             root.style.setProperty('--pulse-purple-shadow', 'rgb(183, 0, 255)');
@@ -30,6 +31,7 @@ export function Theme({ setBgConfig }: any){
             root.style.setProperty('--main-bg-color', '#02021a');
             root.style.setProperty('--main-color', 'white');
             root.style.setProperty('--secundary-color', 'rgb(0, 255, 255)');
+            root.style.setProperty('--tertiary-color', 'rgb(234, 0, 255)');
             root.style.setProperty('--pulse-blue', 'rgb(82, 188, 250');
             root.style.setProperty('--pulse-blue-shadow', 'rgb(108, 161, 197)');
             root.style.setProperty('--pulse-purple', 'rgb(234, 0, 255)');
