@@ -65,4 +65,5 @@
   --card-bg: rgba(0, 0, 0, 0.622);
   --card-color: white;
   --card-hover-bg: rgba(255, 255, 255, 0.096);
+  --h1-margin: 30px 0;
 }

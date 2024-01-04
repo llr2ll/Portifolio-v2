@@ -16,8 +16,8 @@ export function Skills({ language }: ILanguage) {
     }));
 
     return <section id='skills' className='fade'>
-        <h1>{Title[language]}</h1>
         <div className='skills'>
+            <h1>{Title[language]}</h1>
             <div className='pulse-border'>
                 {SkillsJson.map((categories: ISkill, index: number) =>
                     <div className='skills-container' key={index}>
