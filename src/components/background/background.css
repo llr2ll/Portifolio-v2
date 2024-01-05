@@ -1,4 +1,4 @@
-body::before {
+/* body::before {
     content: "";
     position: fixed;
     bottom: 200px;
@@ -48,4 +48,4 @@ body::after {
     animation: fade-in 20s ease 1 0.5s forwards;
 }
 
-@keyframes fade-in { to { transform: translate(0); opacity: 1 } }
+@keyframes fade-in { to { transform: translate(0); opacity: 1 } } */
