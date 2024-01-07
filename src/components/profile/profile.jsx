@@ -10,32 +10,16 @@ export function Profile(){
         <div className="logo"> 
         {/*  */}
             <div className="hover-show active showspin">
-                <span className='circle fade-out'>
-                    {/* <FaReact /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <FaNode /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <SiJavascript /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <SiElectron /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <TbSql /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <FaVuejs /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <FaAngular /> */}
-                </span>
-                <span className='circle fade-out'>
-                    {/* <GrMysql /> */}
-                </span>
+                <span className='circle fade-out'><FaReact/></span>
+                <span className='circle fade-out'><FaNode/></span>
+                <span className='circle fade-out'><SiJavascript/></span>
+                <span className='circle fade-out'><SiElectron/></span>
+                <span className='circle fade-out'><TbSql/></span>
+                <span className='circle fade-out'><FaVuejs/></span>
+                <span className='circle fade-out'><FaAngular/></span>
+                <span className='circle fade-out'><GrMysql/></span>
             </div>
-            {/* <img src={img} className='pulse-border-profile'/> */}
+            <img src={img} className='pulse-border-profile'/>
         </div>
     </section>
 }

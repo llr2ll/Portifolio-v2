@@ -195,7 +195,7 @@ export const SkillsJson: ISkill[] = [
       {
         "name": "Insominia",
         "Level": "Avançado",
-        "icon": <img src="https://insomnia.rest/images/insomnia-logo.svg" width="150px" height="64px" />,
+        "icon": <img src="https://static-00.iconduck.com/assets.00/apps-insomnia-icon-2048x2048-2mq9u7v5.png" width="64px" height="64px" />,
         "link": "https://docs.insomnia.rest",
         "percentage": 75
       },

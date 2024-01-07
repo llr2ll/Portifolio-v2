@@ -1,6 +1,6 @@
 .home-container {
   position: relative;
-  padding: 50px 5% 0px 5%;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,6 @@
 }
 
 .home-container .logo .hover-show {
-  position: absolute;
   height: 300px;
   border-radius: 50%;
   display: flex;
@@ -37,7 +36,6 @@
 }
 
 .home-container .logo .circle {
-  position: absolute;
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -49,92 +47,56 @@
   opacity: 0;
 }
 
-@media screen and (max-width: 600px){
-  .home-container { padding: 0 0 0 0 }
-  .home-container .logo .circle {
-    height: 60px;
-    width: 60px;
-  }
+@media screen and (max-width: 650px){
+  .home-container{ padding: 0 }
+  .home-container .logo .hover-show.active .circle { display: none }
 }
 
-@media screen and (max-width: 425px){
-  .home-container { padding: 0 0 0 0 }
-  .home-container .logo .circle {
-    height: 50px;
-    width: 50px;
-  }
-}
-
-.home-container .logo .hover-show.active .circle { opacity: 1 }
-
-.home-container .logo .hover-show.active .circle:nth-child(1) {
+.home-container .logo .hover-show.active .circle { 
+  opacity: 1; 
   font-size: 4rem;
-  color: lightblue;
   background-size: cover;
   background-position: center;
   position: absolute;
+  padding: 10px;
+}
+
+.home-container .logo .hover-show.active .circle:nth-child(1) {
+  color: lightblue;
   transform: translateY(-210%);
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(2) {
-  position: absolute;
   transform: translateX(150%) translateY(-150%);
-  font-size: 4rem;
   color: green;
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(3) {
-  position: absolute;
   transform: translateX(210%);
-  font-size: 4rem;
   color: yellow;
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(4) {
-  position: absolute;
   transform: translateX(150%) translateY(150%);
-  font-size: 4rem;
   color: var(--secundary-color);
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(5) {
-  position: absolute;
   transform: translateY(210%);
-  font-size: 4rem;
   color: #a20912;
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(6) {
-  position: absolute;
   transform: translateX(-150%) translateY(150%);
-  font-size: 4rem;
   color: #42b883;
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(7) {
-  position: absolute;
   transform: translateX(-210%);
-  font-size: 4rem;
   color: #dd0031;
-  background-size: cover;
-  background-position: center;
 }
 
 .home-container .logo .hover-show.active .circle:nth-child(8) {
-  position: absolute;
   transform: translateX(-150%) translateY(-150%);
-  font-size: 4rem;
   color: var(--secundary-color);
-  background-size: cover;
-  background-position: center;
 }

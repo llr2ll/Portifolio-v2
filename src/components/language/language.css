@@ -20,6 +20,18 @@
 
 .language-switch > div:hover { transform: scale(1.2); cursor: pointer }
 
-.language-switch > div > img { margin-right: 10px }
+.language-switch > div > img { height: 16px; margin-right: 10px }
 
 .language-switch > div > p { font-weight: 800 }
+
+@media screen and (max-width: 450px) {
+    .language-switch{
+        padding: 15px;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 15px;
+        gap: 0.5rem;
+    }
+
+    .language-switch > div { justify-content: flex-start; width: 100% }
+}

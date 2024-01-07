@@ -7,15 +7,15 @@ function App() {
   const [ language, setLanguage ] = useState(0)
 
   return <main>
-    {/* <Background bgConfig={bgConfig}/>
-    <Nav/> */}
-    {/* <Language language={language} setLanguage={setLanguage}/>
-    <Theme setBgConfig={setBgConfig}/> */}
+    <Background bgConfig={bgConfig}/>
+    <Nav/>
+    <Language language={language} setLanguage={setLanguage}/>
+    <Theme setBgConfig={setBgConfig}/>
     <Profile/>
-    {/* <About language={language}/>
+    <About language={language}/>
     <Certificates language={language}/>
     <Skills language={language}/>
-    <Contact language={language}/> */}
+    <Contact language={language}/>
   </main>
 };
 
