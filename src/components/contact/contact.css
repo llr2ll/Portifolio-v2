@@ -21,7 +21,7 @@
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.contact:hover { background-color: var(--card-hover-bg) }
+.contact:hover { background-color: var(--card-hover-bg); cursor: pointer; }
 
 .contact .icon { color: var(--card-color); position: relative; font-size: 130px }
 
@@ -32,4 +32,5 @@
   font-weight: 500;
   text-transform: capitalize;
   text-align: center;
+  user-select: none;
 }

@@ -22,27 +22,21 @@ export function Contact({ language }: ILanguage) {
     <h1>{Title[language]}</h1>
     <Grid container spacing={2} sx={{ padding: "15px", marginBottom: "55px"}}>
       <Grid item xs={12} sm={4}>
-        <Item className="contact">
-          <a href="https://github.com/llr2ll" target={"blank"}>
-            <AiFillGithub className="icon" />
+        <Item className="contact" onClick={() => window.open("https://github.com/llr2ll", "_blank")}>
+            <AiFillGithub className="icon"/>
             <h2>github</h2>
-          </a>
         </Item>
       </Grid>
       <Grid item xs={12} sm={4}>
-        <Item className="contact">
-          <a href="https://api.whatsapp.com/send?phone=5513998046526" target={"blank"}>
-            <AiOutlineWhatsApp className="icon" />
+        <Item className="contact" onClick={() => window.open("https://api.whatsapp.com/send?phone=5513998046526", "_blank")}>
+            <AiOutlineWhatsApp className="icon"/>
             <h2>whatsApp</h2>
-          </a>
         </Item>
       </Grid>
       <Grid item xs={12} sm={4}>
-        <Item className="contact">
-          <a href="mailto:raphaelsanseverino@gmail.com">
-            <AiOutlineMail className="icon" />
+        <Item className="contact" onClick={() => window.location.href = "mailto:raphaelsanseverino@gmail.com"}>
+            <AiOutlineMail className="icon"/>
             <h2>{mail[language]}</h2>
-          </a>
         </Item>
       </Grid>
     </Grid>
