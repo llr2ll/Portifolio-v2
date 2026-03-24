@@ -15,7 +15,7 @@ export function Skills({ language }: ILanguage) {
         boxShadow: "none"
     }));
 
-    return <section id='skills' className='fade'>
+    return <section id='skills'>
         <div className='skills'>
             <h1>{Title[language]}</h1>
             <div className='pulse-border'>

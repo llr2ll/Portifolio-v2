@@ -5,7 +5,7 @@ import { FaRegUser } from "react-icons/fa";
 import './nav.css';
 
 export function Nav() {   
-  return <nav className='nav fade'>
+  return <nav className='nav'>
     <a href="#home"><FaRegUser /></a>
     <a href="#certificates"><RiGalleryLine /></a>
     <a href="#skills"><BiBookBookmark /></a>

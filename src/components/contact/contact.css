@@ -1,7 +1,7 @@
 .contact-container {
-  padding: 5%;
-  opacity: 0;
+  background-color: var(--main-bg-color);
   text-align: center;
+  padding: 5%;
 }
 .contact-container h1 {
   margin: var(--h1-margin);

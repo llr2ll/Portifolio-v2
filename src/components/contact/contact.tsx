@@ -18,7 +18,7 @@ export function Contact({ language }: ILanguage) {
     borderRadius: "20px"
   }));
 
-  return <section id="contact" className="contact-container fade">
+  return <section id="contact" className="contact-container">
     <h1>{Title[language]}</h1>
     <Grid container spacing={2} sx={{ padding: "15px", marginBottom: "55px"}}>
       <Grid item xs={12} sm={4}>

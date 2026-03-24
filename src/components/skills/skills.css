@@ -1,4 +1,4 @@
-#skills { text-align: center; opacity: 0 } 
+#skills { background-color: var(--main-bg-color); text-align: center } 
 
 .skills { 
     display: flex;

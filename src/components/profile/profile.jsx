@@ -7,8 +7,7 @@ import "./profile.css"
 
 export function Profile(){
     return <section id="home" className="container home-container">
-        <div className="logo"> 
-        {/*  */}
+        <div className="logo">
             <div className="hover-show active showspin">
                 <span className='circle fade-out'><FaReact/></span>
                 <span className='circle fade-out'><FaNode/></span>

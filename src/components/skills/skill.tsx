@@ -2,7 +2,8 @@ import {
   SiJson, SiYaml, SiJavascript, SiDart, SiLua, SiPostman, SiMysql, SiMicrosoftsqlserver, SiMongodb,
   SiMicrosoftazure, SiComposer, SiXampp, SiRedux, SiNextdotjs, SiJquery, SiChartdotjs, SiThreedotjs,
   SiElectron, SiReactrouter, SiBabel, SiTypescript, SiEslint, SiWebpack, SiFontawesome, SiArchlinux,
-  SiKalilinux, SiUnrealengine, SiBlender, SiElementor, SiAdobephotoshop, SiCanva, SiObsstudio
+  SiKalilinux, SiUnrealengine, SiBlender, SiElementor, SiAdobephotoshop, SiCanva, SiObsstudio, SiVitess,
+  SiInsomnia 
 } from "react-icons/si";
 
 import {
@@ -195,14 +196,14 @@ export const SkillsJson: ISkill[] = [
       {
         "name": "Insominia",
         "Level": "Avançado",
-        "icon": <img src="https://static-00.iconduck.com/assets.00/apps-insomnia-icon-2048x2048-2mq9u7v5.png" width="64px" height="64px" />,
+        "icon": <SiInsomnia color="#8A00C4" /> ,
         "link": "https://docs.insomnia.rest",
         "percentage": 75
       },
       {
         "name": "Thunder Client",
         "Level": "Avançado",
-        "icon": <img src="https://rangav.gallerycdn.vsassets.io/extensions/rangav/vscode-thunder-client/2.16.2/1700665237141/Microsoft.VisualStudio.Services.Icons.Default" width="64px" height="64px" />,
+        "icon": <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAJ1BMVEVHcEyoYayoYaypYq2oYaypYq2oYayoYayoYayoYayoYayoYayoYawon/j7AAAADHRSTlMA6tYTpCnIu0tgOnaLyky2AAAA6UlEQVQokX1SS7bFIAgTRKvV/a/3gfLrHTwm9ZA0JGgpVnURAiCtWn5r4PbC94v10wVEOIcnQe00hmocYs0YtMSFhPKRjHYPD7d8nmIF7PTo3MGaiq29l9O2eOYMLWZPBd+9O2cP4+LDI6J4YinNQJ8IU1TIfJ2we3A1zUD8O4SoloKdexiit0jJ6GBgYI7QZcea8yq34rJuyMbqGqrIR5QrjTlKPaswcgQ9S/h3ffJRfyM9AdBf7HpkvGHdedsv7w3MeGIE0ot78zO5NvF6qRM/t3PnHoJuPz9Nkeqx3N7Kb9VJHbHTDMU/7sUNVMazB7oAAAAASUVORK5CYII=" width="64px" height="64px" />,
         "link": "https://www.thunderclient.com",
         "percentage": 75
       }
@@ -464,8 +465,8 @@ export const SkillsJson: ISkill[] = [
       },
       { 
         "name": "Vite", 
-        "Level": "Intermediário", 
-        "icon": <img src="https://vitejs.dev/logo-with-shadow.png" height="64" width="64" />, 
+        "Level": "Intermediário",
+        "icon": <SiVitess color="#4CAF50" />, 
         "link": "https://vitejs.dev", 
         "percentage": 50 
       }
@@ -714,7 +715,7 @@ export const SkillsJson: ISkill[] = [
       {
         "name": "Sony Vegas",     
         "Level": "Intermediário",
-        "icon": <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Vegas_Pro_15.0.png/480px-Vegas_Pro_15.0.png" width="64px" height="64px" />,
+        "icon": <SiVitess color="white" />,
         "link": "https://www.vegascreativesoftware.info/us/tutorials/", 
         "percentage": 50
       },

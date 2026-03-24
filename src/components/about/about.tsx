@@ -33,7 +33,7 @@ export function About({ language }: ILanguage){
     </section>    
 }`
 
-    return <section className='fade' style={{opacity: 0, padding: "0px 5% 5%"}}>
+    return <section style={{backgroundColor: 'var(--main-bg-color)', padding: "0px 5% 5%"}}>
         <CodeBlock text={code} customStyle={{ background: "rgb(40, 42, 54, 0.7)", borderRadius: "20px"}} language={"javascript"} showLineNumbers={true} theme={dracula}/>
     </section>
 }

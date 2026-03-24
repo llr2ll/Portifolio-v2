@@ -15,7 +15,7 @@ export function Certificates({ language }: ILanguage){
         setSelectedCertificate(value)
     }
 
-    return <section id="certificates" className="fade">
+    return <section id="certificates">
         <h1>{Title[language]}</h1>
         <div>
             <div className="central-certificate">
