@@ -9,9 +9,9 @@ function App() {
     <Language language={language} setLanguage={setLanguage}/>
     <Profile/>
     <About language={language}/>
-    <Certificates language={language}/>
-    <Skills language={language}/>
     <Contact language={language}/>
+    <Skills language={language}/>
+    <Certificates language={language}/>
   </main>
 };
 

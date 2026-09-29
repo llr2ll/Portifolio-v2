@@ -28,7 +28,7 @@ export function Contact({ language }: ILanguage) {
         </Item>
       </Grid>
       <Grid item xs={12} sm={4}>
-        <Item className="contact" onClick={() => window.open("https://api.whatsapp.com/send?phone=5513998046526", "_blank")}>
+        <Item className="contact" onClick={() => window.open("https://api.whatsapp.com/send?phone=34611326758", "_blank")}>
             <AiOutlineWhatsApp className="icon"/>
             <h2>whatsApp</h2>
         </Item>

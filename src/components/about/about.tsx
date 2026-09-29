@@ -2,27 +2,28 @@ import { CodeBlock, dracula } from 'react-code-blocks';
 import { ILanguage } from '../../types';
 
 export function About({ language }: ILanguage){
+
     let Text = [
-        `I'm Raphael Sanseverino, and I'm delighted to have you explore my portfolio. <br/>
-            As a passionate developer, I strive to bring creativity and functionality to every project I undertake. <br/>
-            Whether it's crafting engaging web experiences or diving into the intricacies of code, <br/>
-            I am committed to pushing boundaries and delivering quality results. <br/>
-            Join me on this journey through my work, and let's create something profitable together!`, 
+        `I'm Raphael Sanseverino, a developer focused on creating efficient, functional, and results-driven digital solutions. <br/>
+            Currently based in Spain, I am a European Union citizen and available for new professional opportunities. <br/>
+            I transform needs and challenges into well-structured digital solutions, combining technology, performance, and quality execution <br/>
+            to develop projects that create real value for businesses. <br/>
+            Let's connect and turn ideas into concrete, efficient, and profitable solutions!`,
 
-        `Meu nome é Raphael Sanseverino e estou muito feliz por você explorar meu portfólio. <br/>
-            Como um desenvolvedor apaixonado, me esforço para trazer criatividade e funcionalidade a cada projeto que realizo. <br/>
-            Seja criando experiências web envolventes ou mergulhando nas complexidades do código, <br/>
-            Estou empenhado em ultrapassar limites e entregar resultados de qualidade. <br/>
-            Junte-se a mim nesta jornada pelo meu trabalho e vamos criar algo rentável juntos!`, 
+        `Sou Raphael Sanseverino, desenvolvedor focado na criação de soluções digitais eficientes, funcionais e orientadas para resultados. <br/>
+            Atualmente baseado em Espanha, sou cidadão da União Europeia e estou disponível para novas oportunidades profissionais. <br/>
+            Transformo necessidades e desafios em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade de execução <br/>
+            para desenvolver projetos que geram valor real para os negócios. <br/>
+            Vamos conversar e transformar ideias em soluções concretas, eficientes e rentáveis!`,
 
-        `Soy Raphael Sanseverino y estoy encantado de que explores mi portafolio. <br/>
-            Como desarrollador apasionado, me esfuerzo por aportar creatividad y funcionalidad a cada proyecto que emprendo. <br/>
-            Ya sea creando experiencias web atractivas o profundizando en las complejidades del código, <br/>
-            Estoy comprometido a superar los límites y ofrecer resultados de calidad. <br/>
-            ¡Únase a mí en este viaje a través de mi trabajo y creemos algo rentable juntos!`
+        `Soy Raphael Sanseverino, desarrollador enfocado en la creación de soluciones digitales eficientes, funcionales y orientadas a resultados. <br/>
+            Actualmente resido en España, soy ciudadano de la Unión Europea y estoy disponible para nuevas oportunidades profesionales. <br/>
+            Transformo necesidades y desafíos en soluciones digitales bien estructuradas, combinando tecnología, rendimiento y calidad de ejecución <br/>
+            para desarrollar proyectos que generan un valor real para los negocios. <br/>
+            Hablemos y transformemos ideas en soluciones concretas, eficientes y rentables!`
     ]
 
-    let Title = ["Hello there!", "Olá!", "¡Hola!"]
+      let Title = ["Hello there!", "Olá!", "¡Hola!"]
 
     let code = `function Greetings(){
     return <section>
