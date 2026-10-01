@@ -134,6 +134,35 @@ img { max-width: 100%; display: block; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease, border-color .3s, box-shadow .3s; }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ───────── Experience ───────── */
+#experience { padding-bottom: 0; }
+.timeline { position: relative; display: grid; gap: 24px; max-width: 900px; margin: 0 auto 72px; padding-left: 36px; }
+.timeline::before { content: ""; position: absolute; left: 9px; top: 12px; bottom: 12px; width: 2px; background: linear-gradient(var(--pink), var(--cyan)); opacity: .5; border-radius: 2px; }
+.job { position: relative; padding: 28px; border-left: 3px solid var(--c); }
+.job-dot { position: absolute; left: -36px; top: 32px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg-dark); border: 3px solid var(--c); box-shadow: 0 0 16px color-mix(in srgb, var(--c) 60%, transparent); }
+.job-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.job-company { font-size: 22px; font-weight: 900; color: var(--c); }
+.job-role { font-weight: 700; color: rgba(255,255,255,.85); margin-top: 2px; }
+.job-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.bullets { list-style: none; display: grid; gap: 10px; }
+.bullets li { position: relative; padding-left: 20px; font-size: 14px; line-height: 1.65; color: rgba(255,255,255,.68); }
+.bullets li::before { content: ""; position: absolute; left: 0; top: .65em; width: 7px; height: 7px; border-radius: 2px; background: var(--c); transform: rotate(45deg); }
+.langs-head { margin-bottom: 28px; }
+.lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.lang-card { padding: 20px; display: flex; flex-direction: column; gap: 4px; border-top: 3px solid var(--c); }
+.lang-card b { font-family: 'Montserrat', sans-serif; font-size: 17px; }
+.lang-card span { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+.meter { display: flex; gap: 5px; } .meter i { flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,.1); } .meter i.on { background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 55%, transparent); }
+
+/* Featured project */
+.featured { position: relative; overflow: hidden; padding: 32px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px; border-color: rgba(255,107,53,.3); }
+.featured::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 100% 0%, color-mix(in srgb, var(--c) 18%, transparent), transparent 100%); pointer-events: none; }
+.featured > * { position: relative; }
+.badge { align-self: flex-start; padding: 4px 12px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-radius: 20px; background: rgba(255,107,53,.15); border: 1px solid rgba(255,107,53,.35); color: var(--orange); }
+.featured h3 { font-size: clamp(20px, 2.8vw, 28px); font-weight: 900; line-height: 1.2; }
+.featured-sub { color: var(--muted); font-weight: 700; font-size: 14px; margin-top: -6px; }
+.featured .bullets { margin: 4px 0; }
+
 @media (max-width: 860px) {
   .hero { padding-top: 40px; } .hero-grid { grid-template-columns: 1fr; gap: 24px; }
   .hero-visual { min-height: 380px; order: -1; } .avatar-ring { width: 240px; }
@@ -143,5 +172,7 @@ img { max-width: 100%; display: block; }
   .stage { padding: 0; } .arrow { width: 40px; height: 40px; } .stage .arrow { top: auto; bottom: 10px; transform: none; width: 36px; height: 36px; font-size: 15px; background: rgba(10,10,10,.75); backdrop-filter: blur(6px); } .stage .arrow:hover { transform: none; } .stage .arrow.left { left: 10px; } .stage .arrow.right { right: 10px; }
   .thumb { width: 92px; } .meta { flex-direction: column; gap: 4px; }
   .lightbox { padding: 56px 8px 64px; } .lightbox .arrow { display: none; } .dock { bottom: 1rem; padding: .5rem 1.1rem; }
+  .timeline { padding-left: 28px; } .job-dot { left: -28px; } .job { padding: 22px; }
+  .lang-grid { grid-template-columns: repeat(2, 1fr); } .featured { padding: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal, .fade-up { opacity: 1; transform: none; } }

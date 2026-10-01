@@ -1,11 +1,12 @@
+import { LANGS, ui, links, projects, skillGroups, certificates, experience, featured, languagesSpoken } from "./data/content";
+import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt, FaRegUser, FaLinkedin } from "react-icons/fa";
+import { MdArrowBackIosNew, MdArrowForwardIos, MdClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
-import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt, FaRegUser } from "react-icons/fa";
+import { GiSoapExperiment } from "react-icons/gi";
+import { skillIcons } from "./components/icons";
 import { BiBookBookmark } from "react-icons/bi";
 import { RiGalleryLine } from "react-icons/ri";
 import { FiSmartphone } from "react-icons/fi";
-import { MdArrowBackIosNew, MdArrowForwardIos, MdClose } from "react-icons/md";
-import { LANGS, ui, links, projects, skillGroups, certificates } from "./data/content";
-import { skillIcons } from "./components/icons";
 import profile from "./assets/profile.jpeg";
 
 function App() {
@@ -71,9 +72,10 @@ function App() {
 
       <nav className="dock" aria-label="Sections">
         <a href="#top" aria-label={ui.nav.about[lang]} title={ui.nav.about[lang]}><FaRegUser /></a>
-        <a href="#contact" aria-label={ui.nav.contact[lang]} title={ui.nav.contact[lang]}><FiSmartphone /></a>
+        <a href="#experience" aria-label={ui.nav.skills[lang]} title={ui.nav.skills[lang]}><GiSoapExperiment /></a>
         <a href="#skills" aria-label={ui.nav.skills[lang]} title={ui.nav.skills[lang]}><BiBookBookmark /></a>
         <a href="#certificates" aria-label={ui.nav.certificates[lang]} title={ui.nav.certificates[lang]}><RiGalleryLine /></a>
+        <a href="#contact" aria-label={ui.nav.contact[lang]} title={ui.nav.contact[lang]}><FiSmartphone /></a>
       </nav>
 
       <main id="top">
@@ -110,6 +112,48 @@ function App() {
             </div>
           </div>
         </section>
+        
+        {/* EXPERIENCE */}
+        <section id="experience" className="section">
+          <div className="container">
+            <div className="head reveal"><span className="section-label">{experience.label[lang]}</span>
+              <h2>{experience.title[lang]}</h2></div>
+
+            <div className="timeline">
+              {experience.jobs.map((job, i) => (
+                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, transitionDelay: `${i * 80}ms` }}>
+                  <span className="job-dot" />
+                  <header className="job-head">
+                    <div>
+                      <h3 className="job-company">{job.company}</h3>
+                      <p className="job-role">{job.role[lang]}</p>
+                    </div>
+                    <div className="job-meta">
+                      <span className="tag">{job.period[lang]}</span>
+                      <span className="tag">{job.place[lang]}</span>
+                      {job.team && <span className="tag">{job.team[lang]}</span>}
+                    </div>
+                  </header>
+                  <ul className="bullets">
+                    {job.bullets[lang].map((b) => <li key={b}>{b}</li>)}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <div className="head langs-head reveal"><span className="section-label">{languagesSpoken.label[lang]}</span>
+              <h2>{languagesSpoken.title[lang]}</h2></div>
+            <div className="lang-grid">
+              {languagesSpoken.items.map((l, i) => (
+                <div key={l.color} className="card lang-card reveal" style={{ ["--c" as any]: l.color, transitionDelay: `${i * 60}ms` }}>
+                  <b>{l.name[lang]}</b>
+                  <span>{l.level[lang]}</span>
+                  <div className="meter">{[1, 2, 3, 4, 5].map((n) => <i key={n} className={n <= l.dots ? "on" : ""} />)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* SKILLS */}
         <section id="skills" className="section">
@@ -135,7 +179,17 @@ function App() {
         <section id="projects" className="section alt">
           <div className="container">
             <div className="head reveal"><span className="section-label">{ui.projects.label[lang]}</span>
-              <h2>{ui.projects.title[lang]}</h2></div>
+              <h2>{ui.projects.title[lang]}</h2>
+            </div>
+              <article className="card featured reveal" style={{ ["--c" as any]: "#ff6b35" }}>
+                <span className="badge">★ {featured.badge[lang]}</span>
+                <h3>{featured.name[lang]}</h3>
+                <p className="featured-sub">{featured.sub[lang]}</p>
+                <ul className="bullets">
+                  {featured.bullets[lang].map((b) => <li key={b}>{b}</li>)}
+                </ul>
+                <div className="chips small">{featured.tags.map((t) => <span key={t} className="tag">{t}</span>)}</div>
+            </article>
             <div className="project-grid">
               {projects.map((p, i) => (
                 <article key={p.name} className="card project reveal" style={{ ["--c" as any]: p.accent, transitionDelay: `${i * 80}ms` }}>
@@ -199,9 +253,10 @@ function App() {
               <h2>{ui.contact.title[lang]}</h2>
               <p>{ui.contact.text[lang]}</p>
               <div className="actions center">
-                <a className="btn-primary" href={links.email}><FaRegEnvelope /> {ui.contact.mail[lang]}</a>
-                <a className="btn-outline" href={links.whatsapp} target="_blank" rel="noreferrer"><FaWhatsapp /> WhatsApp</a>
+                <a className="btn-primary" href={links.whatsapp} target="_blank" rel="noreferrer"><FaWhatsapp /> WhatsApp</a>
+                <a className="btn-outline" href={links.email}><FaRegEnvelope /> {ui.contact.mail[lang]}</a>
                 <a className="btn-outline" href={links.github} target="_blank" rel="noreferrer"><FaGithub /> GitHub</a>
+                <a className="btn-outline" href={links.linkedin} target="_blank" rel="noreferrer"><FaLinkedin /> Linkedin</a>
               </div>
             </div>
           </div>

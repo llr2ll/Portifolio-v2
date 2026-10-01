@@ -60,6 +60,7 @@ export const links = {
   github: "https://github.com/llr2ll",
   whatsapp: "https://api.whatsapp.com/send?phone=34611326758",
   email: "mailto:raphaelsanseverino@gmail.com",
+  linkedin: "linkedin.com/in/raphael-sanseverino"
 };
 
 export type Project = {
@@ -100,15 +101,98 @@ export const projects: Project[] = [
 export type SkillGroup = { title: L3; color: string; items: string[] };
 
 export const skillGroups: SkillGroup[] = [
-  { title: ["Front-end", "Front-end", "Front-end"], color: "#00d4ff",
-    items: ["React", "Angular", "Vue", "TypeScript", "JavaScript", "HTML5", "CSS3", "Sass", "Next.js", "Redux", "Material UI", "Bootstrap"] },
-  { title: ["Back-end & Data", "Back-end e Dados", "Back-end y Datos"], color: "#e91e8c",
-    items: ["Node.js", "PHP", "Laravel", "C#", "REST / HTTP", "MySQL", "SQL Server", "MongoDB"] },
-  { title: ["Tools & DevOps", "Ferramentas e DevOps", "Herramientas y DevOps"], color: "#ff6b35",
-    items: ["Git", "GitHub", "Azure DevOps", "Vite", "Webpack", "Electron", "Postman", "Linux"] },
-  { title: ["Design & Creative", "Design e Criativo", "Diseño y Creativo"], color: "#ffd700",
-    items: ["Figma", "Photoshop", "Blender", "Unity", "Unreal Engine"] },
+  {
+    title: ["Front-end", "Front-end", "Front-end"],
+    color: "#00d4ff",
+    items: [
+      "React",
+      "Angular",
+      "Vue",
+      "TypeScript",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Sass",
+      "Next.js",
+      "Redux",
+      "Material UI",
+      "Bootstrap",
+      "Vite",
+      "Webpack",
+      "jQuery",
+      "Chart.js",
+      "DevExtreme",
+      "SyncFusion",
+      "Font Awesome",
+      "Babel",
+      "Markdown"
+    ]
+  },
+
+  {
+    title: ["Back-end & Data", "Back-end e Dados", "Back-end y Datos"],
+    color: "#e91e8c",
+    items: [
+      "Node.js",
+      "Express",
+      "PHP",
+      "Laravel",
+      "Composer",
+      "C#",
+      "REST / HTTP",
+      "MySQL",
+      "SQL Server",
+      "MongoDB",
+      "XAMPP",
+      "Dart",
+      "Lua",
+      "JSON",
+      "XML",
+      "YAML"
+    ]
+  },
+
+  {
+    title: ["Tools & DevOps", "Ferramentas e DevOps", "Herramientas y DevOps"],
+    color: "#ff6b35",
+    items: [
+      "Git",
+      "GitHub",
+      "Azure DevOps",
+      "Postman",
+      "Insomnia",
+      "Thunder Client",
+      "Linux",
+      "Windows",
+      "Arch Linux",
+      "Ubuntu",
+      "Kali Linux",
+      "Electron",
+    ]
+  },
+
+  {
+    title: ["Design & Creative", "Design e Criativo", "Diseño y Creativo"],
+    color: "#ffd700",
+    items: [
+      "Figma",
+      "Photoshop",
+      "Canva",
+      "Paint.NET",
+      "Krita",
+      "Blender",
+      "Unity",
+      "Unreal Engine",
+      "OBS",
+      "Sony Vegas",
+      "HostGator",
+      "Wix",
+      "WordPress",
+      "Elementor",
+    ]
+  }
 ];
+
 
 // Optimized images live in /public/certificates (full = 1800px, thumb = 480px, both webp).
 const asset = (kind: "full" | "thumb", id: string) => `${process.env.PUBLIC_URL}/certificates/${kind}/${id}.webp`;
@@ -151,3 +235,116 @@ export const certificates: { title: string; full: string; thumb: string }[] = ([
   ["Dart: First Steps", "dart-primeiros-passos-com-a-linguagem"],
   ["Blender + Krita (Udemy)", "blender-plus-krita"],
 ] as [string, string][]).map(([title, id]) => ({ title, full: asset("full", id), thumb: asset("thumb", id) }));
+
+/* ───────────── EXPERIENCE ───────────── */
+
+export type Job = {
+  company: string;
+  accent: string;
+  role: L3;
+  place: L3;
+  period: L3;
+  team?: L3;
+  bullets: [string[], string[], string[]]; // EN, PT, ES
+};
+
+export const experience = {
+  label: ["Career", "Carreira", "Carrera"] as L3,
+  title: ["Where I've worked", "Onde já trabalhei", "Dónde he trabajado"] as L3,
+  jobs: [
+    {
+      company: "Procfit (Cosmos Pro)",
+      accent: "#e91e8c",
+      role: ["Full-Stack Developer", "Desenvolvedor Full-Stack", "Desarrollador Full-Stack"],
+      place: ["Brazil", "Brasil", "Brasil"],
+      period: ["Aug 2022 – Oct 2024", "Ago 2022 – Out 2024", "Ago 2022 – Oct 2024"],
+      team: ["Team of 13", "Equipe de 13 pessoas", "Equipo de 13 personas"],
+      bullets: [
+        [
+          "Developed web solutions using React for accounting systems and pharmacy purchasing and sales processes.",
+          "Maintained and enhanced an Angular-based SaaS platform, resolving issues and developing new features, metrics, and interactive grids.",
+          "Developed Node.js REST APIs for customer service and chat integrations (including WhatsApp) using OAuth and token-based authentication.",
+          "Created and optimized databases and advanced queries in SQL Server.",
+          "Automated deployments and version releases using Azure DevOps, with version control via Git.",
+          "Developed new features and provided maintenance, support, and customer service within Scrum, Kanban, and Agile environments, while offering ad-hoc support to junior developers.",
+        ],
+        [
+          "Desenvolvimento de soluções web com React para sistemas contábeis e processos de compra e venda de farmácias.",
+          "Manutenção e evolução de uma plataforma SaaS em Angular, resolvendo problemas e desenvolvendo novas funcionalidades, métricas e grids interativos.",
+          "Desenvolvimento de APIs REST em Node.js para atendimento ao cliente e integrações de chat (incluindo WhatsApp), com autenticação OAuth e baseada em tokens.",
+          "Criação e otimização de bancos de dados e consultas avançadas em SQL Server.",
+          "Automação de deploys e lançamentos de versões com Azure DevOps, com controle de versão via Git.",
+          "Desenvolvimento de novas funcionalidades, manutenção, suporte e atendimento ao cliente em ambientes Scrum, Kanban e Ágil, além de apoio pontual a desenvolvedores juniores.",
+        ],
+        [
+          "Desarrollo de soluciones web con React para sistemas contables y procesos de compra y venta de farmacias.",
+          "Mantenimiento y mejora de una plataforma SaaS en Angular, resolviendo problemas y desarrollando nuevas funcionalidades, métricas y grids interactivos.",
+          "Desarrollo de APIs REST en Node.js para atención al cliente e integraciones de chat (incluido WhatsApp), con autenticación OAuth y basada en tokens.",
+          "Creación y optimización de bases de datos y consultas avanzadas en SQL Server.",
+          "Automatización de despliegues y lanzamientos de versiones con Azure DevOps, con control de versiones mediante Git.",
+          "Desarrollo de nuevas funcionalidades, mantenimiento, soporte y atención al cliente en entornos Scrum, Kanban y Ágiles, además de apoyo puntual a desarrolladores junior.",
+        ],
+      ],
+    },
+    {
+      company: "UNIMES",
+      accent: "#00d4ff",
+      role: ["Web Developer", "Desenvolvedor Web", "Desarrollador Web"],
+      place: ["Brazil", "Brasil", "Brasil"],
+      period: ["Oct 2021 – Jul 2022", "Out 2021 – Jul 2022", "Oct 2021 – Jul 2022"],
+      bullets: [
+        [
+          "End-to-end development and maintenance of institutional websites featuring academic information, schedules, registration details, and course content.",
+          "Creation and updating of web pages using WordPress and Elementor, in coordination with internal departments.",
+          "Use of HTML, CSS, and JavaScript for interfaces and troubleshooting, particularly regarding WordPress bugs.",
+        ],
+        [
+          "Desenvolvimento e manutenção completos de sites institucionais com informações acadêmicas, horários, dados de matrícula e conteúdo dos cursos.",
+          "Criação e atualização de páginas web com WordPress e Elementor, em coordenação com os departamentos internos.",
+          "Uso de HTML, CSS e JavaScript em interfaces e na resolução de problemas, principalmente bugs do WordPress.",
+        ],
+        [
+          "Desarrollo y mantenimiento integral de sitios web institucionales con información académica, horarios, datos de matrícula y contenido de los cursos.",
+          "Creación y actualización de páginas web con WordPress y Elementor, en coordinación con los departamentos internos.",
+          "Uso de HTML, CSS y JavaScript en interfaces y resolución de problemas, especialmente errores de WordPress.",
+        ],
+      ],
+    },
+  ] as Job[],
+};
+
+export const featured = {
+  badge: ["Featured project", "Projeto em destaque", "Proyecto destacado"] as L3,
+  name: [
+    "Ticketing and multimedia management system",
+    "Sistema de tickets e gerenciamento de multimídia",
+    "Sistema de tickets y gestión multimedia",
+  ] as L3,
+  sub: ["Personal project · Full stack", "Projeto pessoal · Full stack", "Proyecto personal · Full stack"] as L3,
+  bullets: [
+    [
+      "End-to-end design and development from scratch: frontend, APIs, databases, CSS, and scheduled tasks.",
+      "Implementation of image, audio, text, and recording management, optimizing file and data storage and retrieval.",
+    ],
+    [
+      "Design e desenvolvimento completos, do zero: front-end, APIs, bancos de dados, CSS e tarefas agendadas.",
+      "Implementação de gerenciamento de imagens, áudio, texto e gravações, otimizando o armazenamento e a recuperação de arquivos e dados.",
+    ],
+    [
+      "Diseño y desarrollo integral desde cero: front-end, APIs, bases de datos, CSS y tareas programadas.",
+      "Implementación de gestión de imágenes, audio, texto y grabaciones, optimizando el almacenamiento y la recuperación de archivos y datos.",
+    ],
+  ] as [string[], string[], string[]],
+  tags: ["Full-stack", "REST APIs", "Databases", "Scheduled tasks"]
+};
+
+export const languagesSpoken = {
+  label: ["Communication", "Comunicação", "Comunicación"] as L3,
+  title: ["Languages", "Idiomas", "Idiomas"] as L3,
+  items: [
+    { name: ["Portuguese", "Português", "Portugués"] as L3, level: ["Native", "Nativo", "Nativo"] as L3, dots: 5, color: "#39d353" },
+    { name: ["English", "Inglês", "Inglés"] as L3, level: ["Advanced", "Avançado", "Avanzado"] as L3, dots: 4, color: "#00d4ff" },
+    { name: ["Spanish", "Espanhol", "Español"] as L3, level: ["Intermediate", "Intermediário", "Intermedio"] as L3, dots: 3, color: "#ffd700" },
+    { name: ["Galician", "Galego", "Gallego"] as L3, level: ["Intermediate", "Intermediário", "Intermedio"] as L3, dots: 3, color: "#e91e8c" },
+  ],
+};
