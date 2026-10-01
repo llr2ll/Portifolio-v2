@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
-import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt, FaRegUser } from "react-icons/fa";
+import { BiBookBookmark } from "react-icons/bi";
+import { RiGalleryLine } from "react-icons/ri";
+import { FiSmartphone } from "react-icons/fi";
+import { MdArrowBackIosNew, MdArrowForwardIos, MdClose } from "react-icons/md";
 import { LANGS, ui, links, projects, skillGroups, certificates } from "./data/content";
 import { skillIcons } from "./components/icons";
 import profile from "./assets/profile.jpeg";
@@ -11,7 +15,13 @@ function App() {
     const nav = navigator.language.toLowerCase();
     return nav.startsWith("pt") ? 1 : nav.startsWith("es") ? 2 : 0;
   });
-  const [open, setOpen] = useState<number | null>(null);
+  const [cur, setCur] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const [zoom, setZoom] = useState(false);
+  const thumbs = useRef<HTMLDivElement>(null);
+  const touchX = useRef<number | null>(null);
+  const total = certificates.length;
+  const go = (i: number) => setCur(((i % total) + total) % total);
 
   useEffect(() => {
     localStorage.setItem("lang", String(lang));
@@ -20,14 +30,25 @@ function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (open === null) return;
-      if (e.key === "Escape") setOpen(null);
-      if (e.key === "ArrowRight") setOpen((open + 1) % certificates.length);
-      if (e.key === "ArrowLeft") setOpen((open - 1 + certificates.length) % certificates.length);
+      if (e.key === "Escape") { setLightbox(false); setZoom(false); }
+      if (!lightbox) return;
+      if (e.key === "ArrowRight") go(cur + 1);
+      if (e.key === "ArrowLeft") go(cur - 1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  });
+
+  // Preload only the neighbours of the current certificate (never all of them at once)
+  useEffect(() => {
+    [cur + 1, cur - 1].forEach((i) => { new Image().src = certificates[((i % total) + total) % total].full; });
+  }, [cur, total]);
+
+  // Keep the active thumbnail centred inside its own scroller (doesn't scroll the page)
+  useEffect(() => {
+    const box = thumbs.current; const el = box?.children[cur] as HTMLElement | undefined;
+    if (box && el) box.scrollTo({ left: el.offsetLeft - box.clientWidth / 2 + el.clientWidth / 2, behavior: "smooth" });
+  }, [cur]);
 
   // Reveal on scroll
   useEffect(() => {
@@ -42,23 +63,18 @@ function App() {
 
   return (
     <>
-      <header className="nav">
-        <a href="#top" className="brand">
-          <span className="logo-r">R</span><span className="logo-s">S</span>
-          <span className="brand-name">raphael.dev</span>
-        </a>
-        <nav className="nav-links">
-          <a href="#skills">{ui.nav.skills[lang]}</a>
-          <a href="#projects">{ui.nav.projects[lang]}</a>
-          <a href="#certificates">{ui.nav.certificates[lang]}</a>
-          <a href="#contact">{ui.nav.contact[lang]}</a>
-        </nav>
-        <div className="lang" role="group" aria-label="Language">
-          {LANGS.map((l, i) => (
-            <button key={l} className={i === lang ? "active" : ""} onClick={() => setLang(i)}>{l}</button>
-          ))}
-        </div>
-      </header>
+      <div className="lang" role="group" aria-label="Language">
+        {LANGS.map((l, i) => (
+          <button key={l} className={i === lang ? "active" : ""} onClick={() => setLang(i)}>{l}</button>
+        ))}
+      </div>
+
+      <nav className="dock" aria-label="Sections">
+        <a href="#top" aria-label={ui.nav.about[lang]} title={ui.nav.about[lang]}><FaRegUser /></a>
+        <a href="#contact" aria-label={ui.nav.contact[lang]} title={ui.nav.contact[lang]}><FiSmartphone /></a>
+        <a href="#skills" aria-label={ui.nav.skills[lang]} title={ui.nav.skills[lang]}><BiBookBookmark /></a>
+        <a href="#certificates" aria-label={ui.nav.certificates[lang]} title={ui.nav.certificates[lang]}><RiGalleryLine /></a>
+      </nav>
 
       <main id="top">
         {/* HERO */}
@@ -142,13 +158,36 @@ function App() {
             <div className="head reveal"><span className="section-label">{ui.certs.label[lang]}</span>
               <h2>{ui.certs.title[lang]}</h2></div>
           </div>
-          <div className="cert-strip reveal">
-            {certificates.map((c, i) => (
-              <button key={c.img} className="cert" onClick={() => setOpen(i)} aria-label={c.title}>
-                <img src={c.img} alt={c.title} loading="lazy" />
-                <span>{c.title}</span>
-              </button>
-            ))}
+          <div className="container">
+            <div className="carousel reveal">
+              <div className="stage"
+                onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+                onTouchEnd={(e) => {
+                  if (touchX.current === null) return;
+                  const dx = e.changedTouches[0].clientX - touchX.current;
+                  if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1));
+                  touchX.current = null;
+                }}>
+                <button className="arrow left" onClick={() => go(cur - 1)} aria-label="Previous"><MdArrowBackIosNew /></button>
+                <button className="frame" onClick={() => setLightbox(true)} aria-label="Enlarge">
+                  <img key={cur} src={certificates[cur].full} alt={certificates[cur].title} />
+                  <span className="zoom-hint">⤢</span>
+                </button>
+                <button className="arrow right" onClick={() => go(cur + 1)} aria-label="Next"><MdArrowForwardIos /></button>
+              </div>
+              <div className="meta">
+                <h3>{certificates[cur].title}</h3>
+                <span className="count"><b>{String(cur + 1).padStart(2, "0")}</b> / {total}</span>
+              </div>
+              <div className="progress"><i style={{ width: `${((cur + 1) / total) * 100}%` }} /></div>
+              <div className="thumbs" ref={thumbs}>
+                {certificates.map((c, i) => (
+                  <button key={c.thumb} className={i === cur ? "thumb on" : "thumb"} onClick={() => setCur(i)} aria-label={c.title}>
+                    <img src={c.thumb} alt="" loading="lazy" width={160} height={108} />
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -171,10 +210,15 @@ function App() {
 
       <footer className="footer">© {new Date().getFullYear()} Raphael Sanseverino</footer>
 
-      {open !== null && (
-        <div className="lightbox" onClick={() => setOpen(null)}>
-          <img src={certificates[open].img} alt={certificates[open].title} onClick={(e) => e.stopPropagation()} />
-          <p>{certificates[open].title}</p>
+      {lightbox && (
+        <div className="lightbox" onClick={() => { setLightbox(false); setZoom(false); }}>
+          <button className="lb-close" aria-label="Close"><MdClose /></button>
+          <button className="arrow left" onClick={(e) => { e.stopPropagation(); go(cur - 1); }} aria-label="Previous"><MdArrowBackIosNew /></button>
+          <div className={zoom ? "lb-scroll zoomed" : "lb-scroll"} onClick={(e) => e.stopPropagation()}>
+            <img src={certificates[cur].full} alt={certificates[cur].title} onClick={() => setZoom(!zoom)} />
+          </div>
+          <button className="arrow right" onClick={(e) => { e.stopPropagation(); go(cur + 1); }} aria-label="Next"><MdArrowForwardIos /></button>
+          <p onClick={(e) => e.stopPropagation()}>{certificates[cur].title} · {cur + 1}/{total}<small>{zoom ? " — click to fit" : " — click image to zoom"}</small></p>
         </div>
       )}
     </>

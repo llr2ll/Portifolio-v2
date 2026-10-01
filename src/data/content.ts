@@ -110,23 +110,44 @@ export const skillGroups: SkillGroup[] = [
     items: ["Figma", "Photoshop", "Blender", "Unity", "Unreal Engine"] },
 ];
 
-const base = "https://github.com/llr2ll/certificates/blob/master/";
-const f = (n: string) => `${base}${n}.jpg?raw=true`;
-export const certificates: { title: string; img: string }[] = [
-  ["React JS", "react-js"],
-  ["React Hooks & Contexts", "react-hooks-contextos-e-boas-praticas"],
-  ["React Router", "react-router-navigating-a-spa"],
-  ["Styled Components", "react-abstracting-your-css-with-styled-components"],
-  ["Front-end Tests", "react-automating-tests-in-front-end-applications"],
+// Optimized images live in /public/certificates (full = 1800px, thumb = 480px, both webp).
+const asset = (kind: "full" | "thumb", id: string) => `${process.env.PUBLIC_URL}/certificates/${kind}/${id}.webp`;
+export const certificates: { title: string; full: string; thumb: string }[] = ([
+  ["React JS (Degree)", "react-js"],
+  ["React: Hooks, Contexts & Best Practices", "react-hooks-contextos-e-boas-praticas"],
+  ["React Router: Navigating a SPA", "react-router-navigating-a-spa"],
+  ["React: Styled Components", "react-abstracting-your-css-with-styled-components"],
+  ["React: Automated Front-end Tests", "react-automating-tests-in-front-end-applications"],
+  ["React: Function Components", "react-function-components-uma-abordagem-moderna"],
+  ["React: Component Lifecycle", "react-ciclo-de-vida-dos-componentes"],
+  ["React: How the Library Works", "react-entendendo-como-a-biblioteca-funciona"],
   ["TypeScript — Part 1", "typescript-parte-1-evoluindo-seu-javascript"],
   ["TypeScript — Part 2", "typescript-parte-2-mais-tecnicas-e-boas-praticas"],
   ["REST with Node.js, Express & MySQL", "rest-com-nodejs-api-com-express-e-mysql"],
   ["JavaScript for Backend", "javascript-for-backend"],
-  ["Web Accessibility", "web-accessibility-create-inclusive-designs"],
+  ["Web Accessibility: Inclusive Design", "web-accessibility-create-inclusive-designs"],
+  ["Web Accessibility — Part 1", "web-accessibility-part-1-making-your-frontend-inclusive"],
   ["Git & GitHub", "git-and-github-control-and-share-your-code"],
   ["CSS Grid", "css-grid-simplifying-layouts"],
   ["Flexbox", "flexbox-position-elements-on-the-canvas"],
-  ["JS: Design Patterns", "javascript-knowing-the-browser-and-design-patterns"],
-  ["HTTP", "http-understanding-the-web"],
-  ["Linux Terminal", "Linux-I-using-the-terminal"],
-].map(([title, id]) => ({ title, img: f(id) }));
+  ["CSS Architecture", "css-architecture-uncomplicating-the-problems"],
+  ["Bootstrap 4: Responsive Landing Page", "bootstrap-4-creating-a-responsive-landing-page"],
+  ["HTML5 & CSS3 — Part 1", "html5-and-css3-part-1-create-a-webpage"],
+  ["HTML5 & CSS3 — Part 2", "html5-and-css3-part-2-positioning-lists-and-navigation"],
+  ["HTML5 & CSS3 — Part 3", "html5-and-css3-part-3-working-with-forms-and-tables"],
+  ["HTML5 & CSS3 — Part 4", "html5-and-css3-part-4-advancing-in-css"],
+  ["JavaScript: Browser & Design Patterns", "javascript-knowing-the-browser-and-design-patterns"],
+  ["JavaScript: Language of the Web", "javascript-programming-in-the-language-of-the-web"],
+  ["JavaScript: Exploring the Language", "javascript-exploring-the-language"],
+  ["JavaScript: Types, Variables & Functions", "javascript-types-variables-and-functions"],
+  ["JavaScript: Objects", "javascript-objects"],
+  ["JavaScript: Arrays", "javascript-arrays"],
+  ["JavaScript: Object-Oriented Programming", "javaccript-programming-object-oriented"],
+  ["JavaScript: Interfaces & Inheritance", "javascript-interfaces-and-inheritance-in-object-oriented"],
+  ["JavaScript & HTML: Game Development", "javascript-and-html-develop-a-game-and-practice-programming-logic"],
+  ["JavaScript & HTML: Drawings, Animations & Game", "javascript-and-html-practice-logic-with-drawings-animations-and-a-game"],
+  ["HTTP: Understanding the Web", "http-understanding-the-web"],
+  ["Linux I: Using the Terminal", "Linux-I-using-the-terminal"],
+  ["Dart: First Steps", "dart-primeiros-passos-com-a-linguagem"],
+  ["Blender + Krita (Udemy)", "blender-plus-krita"],
+] as [string, string][]).map(([title, id]) => ({ title, full: asset("full", id), thumb: asset("thumb", id) }));
