@@ -1,7 +1,0 @@
-export { Certificates } from "./certificates/certificates"
-export { Language } from "./language/language"
-export { Profile } from "./profile/profile"
-export { Contact } from "./contact/contact"
-export { Skills } from "./skills/skills"
-export { About } from "./about/about"
-export { Nav } from "./nav/nav"
