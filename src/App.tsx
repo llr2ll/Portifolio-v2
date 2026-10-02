@@ -1,5 +1,5 @@
 import { LANGS, ui, links, projects, skillGroups, certificates, experience, featured, languagesSpoken } from "./data/content";
-import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt, FaRegUser, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaWhatsapp, FaRegEnvelope, FaArrowRight, FaExternalLinkAlt, FaRegUser, FaLinkedin, FaRegFileCode } from "react-icons/fa";
 import { MdArrowBackIosNew, MdArrowForwardIos, MdClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { GiSoapExperiment } from "react-icons/gi";
@@ -136,6 +136,12 @@ function App() {
                   </header>
                   <ul className="bullets">
                     {job.bullets[lang].map((b) => <li key={b}>{b}</li>)}
+                    
+                    {job.result && <span className="result" key={job.company}>
+                        <strong>{job.result.text[lang]}</strong>
+                        <br></br>
+                       <a href={job.result.link}><strong>{job.result.link}</strong></a> 
+                    </span>}
                   </ul>
                 </article>
               ))}
@@ -185,10 +191,14 @@ function App() {
                 <span className="badge">★ {featured.badge[lang]}</span>
                 <h3>{featured.name[lang]}</h3>
                 <p className="featured-sub">{featured.sub[lang]}</p>
-                <ul className="bullets">
+                <p>{featured.desc[lang]}</p>
+                {/* <ul className="bullets">
                   {featured.bullets[lang].map((b) => <li key={b}>{b}</li>)}
-                </ul>
-                <div className="chips small">{featured.tags.map((t) => <span key={t} className="tag">{t}</span>)}</div>
+                </ul> */}
+                <div className="chips small">{featured.stack.map((t) => <span key={t} className="tag">{t}</span>)}</div>
+                <div className="project-actions">
+                  <a className="btn-orange" href={featured.code} rel="noreferrer">{ui.projects.live[lang]}</a>
+                </div>
             </article>
             <div className="project-grid">
               {projects.map((p, i) => (
@@ -197,7 +207,7 @@ function App() {
                   <p>{p.desc[lang]}</p>
                   <div className="chips small">{p.stack.map((s) => <span key={s} className="tag">{s}</span>)}</div>
                   <div className="project-actions">
-                    {p.code && <a className="btn-pink" href={p.code} target="_blank" rel="noreferrer"><FaGithub /> {ui.projects.code[lang]}</a>}
+                    {p.code && <a className="btn-pink" href={p.code} rel="noreferrer"><FaRegFileCode /> {ui.projects.code[lang]}</a>}
                     {p.live && <a className="btn-orange" href={p.live} target="_blank" rel="noreferrer"><FaExternalLinkAlt /> {ui.projects.live[lang]}</a>}
                   </div>
                 </article>

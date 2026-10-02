@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MMC Plug and Play</title>
+<style>
+  :root { color-scheme: light; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body { font-family: "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; color: #333; min-width: 1100px; }
+  svg { fill: currentColor; width: 20px; height: 20px; flex: none; }
+  button { font-family: inherit; }
+  .wm { position: fixed; right: 12px; bottom: 8px; font-size: 11px; color: rgba(0,0,0,.45); background: rgba(255,255,255,.9); border: 1px solid #eee; padding: 2px 8px; border-radius: 10px; z-index: 30; }
+
+  /* ---------- Stepper (MUI) ---------- */
+  .page { padding: 30px 8px 20px; }
+  .stepper { display: flex; align-items: flex-start; width: 100%; font-family: Roboto, "Helvetica Neue", Arial, sans-serif; }
+  .step { display: flex; align-items: center; cursor: pointer; padding: 8px 4px; flex: none; max-width: 190px; border-radius: 4px; }
+  .step:hover { background: rgba(0,0,0,.04); }
+  .dot { width: 24px; height: 24px; border-radius: 50%; background: #bdbdbd; color: #fff; font-size: 12px; display: grid; place-items: center; flex: none; margin-right: 8px; }
+  .dot svg { width: 24px; height: 24px; }
+  .step.active .dot, .step.done .dot { background: #0162DD; }
+  .step.done .dot { background: none; color: #0162DD; }
+  .step .lb { font-size: 14px; line-height: 1.2; color: rgba(0,0,0,.6); font-weight: 400; }
+  .step.active .lb { color: rgba(0,0,0,.87); font-weight: 500; }
+  .step.done .lb { color: rgba(0,0,0,.87); font-weight: 500; }
+  .conn { flex: 1; min-width: 12px; margin-top: 20px; border-top: 1px solid #bdbdbd; }
+  .stage { margin-top: 40px; }
+  .stage.cfg { margin-top: 0; }
+
+  /* ---------- DevExtreme-like widgets ---------- */
+  .dxform { padding: 0 2px; }
+  .grp { margin-bottom: 18px; }
+  .grp > .cap { font-size: 20px; font-weight: 400; color: #333; padding: 0 0 10px; margin-bottom: 6px; border-bottom: 1px solid #ddd; }
+  .grp .grp { margin: 10px 0 0 0; }
+  .grp .grp > .cap { font-size: 16px; border: 0; padding-bottom: 4px; }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .f { display: flex; align-items: center; padding: 6px 0 10px; }
+  .f.top { align-items: flex-start; }
+  .f > label { width: 36%; padding-right: 12px; font-size: 14px; color: #333; }
+  .f .ed { flex: 1; min-width: 0; position: relative; }
+  .f .err { color: #d9534f; font-size: 11px; margin-top: 2px; display: none; } .f.bad .err { display: block; }
+  .f.bad .in { border-color: #d9534f; }
+  .in { width: 100%; height: 34px; border: 1px solid #d3d3d3; border-radius: 4px; padding: 7px 9px; font: 14px "Helvetica Neue", "Segoe UI", Arial, sans-serif; color: #333; background: #fff; outline: none; display: flex; align-items: center; }
+  .in:focus { border-color: #337ab7; }
+  .in:disabled, .in.dis { background: #f7f7f7; color: #999; border-color: #e0e0e0; }
+  textarea.in { height: 150px; resize: none; line-height: 1.4; display: block; }
+  select.in { appearance: none; -webkit-appearance: none; padding-right: 28px; background-image: linear-gradient(45deg, transparent 50%, #777 50%), linear-gradient(135deg, #777 50%, transparent 50%); background-position: calc(100% - 15px) 14px, calc(100% - 10px) 14px; background-size: 5px 5px; background-repeat: no-repeat; }
+  .in.rel { position: relative; padding-right: 36px; }
+  .eyebtn { position: absolute; right: 2px; top: 1px; width: 30px; height: 30px; display: grid; place-items: center; background: none; border: 0; cursor: pointer; color: #777; }
+  .chk { width: 18px; height: 18px; accent-color: #337ab7; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 14px; cursor: pointer; }
+  .btn:hover { background: #f5f5f5; }
+  .btn.success { background: #5cb85c; border-color: #5cb85c; color: #fff; } .btn.success:hover { background: #4cae4c; }
+  .btn.big { height: 50px; width: 250px; font-weight: 700; font-size: 15px; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn svg { width: 18px; height: 18px; }
+  .btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+  .btns .btn { width: 120px; }
+  .sw { position: relative; width: 60px; height: 24px; border-radius: 12px; background: #ddd; border: 0; cursor: pointer; color: #555; font-size: 10px; font-weight: 700; }
+  .sw::after { content: attr(data-off); position: absolute; right: 8px; top: 6px; }
+  .sw .knob { position: absolute; left: 2px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.35); transition: left .15s; }
+  .sw.on { background: #337ab7; color: #fff; } .sw.on::after { content: attr(data-on); left: 8px; right: auto; } .sw.on .knob { left: 38px; }
+  .alice { background: aliceblue !important; }
+
+  /* grid */
+  .dxgrid { border: 1px solid #ddd; border-radius: 5px; background: #fff; overflow: hidden; }
+  .gtool { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-bottom: 1px solid #ddd; background: #fff; }
+  .gtool .title { font-size: 16px; font-weight: 500; white-space: nowrap; margin-right: auto; }
+  .gsearch { display: flex; align-items: center; gap: 6px; border: 1px solid #d3d3d3; border-radius: 4px; padding: 0 8px; height: 34px; width: 220px; color: #999; }
+  .gsearch input { border: 0; outline: 0; font: 14px inherit; width: 100%; color: #333; }
+  .dxgrid table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .dxgrid th { background: #22317F; color: #f1f1f1; font-weight: 700; padding: 9px 8px; text-align: left; border-right: 1px solid rgba(255,255,255,.22); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; }
+  .dxgrid th:last-child { border-right: 0; }
+  .dxgrid th.c, .dxgrid td.c { text-align: center; }
+  .dxgrid th .hf { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; opacity: .7; }
+  .dxgrid td { padding: 9px 8px; border-top: 1px solid #ddd; border-right: 1px solid #ddd; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 41px; }
+  .dxgrid td:last-child { border-right: 0; }
+  .dxgrid tbody tr:nth-child(even) td { background: #f7f7f7; }
+  .dxgrid tbody tr:hover td { background: #eaf3fb; }
+  .dxgrid .ic { color: #555; cursor: pointer; margin: 0 3px; display: inline-grid; vertical-align: middle; width: 22px; height: 22px; place-items: center; }
+  .dxgrid .ic:hover { color: #337ab7; } .dxgrid .ic.del:hover { color: #d9534f; }
+  .dxgrid .drag { color: #999; cursor: grab; }
+  .dxgrid .empty { text-align: center; color: #999; padding: 40px; }
+  .gscroll { overflow-y: auto; }
+  .chkcell { width: 18px; height: 18px; accent-color: #337ab7; }
+  .ok { color: #3a9e3a; } .no { color: #d9534f; }
+  .inl { margin-top: 4px; }
+
+  /* popup */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 20; }
+  .overlay.show { display: flex; }
+  .popup { background: #fff; border-radius: 3px; box-shadow: 0 6px 24px rgba(0,0,0,.4); max-height: 94vh; display: flex; flex-direction: column; }
+  .popup .ph { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 20px; height: 50px; border-bottom: 1px solid #ddd; font-size: 18px; flex: none; }
+  .popup .pb { padding: 20px; overflow-y: auto; }
+  .xbtn { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none; cursor: pointer; color: #666; border-radius: 4px; } .xbtn:hover { background: #eee; }
+
+  #toast { position: fixed; top: 15px; right: 10px; width: 300px; min-height: 60px; padding: 10px 14px; border-radius: 3px; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.35); z-index: 40; display: none; align-items: center; font-size: 14px; }
+  #toast.success { background: #5cb85c; } #toast.error { background: #d9534f; } #toast.warning { background: #f0ad4e; } #toast.info { background: #5bc0de; }
+  .loader { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 50; display: none; align-items: center; justify-content: center; }
+  .loader.show { display: flex; }
+  .spin { width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top-color: #3498db; border-radius: 50%; animation: sp 1s linear infinite; background: transparent; }
+  @keyframes sp { to { transform: rotate(360deg); } }
+
+  /* editor (monaco vs-dark) */
+  .mon { background: #1e1e1e; color: #d4d4d4; font: 13px/19px Consolas, "Courier New", monospace; height: 250px; border-radius: 3px; display: flex; overflow: hidden; }
+  .mon .ln { color: #858585; text-align: right; padding: 6px 10px; user-select: none; background: #1e1e1e; }
+  .mon pre { padding: 6px 4px; white-space: pre; overflow: auto; flex: 1; }
+  .mon .k { color: #9cdcfe; } .mon .s { color: #ce9178; }
+  .infobox { display: flex; justify-content: center; align-items: center; height: calc(100vh - 340px); min-height: 180px; }
+  .infobox div { width: 40%; background: aliceblue; border: 1px solid #d3d3d3; border-radius: 4px; padding: 10px 12px; line-height: 1.4; }
+  .checkcol { text-align: center; }
+</style>
+</head>
+<body>
+<div class="page" id="page"></div>
+
+<div class="overlay" id="ov"><div class="popup" id="popup"></div></div>
+<div id="toast"></div>
+<div class="loader" id="loader"><div class="spin"></div></div>
+<div class="wm">Esboço de interface · dados fictícios</div>
+
+<script>
+/* ---------- ícones ---------- */
+const P = {
+  edit:'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+  del:'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z',
+  plus:'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+  check:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
+  done:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
+  search:'M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z',
+  drag:'M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z',
+  close:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
+  funnel:'M3 4h18l-7 8v7l-4 2v-9z'
+};
+const ic = (k,s=20) => `<svg viewBox="0 0 24 24" style="width:${s}px;height:${s}px"><path d="${P[k]}"/></svg>`;
+
+/* ---------- dados fictícios ---------- */
+const DB = {
+  clients:[
+    {id:1,NOME_FANTASIA:'Rede Farma Mais',ATIVO:false,NOME:'Rede Farma Mais Comércio de Medicamentos Ltda',EMAIL:'compras@farmamais.com.br',CNPJ:'12.345.678/0001-90',CONTATO:'Patrícia Almeida',CELULAR:'+55 (11) 98877-6655',TELEFONE:'+55 (11) 3344-5566'},
+    {id:2,NOME_FANTASIA:'Drogaria Saúde Total',ATIVO:false,NOME:'Saúde Total Drogarias S.A.',EMAIL:'ti@saudetotal.com.br',CNPJ:'23.456.789/0001-01',CONTATO:'Roberto Siqueira',CELULAR:'+55 (21) 99811-2233',TELEFONE:'+55 (21) 2233-4455'},
+    {id:3,NOME_FANTASIA:'Farmácias Vida e Bem',ATIVO:false,NOME:'Vida e Bem Participações Ltda',EMAIL:'contato@vidaebem.com.br',CNPJ:'34.567.890/0001-12',CONTATO:'Luciana Prado',CELULAR:'+55 (31) 98765-4321',TELEFONE:''},
+    {id:4,NOME_FANTASIA:'Drogaria Central do Sul',ATIVO:true,NOME:'Central do Sul Comércio Ltda',EMAIL:'adm@centraldosul.com.br',CNPJ:'45.678.901/0001-23',CONTATO:'Marcos Teixeira',CELULAR:'+55 (51) 99654-3210',TELEFONE:'+55 (51) 3030-4040'},
+    {id:5,NOME_FANTASIA:'Rede Bem Estar',ATIVO:false,NOME:'Bem Estar Farmácias Ltda',EMAIL:'sistemas@bemestar.com.br',CNPJ:'56.789.012/0001-34',CONTATO:'Helena Duarte',CELULAR:'+55 (41) 98456-7788',TELEFONE:'+55 (41) 3322-1100'}
+  ],
+  stores:[
+    {IDENTIFICACAO:'Farma Mais – Matriz Pinheiros',CNPJ:'12.345.678/0001-90',ESTADO:'SP'},{IDENTIFICACAO:'Farma Mais – Moema',CNPJ:'12.345.678/0002-71',ESTADO:'SP'},
+    {IDENTIFICACAO:'Farma Mais – Campinas Cambuí',CNPJ:'12.345.678/0003-52',ESTADO:'SP'},{IDENTIFICACAO:'Farma Mais – Santos Gonzaga',CNPJ:'12.345.678/0004-33',ESTADO:'SP'},
+    {IDENTIFICACAO:'Farma Mais – Rio Copacabana',CNPJ:'12.345.678/0005-14',ESTADO:'RJ'},{IDENTIFICACAO:'Farma Mais – Niterói Icaraí',CNPJ:'12.345.678/0006-02',ESTADO:'RJ'},
+    {IDENTIFICACAO:'Farma Mais – BH Savassi',CNPJ:'12.345.678/0007-85',ESTADO:'MG'},{IDENTIFICACAO:'Farma Mais – BH Lourdes',CNPJ:'12.345.678/0008-66',ESTADO:'MG'}
+  ],
+  suppliers:[
+    {NOME_FANTASIA:'Distribuidora Alfa Medicamentos',CNPJ:'11.222.333/0001-44',ENTIDADE:'1001',OL:false},
+    {NOME_FANTASIA:'Beta Pharma Distribuição',CNPJ:'22.333.444/0001-55',ENTIDADE:'1002',OL:false},
+    {NOME_FANTASIA:'OL Genéricos Brasil',CNPJ:'33.444.555/0001-66',ENTIDADE:'1003',OL:true},
+    {NOME_FANTASIA:'Dermacare Laboratórios',CNPJ:'44.555.666/0001-77',ENTIDADE:'1004',OL:true},
+    {NOME_FANTASIA:'NutriPlus Suplementos',CNPJ:'55.666.777/0001-88',ENTIDADE:'1005',OL:false}
+  ],
+  ids:[
+    {IDENTIFICACAO:'Farma Mais – Matriz Pinheiros',CNPJ:'12.345.678/0001-90',IDF:'FM-0001'},{IDENTIFICACAO:'Farma Mais – Moema',CNPJ:'12.345.678/0002-71',IDF:'FM-0002'},
+    {IDENTIFICACAO:'Farma Mais – Campinas Cambuí',CNPJ:'12.345.678/0003-52',IDF:'FM-0003'},{IDENTIFICACAO:'Farma Mais – Rio Copacabana',CNPJ:'12.345.678/0005-14',IDF:'FM-0005'},
+    {IDENTIFICACAO:'Farma Mais – BH Savassi',CNPJ:'12.345.678/0007-85',IDF:'FM-0007'}
+  ],
+  users:[
+    {NOME:'Patrícia Almeida',EMAIL:'patricia@farmamais.com.br'},{NOME:'Carlos Eduardo Nunes',EMAIL:'carlos.nunes@farmamais.com.br'},{NOME:'Juliana Prado',EMAIL:'juliana@farmamais.com.br'}
+  ],
+  blocked:[{EAN:'7891234567895',FORN:'Distribuidora Alfa Medicamentos'},{EAN:'7899876543210',FORN:'Beta Pharma Distribuição'}],
+  except:[{EAN:'7891112223334',PROD:'Dipirona Sódica 500mg 20 comp.',DI:'01/10/2026',DF:'31/12/2026'},{EAN:'7894445556667',PROD:'Protetor Solar FPS 50 200ml',DI:'15/10/2026',DF:'15/01/2027'}]
+};
+const S = { view:'mgmt', step:0, client:null, system:'', sysFields:false, tipoProc:{}, search:{}, contingencia:{1:false,2:false}, cfg:{aviseMe:false, margem:false, rank:false} };
+const stepsAll = ['Cadastro do Cliente','Lojas do Cliente','Fornecedores e OL','Indentificação de Lojas nos Fornecedores','Sistema','Configurações Gerais','Aplicar Atualizações','Cadastro do Usuário'];
+const $ = id => document.getElementById(id);
+function toast(m,t='success'){ const e=$('toast'); e.className=t; e.textContent=m; e.style.display='flex'; clearTimeout(toast.h); toast.h=setTimeout(()=>e.style.display='none',4000); }
+function loading(ms=600,cb){ $('loader').classList.add('show'); setTimeout(()=>{ $('loader').classList.remove('show'); cb&&cb(); },ms); }
+function closePop(){ $('ov').classList.remove('show'); }
+$('ov').onclick = e => { if(e.target===$('ov')) closePop(); };
+function popup(title,body,w,bind){ $('popup').style.width = w+'px'; $('popup').innerHTML = `<div class="ph"><span>${title}</span><button class="xbtn" id="px">${ic('close',18)}</button></div><div class="pb">${body}</div>`; $('ov').classList.add('show'); $('px').onclick=closePop; bind&&bind(); }
+
+/* ---------- helpers de formulário ---------- */
+const fld = (label,{id='',v='',type='text',req=false,dis=false,opts=[],msg='',ph='',cls='',top=false}={}) => {
+  let ed;
+  if(type==='select') ed = `<select class="in" id="${id}" ${dis?'disabled':''}><option value=""></option>${opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`;
+  else if(type==='area') ed = `<textarea class="in ${cls}" id="${id}" readonly>${v}</textarea>`;
+  else if(type==='pass') ed = `<div class="in rel ${dis?'dis':''}" style="padding:0"><input class="in" id="${id}" type="password" value="${v}" ${dis?'disabled':''} style="border:0;height:32px"><button type="button" class="eyebtn" data-eye="${id}">${ic('edit',16)}</button></div>`;
+  else ed = `<input class="in ${cls}" id="${id}" type="${type}" value="${v??''}" placeholder="${ph}" ${dis?'disabled':''}>`;
+  return `<div class="f ${top?'top':''}" ${id?`data-f="${id}"`:''} data-req="${req?msg||'Campo obrigatório.':''}"><label>${label}</label><div class="ed">${ed}<div class="err">${msg}</div></div></div>`;
+};
+const chk = (label,id,on=false) => `<div class="f"><label>${label}</label><div class="ed"><input type="checkbox" class="chk" id="${id}" ${on?'checked':''}></div></div>`;
+const grp = (cap,inner,cols=2) => `<div class="grp"><div class="cap">${cap}</div><div class="${cols===2?'cols2':''}">${inner}</div></div>`;
+function validate(root){
+  let ok = true;
+  root.querySelectorAll('[data-f]').forEach(f => {
+    const msg = f.dataset.req; if(!msg) return;
+    const inp = f.querySelector('input,select,textarea'); if(!inp||inp.disabled) { f.classList.remove('bad'); return; }
+    let bad = !inp.value.trim();
+    const em = /^\S+@\S+\.\S+$/;
+    if(!bad && /email/i.test(f.dataset.f) && !em.test(inp.value)) { bad = true; f.querySelector('.err').textContent = 'Email inválido.'; }
+    else if(bad) f.querySelector('.err').textContent = msg;
+    f.classList.toggle('bad', bad); if(bad) ok = false;
+  });
+  return ok;
+}
+function bindEyes(root){ root.querySelectorAll('[data-eye]').forEach(b => b.onclick = () => { const i=$(b.dataset.eye); i.type = i.type==='password'?'text':'password'; }); }
+
+/* ---------- grid ---------- */
+function grid({key,title,cols,rows,addText,drag,actions,height,toolbar=true,fmt}){
+  const q = (S.search[key]||'').toLowerCase();
+  const data = rows.filter(r => !q || Object.values(r).join(' ').toLowerCase().includes(q));
+  const w = cols.map(c=>`<col style="width:${c.w}">`).join('');
+  const head = cols.map(c=>`<th class="${c.a==='c'?'c':''}">${c.cap}${c.hf?`<svg class="hf" viewBox="0 0 24 24"><path d="${P.funnel}"/></svg>`:''}</th>`).join('');
+  const body = data.map((r,i)=>`<tr>${cols.map(c=>{
+    let v = c.render ? c.render(r,i) : (r[c.k]??'');
+    return `<td class="${c.a==='c'?'c':''}">${v}</td>`; }).join('')}</tr>`).join('') || `<tr><td colspan="${cols.length}" class="empty">Sem dados</td></tr>`;
+  return `<div class="dxgrid">${toolbar?`<div class="gtool"><span class="title">${title}</span><div class="gsearch">${ic('search',16)}<input data-search="${key}" placeholder="Search..." value="${S.search[key]||''}"></div>${addText?`<button class="btn success" data-add="${key}">${ic('plus',16)} ${addText}</button>`:''}</div>`:''}
+  <div class="gscroll" style="${height?`max-height:${height}`:''}"><table><colgroup>${w}</colgroup><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div></div>`;
+}
+const actCol = (key,w='80px',del=true) => ({cap:'',w,a:'c',render:(r,i)=>`<span class="ic" data-edit="${key}:${DB[key]?.indexOf(r)}" title="Editar">${ic('edit',18)}</span>${del?`<span class="ic del" data-del="${key}:${DB[key]?.indexOf(r)}" title="Excluir">${ic('del',18)}</span>`:''}`});
+
+/* ---------- STEPPER ---------- */
+function stepper(){
+  const steps = stepsAll;
+  return `<div class="stepper">${steps.map((s,i)=>`${i?'<div class="conn"></div>':''}<div class="step ${S.step===i?'active':''} ${S.step>i?'done':''}" data-s="${i}"><span class="dot">${S.step>i?ic('done',24):i+1}</span><span class="lb">${s}</span></div>`).join('')}</div>`;
+}
+
+/* ---------- Gestão de Clientes ---------- */
+function viewMgmt(){
+  return grid({key:'clients',title:'Gestão de Clientes',addText:'Incluir Clientes',rows:DB.clients,height:'calc(100vh - 140px)',
+    cols:[{cap:'Clientes',k:'NOME_FANTASIA',w:'87%',a:'l'},
+          {cap:'Inativar',w:'8%',a:'c',render:r=>`<input type="checkbox" class="chkcell" data-inat="${DB.clients.indexOf(r)}" ${r.ATIVO?'checked':''}>`},
+          {cap:'Editar',w:'5%',a:'c',render:r=>`<span class="ic" data-editclient="${DB.clients.indexOf(r)}">${ic('edit',18)}</span>`}]});
+}
+
+/* ---------- Passo 1: Cadastro do Cliente ---------- */
+function step1(){
+  const c = S.client || {};
+  return `<form id="f1" onsubmit="return false" novalidate><div class="dxform">
+    ${grp('Cadastro de Cliente',
+      fld('Nome',{id:'NOME',v:c.NOME,req:1,msg:'Nome é obrigatório.'})+
+      fld('Email',{id:'EMAIL',v:c.EMAIL,req:1,msg:'Email é obrigatório.'})+
+      fld('CNPJ',{id:'CNPJ',v:c.CNPJ,req:1,msg:'Entidade é obrigatória.',ph:'00.000.000/0000-00'})+
+      fld('Nome Fantasia',{id:'NOME_FANTASIA',v:c.NOME_FANTASIA,req:1,msg:'Nome Fantasia é obrigatório.'})+
+      fld('Contato',{id:'CONTATO',v:c.CONTATO,req:1,msg:'Contato é obrigatório.'})+
+      fld('Celular',{id:'CELULAR',v:c.CELULAR,req:1,msg:'Celular é obrigatório.',ph:'+55 (00) 0000-00000'})+
+      fld('Telefone',{id:'TELEFONE',v:c.TELEFONE,ph:'+55 (00) 0000-0000'}))}
+    <div class="btns"><button type="button" class="btn" id="bBack">Voltar</button><button type="button" class="btn success" id="bSave">${ic('check',16)} Salvar</button></div></div></form>`;
+}
+function bind1(){
+  $('bBack').onclick = () => { S.view='mgmt'; render(); };
+  $('bSave').onclick = () => { if(!validate($('f1'))) return toast('Preencha os campos obrigatórios','warning'); loading(700,()=>{ S.step=1; render(); }); };
+  $('f1').querySelectorAll('input').forEach(i => i.oninput = () => validate($('f1')));
+}
+
+/* ---------- Passo 2: Lojas ---------- */
+function step2(){
+  return grid({key:'stores',title:'Lojas do Cliente',addText:'Incluir Loja',rows:DB.stores,height:'calc(100vh - 230px)',
+    cols:[{cap:'Nome',k:'IDENTIFICACAO',w:'60%',hf:1},{cap:'CNPJ',k:'CNPJ',w:'18%',a:'c',hf:1},{cap:'UF',k:'ESTADO',w:'8%',a:'c',hf:1},actCol('stores','14%')]});
+}
+function storeForm(r={}){
+  return `<form id="pf" onsubmit="return false" novalidate><div class="cols2">
+    ${fld('Nome',{id:'IDENTIFICACAO',v:r.IDENTIFICACAO,req:1,msg:'Nome é obrigatório.'})}${fld('CNPJ',{id:'CNPJ',v:r.CNPJ,req:1,msg:'CNPJ é obrigatório.',ph:'00.000.000/0000-00'})}
+    ${fld('Contato',{id:'CONTATO',req:1,msg:'Contato é obrigatório.'})}${fld('Entidade',{id:'EMPRESA_ERP',type:'number',req:1,msg:'Entidade é obrigatória.'})}
+    ${fld('Celular',{id:'CELULAR',req:1,msg:'Celular é obrigatório.',ph:'+55 (00) 0000-00000'})}${fld('Telefone',{id:'TELEFONE',ph:'+55 (00) 0000-0000'})}
+    ${fld('CEP',{id:'CEP',req:1,msg:'CEP é obrigatório.',ph:'00000-000'})}${fld('Endereço',{id:'ENDERECO',req:1,msg:'Endereço é obrigatório.'})}
+    ${fld('Bairro',{id:'BAIRRO',req:1,msg:'Bairro é obrigatório.'})}${fld('Cidade',{id:'CIDADE',req:1,msg:'Cidade é obrigatória.'})}
+    ${fld('Estado',{id:'ESTADO',v:r.ESTADO,req:1,msg:'Estado é obrigatório.',ph:'AA'})}<div></div></div>
+    <div class="btns"><button class="btn" type="button" id="pc">Cancelar</button><button class="btn success" type="button" id="ps">Salvar</button></div></form>`;
+}
+
+/* ---------- Passo 3: Fornecedores ---------- */
+function step3(){
+  return grid({key:'suppliers',title:'Fornecedore e OL',addText:'Incluir Fornecedor/OL',rows:DB.suppliers,height:'calc(100vh - 230px)',
+    cols:[{cap:'',w:'40px',a:'c',render:()=>`<span class="drag">${ic('drag',16)}</span>`},{cap:'Fornecedor',k:'NOME_FANTASIA',w:'calc(80% - 40px)',hf:1},{cap:'CNPJ',k:'CNPJ',w:'15%',a:'c',hf:1},{cap:'Entidade',k:'ENTIDADE',w:'8%',a:'c',hf:1},actCol('suppliers','12%')]});
+}
+function supplierForm(r){
+  const ol = r ? r.OL : false, edit = !!r;
+  return `<form id="pf" onsubmit="return false" novalidate><div class="cols2">
+    ${fld('Fornecedor/OL',{id:'FORN',type:'select',v:r&&r.NOME_FANTASIA,opts:DB.suppliers.map(s=>s.NOME_FANTASIA).concat(['Gama Distribuidora']),req:1,msg:'Fornecedor/OL é obrigatório.'})}
+    ${fld('Entidade',{id:'ENT',type:'number',v:r&&r.ENTIDADE,req:1,msg:'Entidade é obrigatória.'})}
+    ${fld('Percentual de Verba',{id:'PV',v:ol?'':'10%',dis:ol,req:1,msg:'Percentual de verba é obrigatório.'})}
+    ${fld('Base de Repase',{id:'BR',type:'select',opts:['Valor líquido','Valor bruto','Valor de tabela'],v:ol?'':'Valor líquido',dis:ol,req:1,msg:'Base de Repase é obrigatória.'})}
+    ${fld('Valor mínimo de pra compra',{id:'VM',v:ol?'':'R$ 500,00',dis:ol,req:1,msg:'Valor mínimo de compra é obrigatório.'})}<div></div></div>
+    <div class="grp" style="margin-top:6px"><div class="cap"> </div><div class="cols2">
+      <div class="f" style="grid-column:span 2"><label style="width:18%">Pedido Eletrônico / MMC Web</label><div class="ed"><button type="button" class="sw ${ol?'on':''}" id="swp" data-on="MMC" data-off="PED"><span class="knob"></span></button></div></div>
+      ${fld('Login',{id:'LOGIN',v:ol?'':'compras.farmamais',dis:ol,req:1,msg:'Usuário é obrigatório.'})}
+      ${fld('Senha',{id:'SENHA',type:'pass',v:ol?'':'••••••••',dis:ol})}
+      ${fld('Email',{id:'EMAIL',v:ol?'integracao@olgenericos.com.br':'',dis:!ol,req:1,msg:'Email é obrigatório.'})}</div></div>
+    <div class="grp"><div class="cap"> </div><div class="cols2">
+      ${fld('Informativo sobre Integração do MMC com o Fornecedor',{id:'TXT',type:'area',cls:'alice',top:true,v:'Fornecedor integrado via pedido eletrônico (PED).\nOs pedidos são enviados automaticamente após a aprovação da cotação no MMC.\nRetorno de confirmação em até 2 horas úteis.'})}
+      <div style="display:flex;justify-content:flex-start;align-items:flex-start;padding-top:6px"><button class="btn success" type="button" id="ps" style="width:120px">${ic('check',16)} Salvar</button></div></div></div></form>`;
+}
+
+/* ---------- Passo 4: IDs de lojas ---------- */
+function step4(){
+  return grid({key:'ids',title:'Indentificação de Lojas nos Fornecedores',addText:'Incluir Fornecedor/OL',rows:DB.ids,height:'calc(100vh - 230px)',
+    cols:[{cap:'Nome da Loja',k:'IDENTIFICACAO',w:'55%',hf:1},{cap:'CNPJ',k:'CNPJ',w:'18%',a:'c',hf:1},{cap:'Id da Loja',k:'IDF',w:'15%',a:'c',hf:1},actCol('ids','12%')]});
+}
+function idForm(){
+  return `<form id="pf" onsubmit="return false" novalidate><div class="cols2">${fld('CNPJ',{id:'CNPJ',req:1,msg:'CNPJ é obrigatório.',ph:'00.000.000/0000-00'})}${fld('Fornecedor/OL',{id:'F',type:'select',opts:DB.suppliers.map(s=>s.NOME_FANTASIA),req:1,msg:'Fornecedor/OL é obrigatório.'})}${fld('Id da Loja',{id:'IDF'})}<div></div></div>
+  <div class="btns"><button class="btn" type="button" id="pc">Cancelar</button><button class="btn success" type="button" id="ps">Salvar</button></div></form>`;
+}
+
+/* ---------- Passo 5: Sistema ---------- */
+const sistemas = ['Sistema MMC Direto (busca pedidos)','ERP Via Webhook – Rede Farma'];
+function webhook(title,t){
+  const cont = S.contingencia[t];
+  return `<div class="grp"><div class="cap">${title}</div><div class="cols2">
+    <div class="grp"><div class="cap">1. Captura Token de Acesso a API</div>
+      ${fld('Login',{v:'api.farmamais'})}${fld('Senha',{type:'pass',id:'wp'+t,v:'••••••••'})}${fld('Cabeçalho',{v:'Content-Type: application/json'})}${fld('URL',{v:'https://erp.farmamais.com.br/auth/token'})}
+      <div class="f top"><label>Comando (JSON ou XML)</label><div class="ed"><div class="mon"><div class="ln">1<br>2<br>3<br>4<br>5</div><pre>{
+  <span class="k">"usuario"</span>: <span class="s">"api.farmamais"</span>,
+  <span class="k">"senha"</span>: <span class="s">"********"</span>,
+  <span class="k">"grant_type"</span>: <span class="s">"password"</span>
+}</pre></div></div></div></div>
+    <div class="grp"><div class="cap">2. API de envio de Pedido</div>
+      ${fld('Método',{type:'select',opts:['GET','HEAD','POST','PUT','DELETE','CONNECT','OPTIONS','TRACE','PATCH'],v:t===1?'POST':'GET'})}${fld('Cabeçalho',{v:'Authorization: Bearer {token}'})}
+      ${fld('URL',{v:t===1?'https://erp.farmamais.com.br/api/pedidos':'https://erp.farmamais.com.br/api/pedidos/retorno'})}
+      <div class="f"><label>Contigência</label><div class="ed"><input type="checkbox" class="chk" data-cont="${t}" ${cont?'checked':''}></div></div>
+      ${fld('URL de Contigência',{v:cont?'https://contingencia.farmamais.com.br/api/pedidos':'',dis:!cont})}</div></div></div>`;
+}
+function step5(){
+  const withFields = S.sysFields;
+  return `<section><form onsubmit="return false"><div class="dxform">
+    ${grp('Sistema',fld('Sistema',{id:'SIS',type:'select',v:S.system,opts:sistemas})+`<div class="btns" style="margin:0;align-items:center;justify-content:flex-start"><button type="button" class="btn success" id="sSave" style="width:120px" ${S.system?'':'disabled'}>${ic('check',16)} Salvar</button></div>`)}
+    ${withFields?webhook('Envio de Pedido',1)+webhook('Retorno de Pedido',2):''}
+    </div></form>
+    ${withFields?'':`<div class="infobox"><div>Esse Sistema busca diretamente os pedidos no MMC não é necessário configurar o MMC para realizar a entrega do pedid. Prossiga para a próxima tela.</div></div>`}</section>`;
+}
+
+/* ---------- Passo 6: Configurações gerais ---------- */
+function step6(){
+  const c = S.cfg;
+  return `<form id="f6" onsubmit="return false" novalidate><div class="dxform">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:-12px;position:relative;z-index:1"><button class="btn success" type="button" id="sv6" style="width:120px">${ic('check',16)} Salvar</button></div>
+    ${grp('Padrão',
+      fld('Prazo de Retorno para o Pedido',{id:'PR',v:'024 hora(s)',req:1,msg:'Prazo de retorno é obrigatório.'})+chk('Obrigatório cadastrar ID Fornecedor','c1',true)+
+      chk('Avise-me quando chegar','cAvise',c.aviseMe)+fld('E-mail para o "avise-me" quando chegar',{id:'EMAIL_AVISE',v:c.aviseMe?'compras@farmamais.com.br':'',dis:!c.aviseMe,req:c.aviseMe,msg:'Email de avise-me é obrigatório.'})+
+      fld('E-mail para alerta de sugestão de compras com problema',{id:'EMAIL_SUG',v:'alertas@farmamais.com.br',req:1,msg:'Email para alerta é obrigatório.'}))}
+    ${grp('Margem Mínima',
+      chk('Margem mínima para cotação','cMargem',c.margem)+fld('Percentual da margem mínima de lucro',{id:'PM',v:c.margem?'15%':'',dis:!c.margem})+'<div></div>'+
+      fld('Percentual da variação superior aceita',{id:'PV2',v:c.margem?'5%':'',dis:!c.margem})+'<div></div><div></div>')}
+    <div class="grp"><div class="cap">Produtos Exceção</div>${grid({key:'except',title:'',toolbar:false,rows:DB.except,cols:[{cap:'EAN',k:'EAN',w:'18%'},{cap:'Produto',k:'PROD',w:'34%'},{cap:'Data da validade inicial',k:'DI',w:'16%',a:'c'},{cap:'Data da validade final',k:'DF',w:'16%',a:'c'},{cap:'',w:'16%',a:'c',render:r=>`<span class="ic" data-edit="except:${DB.except.indexOf(r)}">${ic('edit',18)}</span><span class="ic del" data-del="except:${DB.except.indexOf(r)}">${ic('del',18)}</span>`}]})}
+      <div style="margin-top:8px"><button class="btn success" type="button" data-add="except">${ic('plus',16)} Adicionar</button></div></div>
+    ${grp('MMMC Web',fld('Prazo de pagamento mínimo',{id:'PMIN',v:'007 dia(s)',req:1,msg:'Prazo de pagamento mínimo é obrigatório.'})+fld('Prazo de pagamento máximo',{id:'PMAX',v:'045 dia(s)',req:1,msg:'Prazo de pagamento máximo é obrigatório.'}))}
+    ${grp('Percentual Mínimo de Compra',chk('Percentual mínimo em relação ao Rank 1','cRank',c.rank)+fld('Percentual mínimo',{id:'PRK',v:c.rank?'80%':'',dis:!c.rank}))}
+    <div class="grp"><div class="cap">Bloqueio Produtos EAN</div>${grid({key:'blocked',title:'',toolbar:false,rows:DB.blocked,cols:[{cap:'EAN',k:'EAN',w:'35%'},{cap:'Fornecedor',k:'FORN',w:'50%'},{cap:'',w:'15%',a:'c',render:r=>`<span class="ic" data-edit="blocked:${DB.blocked.indexOf(r)}">${ic('edit',18)}</span><span class="ic del" data-del="blocked:${DB.blocked.indexOf(r)}">${ic('del',18)}</span>`}]})}
+      <div style="margin-top:8px"><button class="btn success" type="button" data-add="blocked">${ic('plus',16)} Adicionar</button></div></div>
+  </div></form>`;
+}
+function bind6(){
+  const re = () => { const y=window.scrollY; render(); window.scrollTo(0,y); };
+  $('cAvise').onchange = e => { S.cfg.aviseMe=e.target.checked; re(); };
+  $('cMargem').onchange = e => { S.cfg.margem=e.target.checked; re(); };
+  $('cRank').onchange = e => { S.cfg.rank=e.target.checked; re(); };
+  $('sv6').onclick = () => { if(!validate($('f6'))) return toast('Preencha os campos obrigatórios','warning'); loading(700,()=>{ S.step=6; render(); }); };
+}
+
+/* ---------- Passo 7: Aplicar ---------- */
+function step7(){
+  const ok = S.applyOk;
+  return `<section style="display:flex;justify-content:center;align-items:center;height:calc(100vh - 125px)">${ok
+   ? `<button class="btn success big" id="apply">${ic('check',20)} Aplicar Atualizações</button>`
+   : `<div style="width:620px">${grid({key:'v',title:'',toolbar:false,rows:[{v:true,t:'Configurações gerais tem que ter o Prazo para Retorno do Pedido maior que zero.'},{v:true,t:'Fornecedores e OL tem pelo menos 1 fornecedor ou OL cadastrado'},{v:true,t:'Lojas do Cliente tem de ter pelo menos 1 loja cadastrada'},{v:!!S.system,t:'Sistema tem que estar selecionado'}],
+      cols:[{cap:'Validado',w:'95px',a:'c',render:r=>r.v?`<span class="ok">${ic('done',22)}</span>`:`<span class="no">${ic('close',22)}</span>`},{cap:'Regra',w:'calc(100% - 95px)',a:'c',render:r=>`<span style="white-space:normal">${r.t}</span>`}]})}
+      <p style="margin-top:12px;text-align:center;color:#888;font-size:12px">Complete as regras pendentes para habilitar a aplicação das atualizações.</p></div>`}</section>`;
+}
+
+/* ---------- Passo 8: Usuários ---------- */
+function step8(){
+  return grid({key:'users',title:'Cadastro de Usuário',addText:'Incluir Cadastro',rows:DB.users,
+    cols:[{cap:'',w:'40px',a:'c',render:()=>`<span class="drag">${ic('drag',16)}</span>`},{cap:'Nome',k:'NOME',w:'calc(80% - 40px)',hf:1},{cap:'E-mail',k:'EMAIL',w:'15%',a:'c',hf:1},{cap:'',w:'5%',a:'c',render:r=>`<span class="ic" data-edit="users:${DB.users.indexOf(r)}">${ic('edit',18)}</span>`}]});
+}
+function userForm(r={}){
+  return `<form id="pf" onsubmit="return false" novalidate><div class="cols2">
+   ${fld('Nome',{id:'NOME',v:r.NOME,req:1,msg:'Nome é obrigatório.'})}${fld('E-mail',{id:'EMAIL',v:r.EMAIL,req:1,msg:'Email é obrigatório.'})}
+   ${fld('Data de Nascimento',{id:'DN',type:'date',req:1,msg:'Data de nascimento é obrigatória.'})}${fld('CPF',{id:'CPF',req:1,msg:'CPF é obrigatório.',ph:'000.000.000-00'})}
+   ${fld('Celular',{id:'CEL',ph:'+55 (00) 0000-00000'})}${fld('Telefone',{id:'TEL',ph:'+55 (00) 0000-0000'})}
+   ${fld('Login',{id:'LOGIN',req:1,msg:'Login é obrigatório.'})}${fld('Senha',{id:'SENHA',type:'password',req:1,msg:'Senha é obrigatória.'})}</div>
+  <div class="btns"><button class="btn" type="button" id="pc">Cancelar</button><button class="btn success" type="button" id="ps">Salvar</button></div></form>`;
+}
+function eanForm(kind,r={}){
+  return `<form id="pf" onsubmit="return false" novalidate><div class="cols2">
+   ${kind==='blocked'
+     ? fld('Produto',{id:'EAN',type:'select',v:r.EAN,opts:['7891234567895 – Amoxicilina 500mg','7899876543210 – Ibuprofeno 600mg','7893332221110 – Loratadina 10mg'],req:1,msg:'Selecionar um produto é obrigatório.'})+fld('Fornecedor',{id:'FO',type:'select',v:r.FORN,opts:DB.suppliers.map(s=>s.NOME_FANTASIA),req:1,msg:'Fornecedor/OL é obrigatório.'})
+     : fld('Produto',{id:'EAN',type:'select',v:r.PROD,opts:['Dipirona Sódica 500mg 20 comp.','Protetor Solar FPS 50 200ml','Vitamina C 1g 30 comp.'],req:1,msg:'Selecionar um produto é obrigatório.'})+fld('Data da validade inicial',{id:'DI',v:r.DI,req:1,msg:'Data da validade inicial.'})+fld('Data da validade final',{id:'DF',v:r.DF,req:1,msg:'Data da validade final.'})}</div>
+  <div class="btns"><button class="btn" type="button" id="pc">Cancelar</button><button class="btn success" type="button" id="ps">Salvar</button></div></form>`;
+}
+
+/* ---------- render ---------- */
+const titles = { stores:'Inclusão de nova loja', suppliers:'Inclusão de novo fornecedor ou OL', ids:'Inclusão de nova loja', users:'Inclusão de usuário', blocked:'Inclusão produtos bloqueio EAN', except:'Inclusão de produtos Exeção' };
+function openForm(key,idx){
+  const r = idx!=null && idx>=0 ? DB[key][idx] : undefined;
+  const body = { stores:()=>storeForm(r), suppliers:()=>supplierForm(r), ids:idForm, users:()=>userForm(r), blocked:()=>eanForm('blocked',r), except:()=>eanForm('except',r) }[key]();
+  const w = { stores:760, suppliers:1180, ids:700, users:760, blocked:700, except:760 }[key];
+  popup(titles[key], body, w, () => {
+    bindEyes($('popup'));
+    const pc = $('pc'); if(pc) pc.onclick = closePop;
+    if(key==='suppliers'){ const s=$('swp'); s.onclick = () => { s.classList.toggle('on'); const ol=s.classList.contains('on'); ['PV','BR','VM','LOGIN','SENHA'].forEach(id=>{ const e=$(id); if(e){ e.disabled=ol; if(ol) e.value=''; } }); $('EMAIL').disabled=!ol; if(!ol) $('EMAIL').value=''; }; }
+    $('ps').onclick = () => {
+      if(!validate($('pf'))) return toast('Preencha os campos obrigatórios','warning');
+      const g = id => $(id) ? $(id).value : '';
+      if(key==='stores'){ const o={IDENTIFICACAO:g('IDENTIFICACAO'),CNPJ:g('CNPJ'),ESTADO:g('ESTADO').toUpperCase()}; r?Object.assign(r,o):DB.stores.push(o); }
+      if(key==='users'){ const o={NOME:g('NOME'),EMAIL:g('EMAIL')}; r?Object.assign(r,o):DB.users.push(o); }
+      if(key==='ids'){ DB.ids.push({IDENTIFICACAO:'Nova loja',CNPJ:g('CNPJ'),IDF:g('IDF')||'—'}); }
+      if(key==='blocked'){ DB.blocked.push({EAN:g('EAN').split(' ')[0],FORN:g('FO')}); }
+      if(key==='except'){ DB.except.push({EAN:'7890000000000',PROD:g('EAN'),DI:g('DI'),DF:g('DF')}); }
+      closePop(); loading(400,()=>{ toast('Registro salvo com sucesso','success'); render(); });
+    };
+  });
+}
+function bindCommon(){
+  document.querySelectorAll('[data-search]').forEach(i => i.oninput = e => { S.search[i.dataset.search]=e.target.value; const p=e.target.selectionStart; render(); const n=document.querySelector(`[data-search="${i.dataset.search}"]`); n.focus(); n.setSelectionRange(p,p); });
+  document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => {
+    const k=b.dataset.add; if(k==='clients'){ S.client=null; S.view='wiz'; S.step=0; render(); } else openForm(k);
+  });
+  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { const [k,i]=b.dataset.edit.split(':'); openForm(k,+i); });
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const [k,i]=b.dataset.del.split(':'); popup('Confirmação',`<p style="margin-bottom:18px">Tem certeza de que deseja excluir este registro?</p><div class="btns"><button class="btn" id="n">Não</button><button class="btn success" id="y" style="background:#d9534f;border-color:#d9534f">Sim</button></div>`,380,()=>{ $('n').onclick=closePop; $('y').onclick=()=>{ DB[k].splice(+i,1); closePop(); toast('Registro removido','success'); render(); }; }); });
+  document.querySelectorAll('[data-s]').forEach(s => s.onclick = () => { S.step=+s.dataset.s; render(); });
+  bindEyes(document);
+}
+function render(){
+  const page = $('page'); const y = window.scrollY;
+  if(S.view==='mgmt'){
+    page.style.padding='0'; page.innerHTML = `<section>${viewMgmt()}</section>`;
+    document.querySelectorAll('[data-inat]').forEach(c => c.onchange = () => { DB.clients[+c.dataset.inat].ATIVO = c.checked; toast(c.checked?'Cliente inativado':'Cliente ativado','info'); });
+    document.querySelectorAll('[data-editclient]').forEach(b => b.onclick = () => { S.client = DB.clients[+b.dataset.editclient]; S.view='wiz'; S.step=0; render(); });
+  } else {
+    page.style.padding='30px 8px 20px';
+    const body = [step1,step2,step3,step4,step5,step6,step7,step8][S.step]();
+    page.innerHTML = stepper() + `<div class="stage ${S.step===5?'cfg':''}">${body}</div>`;
+    if(S.step===0) bind1();
+    if(S.step===4){
+      const sel=$('SIS'); sel.onchange = () => { S.system=sel.value; S.sysFields = sel.value===sistemas[1]; render(); };
+      $('sSave').onclick = () => loading(600,()=>{ S.applyOk = false; S.step=5; render(); });
+      document.querySelectorAll('[data-cont]').forEach(c => c.onchange = () => { S.contingencia[c.dataset.cont]=c.checked; const yy=window.scrollY; render(); window.scrollTo(0,yy); });
+    }
+    if(S.step===5) bind6();
+    if(S.step===6 && $('apply')) $('apply').onclick = () => loading(900,()=>{ toast('Atualizações aplicadas com sucesso','success'); S.step=7; render(); });
+    if(S.step===6) { S.applyOk = true; if(!$('apply') ) { render.once = (render.once||0)+1; } }
+  }
+  bindCommon();
+  window.scrollTo(0,y);
+}
+S.applyOk = true;
+render();
+</script>
+</body>
+</html>

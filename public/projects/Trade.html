@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trade Marketing</title>
+<style>
+  :root {
+    --base-bg:#fff; --side-panel-background:#f9f8f8; --card-background:#fff; --border-color:#e0e0e0;
+    --base-text-color:#414141; --accent-color:#286b2a; --card-hover:#f0f9fd; --selection-bg:#e3ffe0;
+    --muted:rgba(0,0,0,.54); --field-bg:rgba(0,0,0,.04); --field-line:rgba(0,0,0,.42);
+    --primary:#03a9f4; --success:#4caf50; --danger:#f44336; --content-padding:16px; --page-bg:#fff;
+    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  :root[data-theme="dark"] {
+    --base-bg:#363640; --side-panel-background:#2c2c35; --card-background:#2c2c35; --border-color:#4a4a55;
+    --base-text-color:#fff; --accent-color:#87f275; --card-hover:#14344399; --selection-bg:#2f3d2c;
+    --muted:rgba(255,255,255,.6); --field-bg:rgba(255,255,255,.06); --field-line:rgba(255,255,255,.42); --page-bg:#363640;
+    color-scheme:dark;
+  }
+  html { scroll-padding-top:env(safe-area-inset-top,0px); height:100%; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { height:100%; font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:14px; color:var(--base-text-color); background:var(--page-bg); min-width:1100px; overflow-x:auto; }
+  svg { fill:currentColor; width:22px; height:22px; flex:none; }
+  button { font-family:inherit; }
+
+  /* ---------- shell ---------- */
+  .app { display:flex; flex-direction:column; height:100vh; }
+  header.hd { flex:none; display:flex; align-items:center; height:56px; padding:0 var(--content-padding) 0 0; background:var(--base-bg); box-shadow:0 4px 8px rgba(0,0,0,.05),0 0 4px rgba(0,0,0,.15); z-index:3; }
+  .hd .menu { width:48px; height:36px; display:grid; place-items:center; color:var(--accent-color); background:none; border:0; cursor:pointer; border-radius:4px; }
+  .hd .menu:hover { background:rgba(128,128,128,.12); }
+  .hd .title { color:var(--accent-color); font-size:16px; font-weight:600; cursor:pointer; margin-left:4px; }
+  .hd .ver { font-size:11px; margin-left:10px; opacity:.8; }
+  .hd .sp { flex:1; }
+  .ibtn { width:36px; height:36px; display:grid; place-items:center; background:none; border:0; border-radius:4px; cursor:pointer; color:var(--base-text-color); }
+  .ibtn:hover { background:rgba(128,128,128,.14); }
+  .ibtn.primary { color:var(--primary); } .ibtn.danger { color:var(--danger); }
+  .body { flex:1; display:flex; min-height:0; }
+  nav.side { width:250px; flex:none; display:flex; flex-direction:column; background:var(--side-panel-background); position:relative; padding-bottom:70px; overflow-y:auto; border-right:1px solid var(--border-color); transition:margin .25s; }
+  nav.side.closed { margin-left:-250px; }
+  .nav-item { display:flex; align-items:center; height:48px; padding:0; cursor:pointer; border-bottom:1px solid var(--border-color); font-weight:700; font-size:14px; }
+  .nav-item .ic { width:48px; display:grid; place-items:center; }
+  .nav-item p { flex:1; }
+  .nav-item .chev { width:20px; margin-right:12px; transition:transform .2s; }
+  .nav-item.open .chev { transform:rotate(90deg); }
+  .nav-item:hover { background:rgba(128,128,128,.10); }
+  .nav-item.sel { background:var(--accent-color); } .nav-item.sel, .nav-item.sel * { color:var(--side-panel-background); }
+  .nav-sub { display:none; } .nav-sub.open { display:block; }
+  .nav-sub .nav-item { font-weight:400; border-bottom:0; height:44px; padding-left:0; }
+  nav.side footer { position:absolute; left:0; right:0; bottom:0; height:70px; padding:20px 0 16px 14px; font-size:12px; line-height:1.5; opacity:.75; background:var(--side-panel-background); }
+  nav.side footer .lg { display:inline-block; width:13px; height:13px; border-radius:50%; background:var(--accent-color); vertical-align:-2px; }
+  main.content { flex:1; min-width:0; overflow-y:auto; padding:var(--content-padding); }
+
+  /* ---------- editores (Material, filled) ---------- */
+  .row { display:flex; align-items:center; }
+  .fld { position:relative; display:block; min-width:0; }
+  .fld > span.lb { position:absolute; left:12px; top:5px; font-size:11px; color:var(--muted); pointer-events:none; z-index:1; }
+  .fld input, .fld select, .fld textarea, .fld .ro { width:100%; height:44px; border:0; border-bottom:1px solid var(--field-line); background:var(--field-bg); color:var(--base-text-color); font:14px Roboto,Helvetica,Arial,sans-serif; padding:18px 30px 4px 12px; border-radius:4px 4px 0 0; outline:none; appearance:none; -webkit-appearance:none; }
+  .fld .ro { display:flex; align-items:flex-end; padding-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:.92; }
+  .fld input:focus, .fld select:focus, .fld textarea:focus { border-bottom:2px solid var(--primary); }
+  .fld textarea { height:96px; padding-top:20px; resize:none; line-height:1.4; }
+  .fld select:disabled { opacity:.5; cursor:not-allowed; }
+  .fld.sel::after { content:""; position:absolute; right:12px; top:20px; border:solid var(--muted); border-width:0 2px 2px 0; padding:3px; transform:rotate(45deg); pointer-events:none; }
+  .fld.invalid input, .fld.invalid select { border-bottom:2px solid var(--danger); background:rgba(244,67,54,.08); }
+  .fld.plain input, .fld.plain select { padding-top:4px; }
+  .fld.plain.sel select { padding-top:4px; }
+  .fld.t input, .fld.t .ro { padding-top:4px; }
+  .lab { font-size:12px; color:var(--muted); margin:0 0 3px 2px; display:block; }
+  .item { display:block; }
+  .item .ro, .item input, .item textarea, .item select { height:38px; padding:4px 10px; background:var(--field-bg); border:0; border-bottom:1px solid var(--field-line); border-radius:4px 4px 0 0; color:var(--base-text-color); font:14px Roboto,Helvetica,sans-serif; width:100%; outline:none; display:flex; align-items:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .item textarea { height:96px; padding-top:8px; resize:none; display:block; line-height:1.4; white-space:normal; }
+  .item.invalid input { border-bottom:2px solid var(--danger); background:rgba(244,67,54,.08); }
+  .item .err { color:var(--danger); font-size:11px; margin-top:2px; display:none; } .item.invalid .err { display:block; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px 16px; }
+  .span2 { grid-column:span 2; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; height:36px; padding:0 18px; border:0; border-radius:4px; color:#fff; font-weight:500; font-size:14px; letter-spacing:.4px; cursor:pointer; text-transform:uppercase; }
+  .btn.default { background:var(--primary); } .btn.success { background:var(--success); } .btn.danger { background:var(--danger); }
+  .btn:disabled { opacity:.4; cursor:not-allowed; }
+  .btn.text { background:none; color:var(--base-text-color); text-transform:none; padding:0 10px; }
+  .btn.text.normal { color:var(--base-text-color); } .btn.text.on { color:var(--danger); }
+  .btn svg { width:22px; height:22px; }
+  .page-title { display:flex; align-items:center; justify-content:space-between; }
+
+  /* ---------- Vitrine ---------- */
+  .filters { display:flex; align-items:center; gap:10px; }
+  .filters .fld { flex:1; }
+  .showcase-grid { display:grid; grid-template-columns:repeat(auto-fit,365px); justify-content:space-evenly; grid-auto-rows:475px; margin:15px 0; }
+  .ShowCaseCard { box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12); background:var(--card-background); border-radius:4px; overflow:hidden; height:447px; width:345px; letter-spacing:.01071em; line-height:1.43; font-size:.875rem; cursor:pointer; transition:box-shadow .3s; }
+  .ShowCaseCard:hover { box-shadow:0 4px 10px rgba(0,0,0,.25); }
+  .ShowCaseCard > header { display:flex; align-items:center; height:72px; padding:16px; }
+  .avatar { width:40px; height:40px; border-radius:50%; background:#f44336; color:#fff; display:grid; place-items:center; font-size:1.25rem; margin-right:16px; flex:none; }
+  .ShowCaseCard > header p { text-transform:lowercase; width:228px; white-space:normal; }
+  .ShowCaseCard > main { height:324px; } .ShowCaseCard > main > img { height:194px; width:100%; display:block; object-fit:cover; }
+  .ShowCaseCard > main > div { padding:16px; }
+  .ShowCaseCard ul { list-style:square; padding:0 0 0 18px; }
+  .ShowCaseCard li { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ShowCaseCard li strong { display:inline-block; width:127px; }
+  .ShowCaseCard > footer { display:flex; align-items:center; justify-content:space-between; height:56px; padding:8px; }
+  .price { width:172px; height:36px; background:var(--field-bg); border-bottom:1px solid var(--field-line); border-radius:4px 4px 0 0; text-align:right; font-weight:700; padding:0 10px; display:flex; align-items:center; justify-content:flex-end; }
+  .empty { text-align:center; padding:60px; color:var(--muted); grid-column:1/-1; }
+
+  /* ---------- item (detalhe) ---------- */
+  .show-case-item { display:flex; min-height:720px; gap:10px; }
+  .box { box-shadow:0 4px 4px -2px rgba(0,0,0,.3),0 3px 5px 0 rgba(0,0,0,.2),0 2px 7px 0 rgba(0,0,0,.14); padding:15px; border-radius:8px; background:var(--base-bg); }
+  .show-case-item > form { width:50%; margin:5px; }
+  .show-case-item > main { width:50%; margin:5px 10px 5px 0; display:flex; flex-direction:column; gap:12px; }
+  .show-case-item > main img { width:100%; height:calc(100% - 307px); min-height:300px; object-fit:cover; border-radius:8px; display:block; }
+  .grp-cap { font-size:18px; margin:6px 0 14px; }
+
+  /* ---------- contratos ---------- */
+  .contract-list { display:flex; flex-direction:column; gap:12px; margin:0 auto; }
+  .contract-item { display:flex; box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12); background:var(--base-bg); border-radius:8px; cursor:pointer; }
+  .contract-item:hover { background:var(--card-hover); }
+  .contract-item > div:first-child { border:1px solid var(--border-color); border-left:10px solid var(--accent-color); border-radius:8px 0 0 8px; display:grid; place-items:center; width:220px; flex:none; }
+  .contract-item > div:first-child svg { width:48px; height:48px; color:var(--base-text-color); }
+  .contract-item-form { border:1px solid var(--border-color); border-radius:0 8px 8px 0; padding:15px; flex:1; }
+  .contract-list-header { display:flex; align-items:center; justify-content:space-between; }
+  .contract-itens-list { display:grid; grid-template-columns:repeat(auto-fit,700px); justify-content:space-evenly; grid-auto-rows:270px; margin:15px; gap:0; }
+  .contract-item-card { border:1px solid var(--border-color); border-bottom:10px solid var(--accent-color); border-radius:5px; background:var(--base-bg); padding:10px; display:flex; height:250px; width:680px; cursor:pointer; gap:10px; }
+  .contract-item-card:hover { background:var(--card-hover); }
+  .contract-item-card img { width:345px; height:100%; object-fit:cover; border-radius:3px; }
+  .contract-item-card .grid2 { flex:1; align-content:start; }
+
+  /* ---------- comprovações ---------- */
+  .comm-list { display:grid; grid-template-columns:repeat(auto-fit,370px); justify-content:space-evenly; grid-auto-rows:440px; }
+  .comm-item img { width:349px; height:350px; border-radius:5px 5px 0 0; display:block; object-fit:cover; }
+  .comm-item .r { display:flex; gap:10px; margin-top:10px; } .comm-item .r .fld { flex:1; } .comm-item .fld.full { margin-top:10px; }
+
+  /* ---------- planograma ---------- */
+  .selects-container { display:flex; width:100%; }
+  .selects-container .fld { flex:1; margin:5px; }
+  .cards-container { display:flex; gap:10px; flex-wrap:wrap; padding:6px; width:100%; }
+  .plan-card { flex:1 1 0; min-width:360px; margin:0; overflow:hidden; background:var(--border-color); border-bottom:1px solid #8e8e8e; }
+  .plan-card h4 { padding:10px; font-size:16px; font-weight:500; margin:0; }
+  .image-container { display:flex; justify-content:center; overflow:hidden; } .image-container img { max-width:800px; max-height:400px; width:100%; object-fit:contain; background:#fff; }
+
+  /* ---------- popup / toast ---------- */
+  .overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:20; }
+  .overlay.show { display:flex; }
+  .popup { width:700px; background:var(--base-bg); border-radius:4px; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+  .popup .ph { display:flex; align-items:center; justify-content:space-between; padding:6px 8px 6px 20px; border-bottom:1px solid var(--border-color); font-size:18px; height:52px; }
+  .popup .pb { padding:20px; }
+  #toast { position:fixed; top:68px; right:14px; min-width:300px; max-width:420px; padding:14px 16px; border-radius:3px; color:#fff; box-shadow:0 2px 8px rgba(0,0,0,.35); z-index:40; display:none; font-size:14px; }
+  #toast.success { background:#4caf50; } #toast.warning { background:#ed6c02; } #toast.error { background:#f44336; }
+  .wm { position:fixed; right:120px; top:20px; font-size:11px; color:var(--muted); border:1px solid var(--border-color); padding:2px 8px; border-radius:10px; z-index:5; background:var(--base-bg); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hd">
+    <button class="menu" id="menuBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+    <div class="title" id="appTitle">Trade Marketing</div><div class="ver">v.0.1.0</div>
+    <div class="sp"></div>
+    <span class="wm">Esboço de interface · dados fictícios</span>
+    <button class="ibtn" id="themeBtn" title="Tema"></button>
+    <button class="ibtn" id="fsBtn" title="Tela cheia"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+  </header>
+  <div class="body">
+    <nav class="side" id="side"></nav>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<div class="overlay" id="ov"><div class="popup" id="popup"></div></div>
+<div id="toast"></div>
+
+<script>
+/* ---------- ícones ---------- */
+const P = {
+  cart:'M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z',
+  doc:'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
+  cols:'M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z',
+  file:'M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z',
+  trend:'M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z',
+  moon:'M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z',
+  sun:'M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z',
+  refresh:'M17.65 6.35A7.958 7.958 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z',
+  like:'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+  back:'M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z',
+  print:'M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z',
+  chev:'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z',
+  close:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'
+};
+const ic = (k,s) => `<svg viewBox="0 0 24 24" ${s?`style="width:${s}px;height:${s}px"`:''}><path d="${P[k]}"/></svg>`;
+
+/* ---------- imagens fictícias (SVG embutido) ---------- */
+function scene(seed, w=800, h=450, label='') {
+  const pal = [['#1b5e20','#a5d6a7','#fff176'],['#0d47a1','#90caf9','#ffcc80'],['#b71c1c','#ef9a9a','#fff59d'],['#4a148c','#ce93d8','#80deea'],['#e65100','#ffcc80','#c5e1a5'],['#006064','#80deea','#ffab91']][seed%6];
+  let r = seed*9301+49297; const rnd = () => (r = (r*9301+49297)%233280)/233280;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice"><rect width="${w}" height="${h}" fill="#e9e6e0"/><rect y="${h*0.86}" width="${w}" height="${h*0.14}" fill="#c9c3b8"/>`;
+  s += `<rect x="${w*0.08}" y="${h*0.06}" width="${w*0.84}" height="${h*0.14}" rx="6" fill="${pal[0]}"/><rect x="${w*0.12}" y="${h*0.1}" width="${w*0.3}" height="${h*0.035}" rx="3" fill="${pal[2]}"/><rect x="${w*0.12}" y="${h*0.15}" width="${w*0.18}" height="${h*0.02}" rx="3" fill="#fff" opacity=".85"/>`;
+  s += `<rect x="${w*0.08}" y="${h*0.2}" width="${w*0.84}" height="${h*0.66}" fill="#f6f4ef" stroke="#bdb8ad" stroke-width="3"/>`;
+  for (let row=0; row<4; row++) {
+    const y = h*0.2 + (row+1)*h*0.165;
+    let x = w*0.1;
+    while (x < w*0.88) {
+      const bw = w*(0.045+rnd()*0.04), bh = h*(0.08+rnd()*0.06);
+      const col = [pal[0],pal[1],pal[2],'#ffffff','#78909c'][Math.floor(rnd()*5)];
+      s += `<rect x="${x}" y="${y-bh}" width="${bw}" height="${bh}" rx="2" fill="${col}" stroke="rgba(0,0,0,.18)"/><rect x="${x+bw*0.15}" y="${y-bh*0.7}" width="${bw*0.7}" height="${bh*0.12}" fill="rgba(255,255,255,.7)"/>`;
+      x += bw + w*0.008;
+    }
+    s += `<rect x="${w*0.08}" y="${y}" width="${w*0.84}" height="${h*0.012}" fill="#9e998d"/>`;
+  }
+  if (label) s += `<rect x="0" y="${h-30}" width="${w}" height="30" fill="rgba(0,0,0,.55)"/><text x="12" y="${h-10}" font-family="Arial" font-size="15" fill="#fff">${label}</text>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(s + '</svg>');
+}
+function floorplan() {
+  const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><rect width="800" height="400" fill="#fff"/><rect x="30" y="30" width="740" height="340" fill="none" stroke="#333" stroke-width="4"/><rect x="330" y="360" width="140" height="14" fill="#fff" stroke="#333" stroke-width="3"/>` +
+  [60,170,280,390,500,610].map((x,i)=>`<rect x="${x}" y="90" width="90" height="26" fill="${i==2?'#4caf50':'#cfd8dc'}" stroke="#607d8b"/><rect x="${x}" y="150" width="90" height="26" fill="#cfd8dc" stroke="#607d8b"/>`).join('') +
+  `<rect x="60" y="260" width="200" height="60" fill="#eceff1" stroke="#607d8b"/><text x="160" y="296" font-family="Arial" font-size="14" text-anchor="middle" fill="#455a64">Caixas</text><rect x="560" y="250" width="180" height="90" fill="#e8f5e9" stroke="#388e3c"/><text x="650" y="300" font-family="Arial" font-size="14" text-anchor="middle" fill="#2e7d32">Ilha promocional</text><text x="325" y="62" font-family="Arial" font-size="13" fill="#4caf50">▼ Ponto selecionado</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(s);
+}
+
+/* ---------- dados ---------- */
+const comps = ['Ponta de Gôndola','Ilha Promocional','Display de Balcão','Testeira de Gôndola','Ponto Extra de Check-out'];
+const T = (n,tipo,q,uf,cid,bai,loja,val,fav,contrato,m2,fat,fluxo,desc) => ({ id:'P'+n, n, TIPO:tipo, QTD:q, UF:uf, CID:cid, BAI:bai, LOJA:loja, VAL:val, FAV:fav, CONTRATO:contrato, PRE:'S', M2:m2, FAT:fat, FLUXO:fluxo, DESC:desc, COMPL:'Térreo – corredor principal' });
+let items = [
+  T(1,comps[0],'2','SP','São Paulo','Pinheiros','Drogaria Bem Estar Pinheiros',1850,'S','N','320','R$ 2 a 3 mi / mês','≈ 4.500 pessoas / semana','Ponta de gôndola voltada para a entrada, em corredor de alto fluxo.'),
+  T(2,comps[1],'1','SP','São Paulo','Moema','Farma Vida Moema',2400,'N','N','410','R$ 3 a 4 mi / mês','≈ 6.200 pessoas / semana','Ilha promocional no centro da loja, próxima à área de dermocosméticos.'),
+  T(3,comps[2],'3','SP','Campinas','Cambuí','Drogaria Central Cambuí',620,'N','S','180','R$ 1 a 2 mi / mês','≈ 2.800 pessoas / semana','Display de balcão no caixa 1, com giro rápido de produtos de impulso.'),
+  T(4,comps[3],'4','RJ','Rio de Janeiro','Copacabana','Farma Vida Copacabana',980,'S','N','280','R$ 2 a 3 mi / mês','≈ 5.100 pessoas / semana','Testeira de gôndola com visibilidade ampla a partir da entrada.'),
+  T(5,comps[0],'2','RJ','Niterói','Icaraí','Drogaria Bem Estar Icaraí',1450,'N','N','240','R$ 1 a 2 mi / mês','≈ 3.300 pessoas / semana','Ponta de gôndola ao lado da seção de higiene pessoal.'),
+  T(6,comps[4],'1','MG','Belo Horizonte','Savassi','Drogaria Central Savassi',3100,'N','N','350','R$ 3 a 4 mi / mês','≈ 5.800 pessoas / semana','Ponto extra no fluxo obrigatório de check-out.'),
+  T(7,comps[1],'2','MG','Belo Horizonte','Lourdes','Farma Vida Lourdes',2150,'S','S','300','R$ 2 a 3 mi / mês','≈ 4.000 pessoas / semana','Ilha promocional com acesso pelos dois lados.'),
+  T(8,comps[2],'2','SP','São Paulo','Pinheiros','Farma Vida Pinheiros',540,'N','N','150','R$ 500 mil a 1 mi / mês','≈ 2.100 pessoas / semana','Display compacto junto ao balcão de atendimento.'),
+  T(9,comps[3],'3','SP','São Paulo','Moema','Drogaria Bem Estar Moema',890,'N','N','260','R$ 1 a 2 mi / mês','≈ 3.600 pessoas / semana','Testeira de gôndola no corredor de vitaminas.')
+];
+const brl = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2});
+const contracts = [
+  ['Campanha Verão 2026 – Pontas de Gôndola','01/11/2026','31/01/2027','Laboratório Alfa Saúde','Boleto – 30 dias','Em vigor'],
+  ['Lançamento Linha Dermocosméticos','15/10/2026','15/12/2026','Dermacare Brasil','Transferência bancária','Em vigor'],
+  ['Ativação Inverno – Ilhas Promocionais','01/06/2026','31/08/2026','Laboratório Alfa Saúde','Boleto – 45 dias','Encerrado'],
+  ['Check-out Vitaminas Q4','01/10/2026','31/12/2026','NutriPlus Suplementos','Boleto – 30 dias','Aguardando assinatura'],
+  ['Teste de Display de Balcão – Rede Sudeste','10/09/2026','10/11/2026','Dermacare Brasil','Transferência bancária','Em vigor']
+];
+const lojasPlan = { 'Drogaria Bem Estar Pinheiros':{ 'Ponta de Gôndola':{ 'PG-01 Entrada':[['Protetor Solar FPS 50 200ml','2','3','4','1'],['Hidratante Corporal 400ml','2','2','3','2']], 'PG-02 Corredor 3':[['Vitamina C 60 cáps','1','1','6','1']] }, 'Ilha Promocional':{ 'IL-01 Centro':[['Kit Dermocosméticos Verão','3','1','2','2']] } },
+  'Farma Vida Moema':{ 'Display de Balcão':{ 'DB-01 Caixa 1':[['Balas de Gengibre 50g','1','1','8','1']] } },
+  'Drogaria Central Cambuí':{ 'Testeira de Gôndola':{ 'TG-02 Higiene':[['Shampoo Anticaspa 350ml','1','2','5','1']] } } };
+
+/* ---------- estado ---------- */
+const S = { route:'showcase', stack:[], fTipo:'', fUF:'', fCid:'', fBai:'', fLoja:'', fav:false, cur:null, contract:null, planta:{}, contractNum:'', pin:'' };
+const $ = id => document.getElementById(id);
+function toast(msg,type='success'){ const t=$('toast'); t.className=type; t.textContent=msg; t.style.display='block'; clearTimeout(toast.h); toast.h=setTimeout(()=>t.style.display='none',4000); }
+function go(route, data){ S.stack.push({route:S.route, cur:S.cur, contract:S.contract}); S.route=route; if(data!==undefined){ if(route==='showcase-item') S.cur=data; else S.contract=data; } render(); }
+function back(){ const p=S.stack.pop(); if(p){ S.route=p.route; S.cur=p.cur; S.contract=p.contract; render(); } }
+function nav(route){ S.stack=[]; S.route=route; render(); }
+
+/* ---------- shell ---------- */
+const navItems = [['showcase','Vitrine','cart'],['contracts','Contratos','doc'],['reports','Relatórios','cols'],['planograma','Planograma','file']];
+const reports = ['Execução por Loja','Ranking de Composições','Investimento por Estado'];
+function renderNav(){
+  const active = {showcase:'showcase','showcase-item':'showcase',contracts:'contracts','contract-itens':'contracts',commorvations:'contracts',planograma:'planograma'}[S.route];
+  $('side').innerHTML = navItems.map(([r,t,i]) => r==='reports'
+    ? `<div class="nav-item ${S.reportsOpen?'open':''}" data-r="reports"><span class="ic">${ic(i,20)}</span><p>${t}</p><span class="chev">${ic('chev',20)}</span></div>
+       <div class="nav-sub ${S.reportsOpen?'open':''}">${reports.map(x=>`<div class="nav-item" data-rep="${x}"><span class="ic">${ic('trend',20)}</span><p>${x}</p></div>`).join('')}</div>`
+    : `<div class="nav-item ${active===r?'sel':''}" data-r="${r}"><span class="ic">${ic(i,20)}</span><p>${t}</p></div>`).join('')
+    + `<footer>Copyright © 2026<br><span class="lg"></span> Cosmos Pro Trade Marketing Inc.</footer>`;
+  $('side').querySelectorAll('[data-r]').forEach(el => el.onclick = () => { const r=el.dataset.r; if(r==='reports'){ S.reportsOpen=!S.reportsOpen; renderNav(); } else nav(r); });
+  $('side').querySelectorAll('[data-rep]').forEach(el => el.onclick = () => toast('Abriria o relatório "'+el.dataset.rep+'" em nova aba','warning'));
+}
+$('menuBtn').onclick = () => $('side').classList.toggle('closed');
+$('appTitle').onclick = () => nav('showcase');
+$('fsBtn').onclick = () => { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } catch(e){} };
+function setTheme(t){ document.documentElement.dataset.theme=t; $('themeBtn').innerHTML = ic(t==='dark'?'sun':'moon'); }
+$('themeBtn').onclick = () => setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+setTheme('light');
+
+/* ---------- helpers de UI ---------- */
+const ro = (label,val,cls='') => `<div class="item ${cls}"><span class="lab">${label}</span><div class="ro">${val??''}</div></div>`;
+function selectEl(id,label,opts,val,{disabled=false,ph='Selecione…'}={}){
+  return `<label class="fld sel"><span class="lb">${label}</span><select id="${id}" ${disabled?'disabled':''}><option value="">${ph}</option>${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></label>`;
+}
+
+/* ---------- Vitrine ---------- */
+function filtered(){ return items.filter(i => (!S.fTipo||i.TIPO===S.fTipo)&&(!S.fUF||i.UF===S.fUF)&&(!S.fCid||i.CID===S.fCid)&&(!S.fBai||i.BAI===S.fBai)&&(!S.fLoja||i.LOJA===S.fLoja)&&(!S.fav||i.FAV==='S')); }
+const uniq = a => [...new Set(a)].sort();
+function viewShowcase(){
+  const base = items;
+  const cards = filtered().map(i => `<section class="ShowCaseCard" data-id="${i.id}">
+      <header><div class="avatar">R</div><p><strong>${i.TIPO}</strong></p></header>
+      <main><img src="${scene(i.n)}" alt=""><div><ul>
+        <li><strong>Quantidade:</strong>${i.QTD}</li><li><strong>Estado:</strong>${i.UF}</li><li><strong>Cidade:</strong>${i.CID}</li><li><strong>Bairro:</strong>${i.BAI}</li><li><strong>Loja:</strong>${i.LOJA}</li></ul></div></main>
+      <footer><button class="ibtn like" data-fav="${i.id}" style="width:35px;height:35px;color:${i.FAV==='S'?'var(--danger)':'var(--base-text-color)'}">${ic('like',24)}</button><div class="price">${brl(i.VAL)}</div></footer></section>`).join('');
+  return `<div class="filters">
+      ${selectEl('fTipo','Composição',comps,S.fTipo,{ph:'Selecione uma composição...'})}
+      ${selectEl('fUF','Estado',uniq(base.map(i=>i.UF)),S.fUF,{ph:'Selecione um estado...'})}
+      ${selectEl('fCid','Cidade',uniq(base.filter(i=>!S.fUF||i.UF===S.fUF).map(i=>i.CID)),S.fCid,{disabled:!S.fUF,ph:'Selecione uma cidade...'})}
+      ${selectEl('fBai','Bairro',uniq(base.filter(i=>(!S.fCid||i.CID===S.fCid)).map(i=>i.BAI)),S.fBai,{disabled:!S.fCid,ph:'Selecione um bairro...'})}
+      ${selectEl('fLoja','Loja',uniq(base.filter(i=>(!S.fBai||i.BAI===S.fBai)&&(!S.fCid||i.CID===S.fCid)).map(i=>i.LOJA)),S.fLoja,{disabled:!S.fBai,ph:'Selecione uma loja...'})}
+      <button class="ibtn primary" id="refreshBtn" title="Atualizar">${ic('refresh')}</button>
+      <button class="btn text ${S.fav?'on':'normal'}" id="favBtn" style="width:145px">${ic('like',22)} Favoritos</button>
+    </div>
+    <div class="showcase-grid">${cards||'<div class="empty">Nenhuma composição encontrada</div>'}</div>`;
+}
+function bindShowcase(){
+  const map = {fTipo:'fTipo',fUF:'fUF',fCid:'fCid',fBai:'fBai',fLoja:'fLoja'};
+  Object.keys(map).forEach(k => { const el=$(k); if(!el) return; el.onchange = () => {
+    S[k]=el.value;
+    if(k==='fUF'){ S.fCid=S.fBai=S.fLoja=''; } if(k==='fCid'){ S.fBai=S.fLoja=''; } if(k==='fBai'){ S.fLoja=''; }
+    renderContent(); }; });
+  $('favBtn').onclick = () => { S.fav=!S.fav; renderContent(); };
+  $('refreshBtn').onclick = () => renderContent();
+  document.querySelectorAll('.ShowCaseCard').forEach(c => c.ondblclick = () => go('showcase-item', items.find(i=>i.id===c.dataset.id)));
+  document.querySelectorAll('[data-fav]').forEach(b => b.onclick = e => { e.stopPropagation(); const it=items.find(i=>i.id===b.dataset.fav); it.FAV = it.FAV==='S'?'N':'S'; renderContent(); });
+}
+
+/* ---------- Detalhe do item ---------- */
+function viewItem(){
+  const d = S.cur, canContract = d.CONTRATO==='S';
+  return `<section class="show-case-item">
+    <form class="box" id="itemForm" onsubmit="return false" novalidate>
+      <div class="page-title"><button type="button" class="ibtn" id="bk" style="width:35px;height:35px">${ic('back',24)}</button>
+        <button type="button" class="ibtn" id="favItem" style="width:35px;height:35px;color:${d.FAV==='S'?'var(--danger)':'var(--base-text-color)'}">${ic('like',24)}</button></div>
+      <div class="grp-cap">${d.LOJA}</div>
+      <div class="grid2">
+        ${ro('Estado',d.UF)}${ro('Cidade',d.CID)}${ro('Bairro',d.BAI)}${ro('Complemento',d.COMPL)}
+        ${ro('Tamanho da Loja m2',d.M2)}${ro('Faixa de Faturamento',d.FAT)}
+        ${ro('Fluxo de Pessoa(s)',d.FLUXO,'span2')}
+        <div class="item span2"><span class="lab">Descrição</span><textarea readonly>${d.DESC}</textarea></div>
+        <div class="item span2" id="gNum"><span class="lab">Nº do Contrato</span><input type="number" min="0" id="num" value="${S.contractNum}"><div class="err">Preencha o número do contrato</div></div>
+        <div class="item span2" id="gPin"><span class="lab">PIN</span><input type="number" min="0" id="pin" value="${S.pin}"><div class="err">Insira o código PIN</div></div>
+        <button type="button" class="btn default" style="width:100%" id="detBtn">Detalhes</button>
+        <button type="${canContract?'submit':'button'}" class="btn success" style="width:100%" id="conBtn" ${(canContract||d.PRE==='S')?'':'disabled'}>${canContract?'Contratar':'Criar pré-contrato'}</button>
+      </div>
+    </form>
+    <main>
+      <img src="${scene(d.n,900,560)}" alt="">
+      <div class="box"><div class="grp-cap">Informações</div><div class="grid2" style="grid-template-columns:1fr">
+        ${ro('Tipo da Composição',d.TIPO)}${ro('Quantidade',d.QTD)}${ro('Valor',brl(d.VAL))}</div></div>
+    </main>
+  </section>`;
+}
+function bindItem(){
+  $('bk').onclick = back;
+  $('favItem').onclick = () => { S.cur.FAV = S.cur.FAV==='S'?'N':'S'; renderContent(); };
+  $('detBtn').onclick = () => toast('Abriria os detalhes da ficha no portal em nova aba','warning');
+  $('num').oninput = e => S.contractNum = e.target.value; $('pin').oninput = e => S.pin = e.target.value;
+  const submit = () => {
+    const bad = [['gNum','num'],['gPin','pin']].filter(([g,i]) => !$(i).value);
+    ['gNum','gPin'].forEach(g => $(g).classList.remove('invalid')); bad.forEach(([g]) => $(g).classList.add('invalid'));
+    if (bad.length) { toast('Preencha os campos obrigatórios','warning'); return false; } return true;
+  };
+  if (S.cur.CONTRATO==='S') $('itemForm').addEventListener('submit', () => { if(submit()){ toast('Composição contratada com sucesso','success'); S.contractNum=S.pin=''; setTimeout(back,700); } });
+  else $('conBtn').onclick = () => { if(submit()) openPre(); };
+}
+function openPre(){
+  $('popup').innerHTML = `<div class="ph"><span>Criação de pré-contrato</span><button class="ibtn" id="pc">${ic('close',20)}</button></div>
+    <div class="pb"><form onsubmit="return false" novalidate><div class="grid2">
+      <div class="item" id="gEnt"><span class="lab">Entidade</span><select id="ent"><option value="">Selecione…</option><option>Laboratório Alfa Saúde</option><option>Dermacare Brasil</option><option>NutriPlus Suplementos</option></select><div class="err">Selecione uma entidade</div></div>
+      <div class="item" id="gPay"><span class="lab">Forma de pagamento</span><select id="pay"><option value="">Selecione…</option><option>Boleto – 30 dias</option><option>Boleto – 45 dias</option><option>Transferência bancária</option></select><div class="err">Selecione uma forma de pagamento</div></div>
+      <div class="item" id="gMail"><span class="lab">Email</span><input id="mail" placeholder="Insira um email..."><div class="err" id="mailErr">Insira um email</div></div>
+      <div></div>
+      <div class="span2" style="display:flex;justify-content:center"><button type="button" class="btn success" id="mk">Criar pré-contrato</button></div></div></form></div>`;
+  $('ov').classList.add('show');
+  $('pc').onclick = closePop;
+  $('mk').onclick = () => {
+    const mail = $('mail').value, okMail = /^\S+@\S+\.\S+$/.test(mail);
+    $('gEnt').classList.toggle('invalid',!$('ent').value); $('gPay').classList.toggle('invalid',!$('pay').value);
+    $('gMail').classList.toggle('invalid',!okMail); $('mailErr').textContent = mail ? 'O email digitado não é valido' : 'Insira um email';
+    if(!$('ent').value||!$('pay').value||!okMail){ toast('Preencha os campos obrigatórios','warning'); return; }
+    toast('Pré-contrato criado com sucesso','success'); S.cur.CONTRATO='S'; closePop(); renderContent();
+  };
+}
+function closePop(){ $('ov').classList.remove('show'); }
+$('ov').onclick = e => { if(e.target===$('ov')) closePop(); };
+
+/* ---------- Contratos ---------- */
+function viewContracts(){
+  return `<div class="contract-list">${contracts.map((c,i)=>`<section class="contract-item" data-i="${i}"><div>${ic('doc')}</div><div class="contract-item-form"><div class="grid3">
+    ${ro('Ação',c[0])}${ro('Data Inicial',c[1])}${ro('Data Final',c[2])}${ro('Entidade',c[3])}${ro('Forma de Pagamento',c[4])}${ro('Status',c[5])}</div></div></section>`).join('')}</div>`;
+}
+function viewContractItens(){
+  const its = items.filter((_,i)=> (i+ (S.contract||0)) % 2 === 0).slice(0,6);
+  return `<div class="contract-list-header"><div class="row"><button class="btn text" id="bk" style="height:35px">${ic('back',24)} Itens Contratados</button><button class="ibtn primary" id="rf" style="margin-left:10px">${ic('refresh')}</button></div></div>
+  <div class="contract-itens-list">${its.map(i=>`<section class="contract-item-card" data-id="${i.id}"><img src="${scene(i.n)}" alt="">
+    <div class="grid2">${ro('Estado',i.UF)}${ro('Cidade',i.CID)}${ro('Bairro',i.BAI)}${ro('Quantidade',i.QTD)}${ro('Valor',brl(i.VAL),'span2')}</div></section>`).join('')}</div>`;
+}
+/* ---------- Comprovações ---------- */
+function viewComm(){
+  const d = S.cur || items[0];
+  const names = ['Fernando Teixeira','Camila Rocha','Diego Martins'];
+  const coords = ['-23.5614 / -46.6820','-23.5619 / -46.6817','-23.5611 / -46.6824'];
+  const dates = ['12/09/2026 10:42','12/09/2026 10:44','19/09/2026 15:08'];
+  return `<section class="box" style="margin:4px"><div class="page-title"><button class="btn text" id="bk" style="height:35px">${ic('back',24)} Comprovações</button><button class="ibtn primary" id="rf" title="Atualizar">${ic('refresh')}</button></div>
+    <div class="grp-cap" style="margin-top:12px">${d.LOJA}</div>
+    <div class="grid2">${ro('Tipo da Composição:',d.TIPO)}${ro('Estado:',d.UF)}${ro('Cidade:',d.CID)}${ro('Bairro:',d.BAI)}${ro('Complemento:',d.COMPL)}${ro('Quantidade:',d.QTD)}${ro('Valor:',brl(d.VAL),'span2')}</div>
+    <div class="comm-list" style="margin-top:14px">${[0,1,2].map(k=>`<div class="comm-item"><img src="${scene(d.n+k+1,700,700,'Foto '+(k+1)+' • '+dates[k])}" alt="">
+      <div class="r"><label class="fld t"><span class="lb">Data da Comprovação</span><div class="ro">${dates[k]}</div></label><label class="fld t"><span class="lb">Latitude / Longitude</span><div class="ro">${coords[k]}</div></label></div>
+      <label class="fld t full"><span class="lb">Nome</span><div class="ro">${names[k]}</div></label></div>`).join('')}</div>
+    <div style="display:flex;justify-content:center;margin-top:14px"><button class="btn default" id="prt">${ic('print',20)} Imprimir Comprovações</button></div></section>`;
+}
+/* ---------- Planograma ---------- */
+function viewPlan(){
+  const p = S.planta, lojas = Object.keys(lojasPlan);
+  const expo = p.loja ? Object.keys(lojasPlan[p.loja]) : [];
+  const idn = p.expo ? Object.keys(lojasPlan[p.loja][p.expo]) : [];
+  const prods = p.id ? lojasPlan[p.loja][p.expo][p.id] : [];
+  const pr = prods.find(x=>x[0]===p.prod);
+  const tb = (l,v) => `<label class="fld t"><span class="lb">${l}</span><div class="ro" style="padding-top:18px">${v??''}</div></label>`;
+  return `<div class="selects-container">${selectEl('pLoja','Loja',lojas,p.loja,{ph:''})}${selectEl('pExpo','Exposição',expo,p.expo,{disabled:!p.loja,ph:''})}${selectEl('pId','Identificação',idn,p.id,{disabled:!p.expo,ph:''})}</div>
+  <div class="selects-container">${selectEl('pProd','Produto',prods.map(x=>x[0]),p.prod,{disabled:!p.id,ph:''})}${tb('Corpo',pr&&pr[1])}${tb('Nivel',pr&&pr[2])}${tb('Face',pr&&pr[3])}${tb('Fundo',pr&&pr[4])}</div>
+  <section class="cards-container">${pr?`<article class="plan-card"><h4>Planta baixa</h4><div class="image-container"><img src="${floorplan()}" alt="Planta baixa"></div></article>
+  <article class="plan-card"><h4>Imagem</h4><div class="image-container"><img src="${scene(7,800,450)}" alt="Exemplo de Imagem"></div></article>`:''}</section>`;
+}
+function bindPlan(){
+  const p = S.planta;
+  $('pLoja').onchange = e => { S.planta={loja:e.target.value}; renderContent(); };
+  $('pExpo').onchange = e => { S.planta={loja:p.loja,expo:e.target.value}; renderContent(); };
+  $('pId').onchange = e => { S.planta={loja:p.loja,expo:p.expo,id:e.target.value}; renderContent(); };
+  $('pProd').onchange = e => { S.planta={...p,prod:e.target.value}; renderContent(); };
+}
+
+/* ---------- render ---------- */
+function renderContent(){
+  const c = $('content'), top = c.scrollTop;
+  const v = { showcase:viewShowcase, 'showcase-item':viewItem, contracts:viewContracts, 'contract-itens':viewContractItens, commorvations:viewComm, planograma:viewPlan }[S.route];
+  c.innerHTML = v();
+  ({ showcase:bindShowcase, 'showcase-item':bindItem, planograma:bindPlan }[S.route]||(()=>{}))();
+  if (S.route==='contracts') c.querySelectorAll('.contract-item').forEach(el => el.ondblclick = () => go('contract-itens', +el.dataset.i));
+  if (S.route==='contract-itens') { $('bk').onclick = back; $('rf').onclick = renderContent; c.querySelectorAll('.contract-item-card').forEach(el => el.onclick = () => go('commorvations', items.find(i=>i.id===el.dataset.id))); }
+  if (S.route==='commorvations') { $('bk').onclick = back; $('rf').onclick = renderContent; $('prt').onclick = () => toast('Gerando PDF com as comprovações…','warning'); }
+  c.scrollTop = top;
+}
+function render(){ renderNav(); $('content').scrollTop = 0; renderContent(); }
+render();
+</script>
+</body>
+</html>

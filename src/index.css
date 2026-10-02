@@ -147,6 +147,7 @@ img { max-width: 100%; display: block; }
 .bullets { list-style: none; display: grid; gap: 10px; }
 .bullets li { position: relative; padding-left: 20px; font-size: 14px; line-height: 1.65; color: rgba(255,255,255,.68); }
 .bullets li::before { content: ""; position: absolute; left: 0; top: .65em; width: 7px; height: 7px; border-radius: 2px; background: var(--c); transform: rotate(45deg); }
+.bullets > .result { margin-top: 15px; color: rgba(255,255,255,.85) }
 .langs-head { margin-bottom: 28px; }
 .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .lang-card { padding: 20px; display: flex; flex-direction: column; gap: 4px; border-top: 3px solid var(--c); }

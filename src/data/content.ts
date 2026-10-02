@@ -1,4 +1,4 @@
-// All editable content lives here. Index 0 = EN, 1 = PT, 2 = ES.
+// All editable content lives here. Index 0 = EN, 1 = PT, 2 = ES. "#00d4ff",
 export type L3 = [string, string, string];
 
 export const LANGS = ["EN", "PT", "ES"] as const;
@@ -18,9 +18,9 @@ export const ui = {
     role: ["Full-stack developer who ships", "Desenvolvedor full-stack que entrega", "Desarrollador full-stack que entrega"] as L3,
     roleAccent: ["clean, fast, useful products", "produtos limpos, rápidos e úteis", "productos limpios, rápidos y útiles"] as L3,
     text: [
-      "Based in Spain, EU citizen. I turn business needs into well-structured digital solutions — combining technology, performance and quality execution.",
-      "Baseado na Espanha, cidadão da UE. Transformo necessidades de negócio em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade.",
-      "Resido en España, ciudadano de la UE. Transformo necesidades de negocio en soluciones digitales bien estructuradas, combinando tecnología, rendimiento y calidad.",
+      "Based in the province of Pontevedra - Spain (north), EU citizen. I turn business needs into well-structured digital solutions — combining technology, performance and quality execution.",
+      "Baseado na província de Pontevedra - Espanha (norte), cidadão da UE. Transformo necessidades de negócio em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade.",
+      "Resido en la provincia de Pontevedra - España (norte), ciudadano de la UE. Transformo necesidades de negocio en soluciones digitales bien estructuradas, combinando tecnología, rendimiento y calidad.",
     ] as L3,
     cta1: ["See my work", "Ver projetos", "Ver proyectos"] as L3,
     cta2: ["Get in touch", "Fale comigo", "Hablemos"] as L3,
@@ -60,7 +60,7 @@ export const links = {
   github: "https://github.com/llr2ll",
   whatsapp: "https://api.whatsapp.com/send?phone=34611326758",
   email: "mailto:raphaelsanseverino@gmail.com",
-  linkedin: "linkedin.com/in/raphael-sanseverino"
+  linkedin: "https://linkedin.com/in/raphael-sanseverino"
 };
 
 export type Project = {
@@ -73,7 +73,47 @@ export type Project = {
 };
 
 // Edit / add projects here. Keep it to 3–4 for a tight page.
+
+export const featured = {
+  badge: ["Featured project", "Projeto em destaque", "Proyecto destacado"] as L3,
+  name: [
+    "Ticketing and multimedia management system",
+    "Sistema de tickets e gerenciamento de multimídia",
+    "Sistema de tickets y gestión multimedia",
+  ] as L3,
+  sub: ["`Profissional project · Full stack", "Projeto profissional · Full stack", "Proyecto profesional · Full stack"] as L3,
+  desc: [
+    "Customer support and service desk interface designed to manage the complete ticket lifecycle. The project includes a data grid with filtering, sorting and pagination, a Kanban board organized by teams and ticket status, and a detailed ticket workspace with customer information, categorization, priority, SLA, responsible agents, internal and public interactions, attachments, activity tracking and resolution details. The interface also includes responsive navigation between tickets, visual status and priority indicators, and a rich-text communication area.",
+    "Interface de atendimento e gestão de chamados desenvolvida para acompanhar todo o ciclo de vida de um ticket. O projeto conta com uma grade de dados com filtros, ordenação e paginação, um painel Kanban organizado por equipes e status, além de uma área detalhada do chamado com informações do cliente, categorização, prioridade, SLA, agentes responsáveis, interações internas e públicas, anexos, registro de atividades e dados de resolução. A interface também apresenta navegação entre tickets, indicadores visuais de status e prioridade e um editor para comunicação com o solicitante.",
+    "Interfaz de atención y gestión de tickets diseñada para gestionar todo el ciclo de vida de una solicitud. El proyecto incluye una tabla de datos con filtros, ordenación y paginación, un panel Kanban organizado por equipos y estados, y un espacio detallado del ticket con información del cliente, categorización, prioridad, SLA, agentes responsables, interacciones internas y públicas, archivos adjuntos, registro de actividades y datos de resolución. La interfaz también incorpora navegación entre tickets, indicadores visuales de estado y prioridad y un editor para la comunicación con el solicitante."
+  ],
+  stack: [ "React", "REST / HTTP", "TypeScript", "MaterialUI", "DevExtreme-DataGrid", "Kanban" ],
+  code: "/projects/tickets-atendentes.html"
+};
+
 export const projects: Project[] = [
+  {
+    name: "MMC Plug and Play",
+    accent: "#0162DD",
+    desc: [
+      "Enterprise-style configuration dashboard with multi-step workflows for client onboarding, store and supplier management, ERP/webhook integrations, purchasing rules and user administration.",
+      "Dashboard de configuração empresarial com fluxos em múltiplas etapas para onboarding de clientes, gestão de lojas e fornecedores, integrações com ERP/webhooks, regras de compra e administração de usuários.",
+      "Dashboard de configuración empresarial con flujos por etapas para onboarding de clientes, gestión de tiendas y proveedores, integraciones con ERP/webhooks, reglas de compra y administración de usuarios.",
+    ],
+    stack: ["React", "CSS3", "TypeScript", "REST API", "DevExtreme"],
+    code: "/projects/plug-and-play.html"
+  },
+  {
+    name: "Trade Marketing",
+    accent: "#286B2A",
+    desc: [
+      "Trade marketing management dashboard for retail execution, with composition showcases, location-based filters, favorites, contracts, pre-contract creation, execution proofs and planogram visualization.",
+      "Dashboard de gestão de Trade Marketing para execução no varejo, com vitrine de composições, filtros por localização, favoritos, contratos, criação de pré-contratos, comprovações de execução e visualização de planogramas.",
+      "Dashboard de gestión de Trade Marketing para ejecución en retail, con escaparate de composiciones, filtros por ubicación, favoritos, contratos, creación de precontratos, comprobaciones de ejecución y visualización de planogramas.",
+    ],
+    stack: ["React", "MaterialUI", "TypeScript", "SVG", "DevExtreme"],
+    code: "/projects/Trade.html"
+  },
   {
     name: "PHOTU",
     accent: "#e91e8c",
@@ -82,19 +122,8 @@ export const projects: Project[] = [
       "Plataforma de produtos e serviços de fotografia: cursos, produtos digitais, planos de restauração de fotos e um editor de imagens online em desenvolvimento.",
       "Plataforma de productos y servicios de fotografía: cursos, productos digitales, planes de restauración de fotos y un editor de imágenes online en desarrollo.",
     ],
-    stack: ["React 19", "TanStack Start", "Tailwind 4", "TypeScript", "Supabase"],
-    code: "https://github.com/llr2ll/photu",
-  },
-  {
-    name: "Portfolio",
-    accent: "#00d4ff",
-    desc: [
-      "This site — a single-page, trilingual portfolio built to be fast to scan for recruiters.",
-      "Este site — um portfólio de página única e trilíngue, pensado para ser rápido de ler por recrutadores.",
-      "Este sitio — un portafolio de una sola página y trilingüe, pensado para que los reclutadores lo lean rápido.",
-    ],
-    stack: ["React 18", "TypeScript", "CSS"],
-    code: "https://github.com/llr2ll/Portifolio-v2",
+    stack: ["React", "Tailwind 4", "TypeScript", "Supabase"],
+    live: "https://photu-one.vercel.app"
   },
 ];
 
@@ -246,6 +275,7 @@ export type Job = {
   period: L3;
   team?: L3;
   bullets: [string[], string[], string[]]; // EN, PT, ES
+  result: { link: string; text: [string, string, string] }; // EN, PT, ES
 };
 
 export const experience = {
@@ -255,7 +285,7 @@ export const experience = {
     {
       company: "Procfit (Cosmos Pro)",
       accent: "#e91e8c",
-      role: ["Full-Stack Developer", "Desenvolvedor Full-Stack", "Desarrollador Full-Stack"],
+      role: ["Full-Stack Developer Senior", "Desenvolvedor Full-Stack Senior", "Desarrollador Full-Stack Senior"],
       place: ["Brazil", "Brasil", "Brasil"],
       period: ["Aug 2022 – Oct 2024", "Ago 2022 – Out 2024", "Ago 2022 – Oct 2024"],
       team: ["Team of 13", "Equipe de 13 pessoas", "Equipo de 13 personas"],
@@ -267,6 +297,7 @@ export const experience = {
           "Created and optimized databases and advanced queries in SQL Server.",
           "Automated deployments and version releases using Azure DevOps, with version control via Git.",
           "Developed new features and provided maintenance, support, and customer service within Scrum, Kanban, and Agile environments, while offering ad-hoc support to junior developers.",
+          "Collaborated with User Experience (UX) and User Interface (UI) Designers, contributing to the definition, implementation, and improvement of interfaces and user experiences."
         ],
         [
           "Desenvolvimento de soluções web com React para sistemas contábeis e processos de compra e venda de farmácias.",
@@ -275,6 +306,7 @@ export const experience = {
           "Criação e otimização de bancos de dados e consultas avançadas em SQL Server.",
           "Automação de deploys e lançamentos de versões com Azure DevOps, com controle de versão via Git.",
           "Desenvolvimento de novas funcionalidades, manutenção, suporte e atendimento ao cliente em ambientes Scrum, Kanban e Ágil, além de apoio pontual a desenvolvedores juniores.",
+          "Trabalho em conjunto com Designers de Experiência do Usuário (UX) e de Interfaces (UI), contribuindo para a definição, implementação e aprimoramento das interfaces e da experiência dos usuários."
         ],
         [
           "Desarrollo de soluciones web con React para sistemas contables y procesos de compra y venta de farmacias.",
@@ -283,8 +315,17 @@ export const experience = {
           "Creación y optimización de bases de datos y consultas avanzadas en SQL Server.",
           "Automatización de despliegues y lanzamientos de versiones con Azure DevOps, con control de versiones mediante Git.",
           "Desarrollo de nuevas funcionalidades, mantenimiento, soporte y atención al cliente en entornos Scrum, Kanban y Ágiles, además de apoyo puntual a desarrolladores junior.",
+          "Trabajo en conjunto con Diseñadores de Experiencia de Usuario (UX) e Interfaces de Usuario (UI), contribuyendo a la definición, implementación y mejora de las interfaces y de la experiencia de los usuarios."
         ],
       ],
+      result: {
+        link: "https://panoramafarmaceutico.com.br/automacao-de-compras-do-cosmos-pro/",
+        text:[
+          "Featured: MMC project results in 2024 Minha Melhor Compra (MMC)- Procfit’s Cosmos Pro purchasing automation platform had a busy year in 2024. On December 19, the solution reached the milestone of R$ 4 billion in orders, solidifying its strategic role in supporting merchandise replenishment operations across more than 4,000 points of sale. In total, MMC automatically transmitted 10 million orders to its 168 suppliers, including distributors and logistics operators.",
+          "Destaque: resultados do projeto MMC em 2024 — Minha Melhor Compra (MMC) — A plataforma de automação de compras Cosmos Pro, da Procfit, teve um ano movimentado em 2024. Em 19 de dezembro, a solução atingiu a marca de R$ 4 bilhões em pedidos, consolidando seu papel estratégico no suporte às operações de reposição de mercadorias em mais de 4.000 pontos de venda. Ao todo, a MMC transmitiu automaticamente 10 milhões de pedidos para seus 168 fornecedores, incluindo distribuidores e operadores logísticos.",
+          "Destacado: resultados del proyecto MMC en 2024 — Minha Melhor Compra (MMC) — La plataforma de automatización de compras Cosmos Pro de Procfit tuvo un año muy activo en 2024. El 19 de diciembre, la solución alcanzó el hito de 4.000 millones de reales brasileños (R$ 4 mil millones) en pedidos, consolidando su papel estratégico en el apoyo a las operaciones de reposición de mercancías en más de 4.000 puntos de venta. En total, MMC transmitió automáticamente 10 millones de pedidos a 168 proveedores, entre distribuidores y operadores logísticos."
+        ]
+      }
     },
     {
       company: "UNIMES",
@@ -311,31 +352,6 @@ export const experience = {
       ],
     },
   ] as Job[],
-};
-
-export const featured = {
-  badge: ["Featured project", "Projeto em destaque", "Proyecto destacado"] as L3,
-  name: [
-    "Ticketing and multimedia management system",
-    "Sistema de tickets e gerenciamento de multimídia",
-    "Sistema de tickets y gestión multimedia",
-  ] as L3,
-  sub: ["Personal project · Full stack", "Projeto pessoal · Full stack", "Proyecto personal · Full stack"] as L3,
-  bullets: [
-    [
-      "End-to-end design and development from scratch: frontend, APIs, databases, CSS, and scheduled tasks.",
-      "Implementation of image, audio, text, and recording management, optimizing file and data storage and retrieval.",
-    ],
-    [
-      "Design e desenvolvimento completos, do zero: front-end, APIs, bancos de dados, CSS e tarefas agendadas.",
-      "Implementação de gerenciamento de imagens, áudio, texto e gravações, otimizando o armazenamento e a recuperação de arquivos e dados.",
-    ],
-    [
-      "Diseño y desarrollo integral desde cero: front-end, APIs, bases de datos, CSS y tareas programadas.",
-      "Implementación de gestión de imágenes, audio, texto y grabaciones, optimizando el almacenamiento y la recuperación de archivos y datos.",
-    ],
-  ] as [string[], string[], string[]],
-  tags: ["Full-stack", "REST APIs", "Databases", "Scheduled tasks"]
 };
 
 export const languagesSpoken = {
