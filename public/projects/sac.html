@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAC</title>
+<style>
+  :root { color-scheme: light; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); --blue: #4778b8; --red: #b50000; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { height: 100%; background: #fff; font-family: "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; color: #333; min-width: 1100px; overflow-x: auto; line-height: 1.2; }
+  svg { fill: currentColor; width: 20px; height: 20px; flex: none; }
+  button { font-family: inherit; }
+  ::-webkit-scrollbar { width: 5px; height: 8px; } ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; } ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+  .wm { position: fixed; right: 12px; top: 14px; font-size: 11px; color: rgba(0,0,0,.45); background: #fff; border: 1px solid #eee; padding: 2px 8px; border-radius: 10px; z-index: 5; }
+
+  /* ---------- tabs (Syncfusion material) ---------- */
+  .tabs { display: flex; align-items: flex-end; height: 48px; border-bottom: 1px solid #e0e0e0; background: #fff; padding: 0 4px; overflow-x: auto; }
+  .tab { position: relative; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 18px; font-size: 14px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: rgba(0,0,0,.6); cursor: pointer; white-space: nowrap; user-select: none; }
+  .tab:hover { background: #f5f5f5; }
+  .tab.active { color: var(--blue); } .tab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--blue); }
+  .tab .x { width: 16px; height: 16px; border-radius: 50%; opacity: .6; } .tab .x:hover { opacity: 1; background: rgba(0,0,0,.1); }
+  .content { height: calc(100vh - 49px); position: relative; }
+  .content > section { display: none; height: 100%; } .content > section.on { display: block; }
+  #view-p { overflow-y: auto; }
+
+  /* ---------- tela inicial ---------- */
+  .initial { display: flex; height: 100%; padding: .2%; }
+  .initial > .grids { width: calc(100% - 51px); height: 100%; }
+  .Table { height: 49%; padding: .2%; border-radius: 5px; border: 1px solid rgba(41,41,41,.3); box-shadow: 2px 4px 4px 0 rgba(0,0,0,.25); margin-top: 10px; display: flex; flex-direction: column; min-height: 0; }
+  .Table > .tt { width: 240px; height: 34px; border: 0; padding: 8px 0 8px 10px; font-size: 14px; flex: none; }
+  .Table > .gw { flex: 1; min-height: 0; margin-top: 8px; }
+  .side { display: flex; flex-direction: column; margin: 10px 0 0 5px; height: fit-content; background: #fff; border-radius: 5px; padding: 5px; border: 1px solid #ddd; box-shadow: 2px 4px 4px 0 rgba(0,0,0,.25); }
+  .ibtn { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: none; border: 0; cursor: pointer; }
+  .ibtn:hover { background: rgba(0,0,0,.05); } .ibtn svg { width: 22px; height: 22px; }
+  .c-s { color: #2e7d32; } .c-p { color: #1976d2; } .c-e { color: #d32f2f; }
+
+  /* ---------- DataGrid (DevExtreme generic light) ---------- */
+  .dxg { display: flex; flex-direction: column; height: 100%; border: 1px solid #ddd; border-radius: 5px; background: #fff; overflow: hidden; }
+  .dxg.free { height: auto; }
+  .gtool { display: flex; align-items: center; gap: 8px; padding: 8px; border-bottom: 1px solid #ddd; }
+  .gtool .sp { flex: 1; }
+  .gsearch { display: flex; align-items: center; gap: 6px; width: 240px; height: 34px; border: 1px solid #ddd; border-radius: 4px; padding: 0 8px; color: #999; background: #fff; }
+  .gsearch input { border: 0; outline: 0; width: 100%; font: 14px inherit; color: #333; }
+  .gscroll { flex: 1; overflow: auto; min-height: 0; position: relative; background: #fff; }
+  .dxg table { border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+  .dxg.fit table { width: 100%; }
+  .dxg th { position: sticky; top: 0; z-index: 2; background: var(--blue); color: #f1f1f1; font-weight: 700; padding: 8px 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid #ddd; border-right: 1px solid rgba(255,255,255,.25); font-size: 14px; cursor: pointer; }
+  .dxg th.c, .dxg td.c { text-align: center; }
+  .dxg th .hf { width: 12px; height: 12px; float: right; margin-top: 2px; opacity: .8; }
+  .dxg th .sort { width: 12px; height: 12px; vertical-align: -2px; margin-left: 3px; }
+  .dxg .frow td { position: sticky; top: 33px; z-index: 2; background: #fff; padding: 3px 4px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; }
+  .fbox { display: flex; align-items: center; height: 26px; border: 1px solid #ddd; border-radius: 3px; padding: 0 4px; gap: 3px; color: #bbb; background: #fff; }
+  .fbox svg { width: 13px; height: 13px; } .fbox input, .fbox select { border: 0; outline: 0; width: 100%; min-width: 0; font: 12px inherit; color: #333; background: transparent; }
+  .dxg td { padding: 8px 8px; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 38px; background: inherit; font-size: 14px; vertical-align: middle; }
+  .dxg tbody tr { background: #fff; } .dxg tbody tr.alt { background: #f7f7f7; }
+  .dxg td.fixed, .dxg th.fixed { position: sticky; right: 0; z-index: 3; border-left: 1px solid #ddd; }
+  .dxg td.ed { cursor: text; } .dxg td.ed input { width: 100%; height: 24px; border: 1px solid #337ab7; border-radius: 3px; padding: 0 4px; font: inherit; }
+  .dxg td.empty { text-align: center; color: #999; padding: 24px; }
+  .eic { display: grid; place-items: center; cursor: pointer; height: 100%; } .eic svg { width: 18px; height: 18px; }
+  .gpager { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-top: 1px solid #ddd; font-size: 13px; background: #fff; flex: none; }
+  .gpager .sz span, .gpager .pg { display: inline-grid; place-items: center; min-width: 28px; height: 28px; border-radius: 3px; cursor: pointer; padding: 0 6px; }
+  .gpager .sz span.cur, .gpager .pg.cur { background: #337ab7; color: #fff; } .gpager .sz span:not(.cur):hover, .gpager .pg:not(.cur):hover { background: #eee; }
+  .gpager .info { color: #959595; margin-right: 14px; }
+  .chkb { width: 16px; height: 16px; accent-color: #337ab7; }
+  .selcol { width: 40px; }
+
+  /* ---------- botões DX ---------- */
+  .dxb { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 4px; border: 1px solid #ddd; background: #fff; color: #333; font-size: 14px; cursor: pointer; }
+  .dxb:hover { background: #f5f5f5; } .dxb svg { width: 18px; height: 18px; }
+  .dxb.i { width: 36px; padding: 0; }
+  .dxb.success { background: #5cb85c; border-color: #5cb85c; color: #fff; } .dxb.success:hover { background: #4cae4c; }
+  .dxb.default { background: #337ab7; border-color: #337ab7; color: #fff; } .dxb.default:hover { background: #2d6da3; }
+  .dxb.danger { background: #d9534f; border-color: #d9534f; color: #fff; } .dxb.danger:hover { background: #c9433f; }
+  .dxb:disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+  /* ---------- formulário do protocolo ---------- */
+  .pnav { padding: 0 8px 15px; } .pnav > div { border-bottom: 1px solid #ddd; padding: 8px; display: flex; align-items: center; gap: 10px; }
+  .recurrence { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 5px 10px; height: 36px; cursor: pointer; }
+  .recurrence:hover { background: #f5f5f5; } .recurrence.dis { opacity: .5; pointer-events: none; }
+  .pcont { padding: 10px; }
+  .grp { margin-bottom: 20px; }
+  .grp > .cap { color: var(--red); font-size: 20px; padding: 0 0 6px 0; border-bottom: 1px solid #ddd; margin-bottom: 10px; }
+  .gl { display: grid; gap: 0 16px; } .c2 { grid-template-columns: repeat(2, 1fr); } .c3 { grid-template-columns: repeat(3, 1fr); } .c4 { grid-template-columns: repeat(4, 1fr); }
+  .s2 { grid-column: span 2; } .s3 { grid-column: span 3; }
+  .it { padding: 6px 0 10px; min-width: 0; }
+  .it > label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 14px; color: #333; }
+  .it > label .rq { color: #d9534f; margin-left: 2px; }
+  .dxi { width: 100%; height: 34px; border: 1px solid #ddd; border-radius: 4px; padding: 7px 9px; font: 14px "Helvetica Neue", "Segoe UI", Arial, sans-serif; color: #333; background: #fff; outline: none; display: flex; align-items: center; justify-content: space-between; }
+  .dxi:focus { border-color: #337ab7; }
+  .dxi.ro { background: transparent; border-style: dashed; color: #666; }
+  textarea.dxi { height: 150px; display: block; resize: none; line-height: 1.4; }
+  select.dxi { appearance: none; -webkit-appearance: none; padding-right: 28px; background-image: linear-gradient(45deg, transparent 50%, #777 50%), linear-gradient(135deg, #777 50%, transparent 50%); background-position: calc(100% - 15px) 14px, calc(100% - 10px) 14px; background-size: 5px 5px; background-repeat: no-repeat; }
+  select.dxi.ro { background-image: none; pointer-events: none; }
+  .it.bad .dxi { border-color: #d9534f; } .it .err { color: #d9534f; font-size: 11px; margin-top: 3px; display: none; } .it.bad .err { display: block; }
+  .dxdate { position: relative; } .dxdate svg { position: absolute; right: 8px; top: 7px; width: 18px; height: 18px; color: #888; pointer-events: none; }
+  .fup { display: flex; align-items: center; gap: 8px; height: 34px; }
+  .fup .fb { height: 34px; padding: 0 12px; border: 1px solid #ddd; border-radius: 4px; background: #fff; display: inline-flex; align-items: center; cursor: pointer; font-size: 13px; text-transform: uppercase; }
+  .fup .fb:hover { background: #f5f5f5; } .fup.dis { opacity: .5; pointer-events: none; }
+  .fup .fn { font-size: 13px; color: #666; }
+
+  /* ---------- popups DX ---------- */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 20; }
+  .overlay.show { display: flex; }
+  .popup { background: #fff; border-radius: 3px; box-shadow: 0 6px 24px rgba(0,0,0,.4); display: flex; flex-direction: column; max-height: 94vh; }
+  .popup .ph { height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 20px; font-size: 18px; border-bottom: 1px solid #ddd; flex: none; }
+  .popup .pbody { flex: 1; padding: 20px; overflow-y: auto; min-height: 0; }
+  .popup .pfoot { height: 56px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 0 14px; border-top: 1px solid #ddd; flex: none; }
+  .xbtn { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none; cursor: pointer; color: #666; border-radius: 4px; } .xbtn:hover { background: #eee; }
+  .pf { display: flex; align-items: flex-start; padding: 8px 0; } .pf > label { width: 20%; padding: 9px 12px 0 0; font-weight: 700; } .pf > .e { flex: 1; min-width: 0; }
+  .pf.bad .dxi, .pf.bad .itemBorder { border-color: #d9534f; } .pf .err { color: #d9534f; font-size: 11px; margin-top: 3px; display: none; } .pf.bad .err { display: block; }
+  .itemBorder { border: 1px solid rgba(41,41,41,.3); border-radius: 5px; padding: 8px; }
+  .attachment { display: flex; align-items: center; gap: 8px; padding: 7px 4px; }
+  .attachment .nm { width: 300px; height: 34px; border: 1px dashed #ddd; border-radius: 4px; padding: 8px 10px; font-size: 13px; }
+  .docview { height: 45vh; border: 1px solid #ddd; border-radius: 5px; display: flex; justify-content: center; padding: 10px; width: 100%; }
+  .docview img { max-height: 100%; max-width: 100%; border-radius: 5px; }
+  .docview .ph2 { align-self: center; color: #999; text-align: center; }
+
+  #toast { position: fixed; top: 15px; right: 10px; width: 300px; min-height: 65px; padding: 10px 14px; border-radius: 3px; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.35); z-index: 40; display: none; align-items: center; font-size: 14px; line-height: 1.3; }
+  #toast.success { background: #5cb85c; } #toast.error { background: #d9534f; } #toast.warning { background: #f0ad4e; } #toast.info { background: #5bc0de; }
+  .loader { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 50; display: none; align-items: center; justify-content: center; }
+  .loader.show { display: flex; } .spin { width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top-color: #3498db; border-radius: 50%; animation: sp 1s linear infinite; } @keyframes sp { to { transform: rotate(360deg); } }
+  .tc { text-align: center; }
+</style>
+</head>
+<body>
+<div class="tabs" id="tabs"></div>
+<div class="content">
+  <section id="view-main" class="on"></section>
+  <section id="view-p"></section>
+</div>
+<div class="overlay" id="ov"><div class="popup" id="popup"></div></div>
+<div id="toast"></div>
+<div class="loader" id="loader"><div class="spin"></div></div>
+<div class="wm">Esboço de interface · dados fictícios</div>
+
+<script>
+/* =============== util =============== */
+const $ = id => document.getElementById(id);
+const P = {
+  edit:'M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z',
+  add:'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+  cached:'M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z',
+  foff:'M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39c.51-.66.04-1.61-.79-1.61H5.04c-.83 0-1.3.95-.79 1.61z',
+  save:'M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z',
+  refresh:'M17.65 6.35A7.958 7.958 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z',
+  folder:'M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z',
+  comment:'M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z',
+  msg:'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z',
+  check:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
+  plus:'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z',
+  trash:'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z',
+  close:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
+  search:'M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z',
+  funnel:'M3 4h18l-7 8v7l-4 2v-9z',
+  cal:'M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11z',
+  img:'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z',
+  up:'M7 14l5-5 5 5z', down:'M7 10l5 5 5-5z', chevl:'M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z', chevr:'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'
+};
+const ic = (k, s = 20) => `<svg viewBox="0 0 24 24" style="width:${s}px;height:${s}px"><path d="${P[k]}"/></svg>`;
+function toast(m, t = 'success') { const e = $('toast'); e.className = t; e.textContent = m; e.style.display = 'flex'; clearTimeout(toast.h); toast.h = setTimeout(() => e.style.display = 'none', 5000); }
+function loading(ms, cb) { $('loader').classList.add('show'); setTimeout(() => { $('loader').classList.remove('show'); cb && cb(); }, ms); }
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const brl = v => (isNaN(v) ? 0 : v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/* =============== dados fictícios =============== */
+const ST = {
+  1: { n: 'Aberto', bg: '#ffffff', fg: '', ic: '#4778b8' },
+  2: { n: 'Em Triagem', bg: '#FFFA6B', fg: '', ic: '#4778b8' },
+  3: { n: 'Em Análise', bg: '#00FFFF', fg: '', ic: '#4778b8' },
+  4: { n: 'Encerrado Procedente', bg: '#bbe7c5', fg: '', ic: '#4778b8' },
+  5: { n: 'Encerrado Improcedente', bg: '#d07684', fg: '#f1f1f1', ic: '#f1f1f1' }
+};
+const DIST = ['Vitalis Matriz', 'Vitalis Filial Sul', 'Vitalis Filial Nordeste', 'Vitalis Filial Centro-Oeste'];
+const USERS = ['Ana Beatriz Souza', 'Marcos Vinícius Lima', 'Camila Ferreira', 'Rodrigo Andrade'];
+const CL = [
+  ['12.345.678/0001-90', 'Bom Preço Supermercados Ltda', 'Supermercado Bom Preço Centro', 'São Paulo', 'SP', 'Rede Bom Preço'],
+  ['23.456.789/0001-01', 'Atacadão Mercantil S.A.', 'Atacado Mercantil Norte', 'Goiânia', 'GO', 'Rede Mercantil'],
+  ['34.567.890/0001-12', 'Mercadinho Estrela do Sul Ltda', 'Mercadinho Estrela do Sul', 'Porto Alegre', 'RS', 'Independente'],
+  ['45.678.901/0001-23', 'Hiper Vale Comércio Ltda', 'Hiper Vale Itaim', 'São Paulo', 'SP', 'Rede Hiper Vale'],
+  ['56.789.012/0001-34', 'Emporio da Praça Alimentos Ltda', 'Empório da Praça', 'Recife', 'PE', 'Independente'],
+  ['67.890.123/0001-45', 'Rede Super Família S.A.', 'Super Família Boa Viagem', 'Recife', 'PE', 'Rede Super Família'],
+  ['78.901.234/0001-56', 'Distribuidora Campo Belo Ltda', 'Campo Belo Atacado', 'Campo Grande', 'MS', 'Independente'],
+  ['89.012.345/0001-67', 'Mini Mercado Central Ltda', 'Mini Mercado Central', 'Curitiba', 'PR', 'Independente']
+];
+const REP = [
+  ['Fernanda Lopes', 'fernanda.lopes@bompreco.com.br', '(11) 3344-5566', '(11) 98877-6655'],
+  ['Ricardo Menezes', 'ricardo.menezes@mercantil.com.br', '(62) 3255-1100', '(62) 99811-2233'],
+  ['Juliana Torres', 'juliana@estreladosul.com.br', '(51) 3030-4040', '(51) 99654-3210'],
+  ['Paulo Henrique Dias', 'paulo.dias@hipervale.com.br', '(11) 2233-4455', '(11) 97654-3210'],
+  ['Larissa Campos', 'larissa@emporiodapraca.com.br', '(81) 3322-1100', '(81) 98456-7788'],
+  ['Eduardo Brandão', 'eduardo.brandao@superfamilia.com.br', '(81) 3411-9000', '(81) 99123-4567']
+];
+const MOT = [
+  { id: 1, d: 'Produto Avariado', nf: true, pr: true }, { id: 2, d: 'Falta de Produto na Entrega', nf: true, pr: true },
+  { id: 3, d: 'Produto Vencido ou Próximo ao Vencimento', nf: true, pr: true }, { id: 4, d: 'Divergência de Quantidade', nf: true, pr: true },
+  { id: 5, d: 'Atraso na Entrega', nf: false, pr: false }, { id: 6, d: 'Erro de Faturamento', nf: true, pr: false },
+  { id: 7, d: 'Solicitação de Segunda Via de NF', nf: true, pr: false }, { id: 8, d: 'Dúvida Comercial', nf: false, pr: false },
+  { id: 9, d: 'Elogio / Sugestão', nf: false, pr: false }
+];
+const CAT = [
+  ['Biscoito Recheado Chocolate 130g', '7891000100103', 'L2310A', 38.4], ['Achocolatado em Pó 400g', '7891000200200', 'L2309B', 52.9],
+  ['Café Torrado e Moído 500g', '7891000300307', 'L2311C', 79.8], ['Arroz Tipo 1 5kg', '7891000400404', 'L2308D', 129.9],
+  ['Feijão Carioca 1kg', '7891000500501', 'L2310E', 61.2], ['Óleo de Soja 900ml', '7891000600608', 'L2312F', 74.4],
+  ['Macarrão Espaguete 500g', '7891000700705', 'L2309G', 34.5], ['Molho de Tomate 340g', '7891000800802', 'L2311H', 28.8],
+  ['Leite Longa Vida 1L (cx 12)', '7891000900909', 'L2310J', 71.0], ['Açúcar Refinado 1kg', '7891001001006', 'L2308K', 46.5],
+  ['Farinha de Trigo 1kg', '7891001101103', 'L2312L', 39.0], ['Sal Refinado 1kg', '7891001201200', 'L2309M', 17.6]
+];
+const INTER = [
+  { id: 1, d: 'Registrar contato com o cliente', extra: false, reason: false, attach: false },
+  { id: 2, d: 'Encaminhar para o departamento', extra: false, reason: false, attach: false },
+  { id: 3, d: 'Solicitar nota fiscal de devolução', extra: true, reason: false, attach: false },
+  { id: 4, d: 'Anexar comprovante da ocorrência', extra: false, reason: false, attach: true },
+  { id: 8, d: 'Encerrar como procedente', extra: false, reason: true, attach: false },
+  { id: 9, d: 'Encerrar como improcedente', extra: false, reason: true, attach: false }
+];
+const REASONS = ['Reposição de mercadoria', 'Crédito em conta corrente', 'Troca autorizada', 'Ocorrência não comprovada', 'Fora do prazo de contestação'];
+const DEPS = ['Logística', 'Faturamento', 'Qualidade', 'Comercial', 'Transporte'];
+
+let SEQ = 840;
+const pad = n => String(n).padStart(2, '0');
+function mkProto(motId, cli, dist, st, usr, rep, nf, d, info) {
+  const m = MOT.find(x => x.id === motId), c = CL[cli], r = REP[rep];
+  const id = SEQ++, n = 3 + (id % 3);
+  const dt = new Date(2026, 9, 2 - d, 8 + (id % 9), (id * 7) % 60);
+  const prods = m.nf ? [0, 1, 2].slice(0, 1 + (id % 3)).map((k, i) => { const p = CAT[(id + k * 3) % CAT.length]; return { key: id * 10 + i, desc: p[0], ean: p[1], loteNF: p[2], valNF: '15/0' + (3 + (i % 5)) + '/2027', qtdNF: 24 + i * 12, preco: p[3], loteF: st > 1 ? p[2] : '', valF: st > 1 ? '15/0' + (3 + (i % 5)) + '/2027' : '', qtdO: st > 1 ? 2 + i : '' }; }) : [];
+  const dstr = `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+  return {
+    Ocorrencia: id, Protocolo: `SAC-2026-${String(id).padStart(4, '0')}`, NotaFiscal: m.nf ? nf : '', Motivo: motId, MotivoDescricao: m.d, Prioritario: m.pr ? 'S' : 'N',
+    Cliente: c[2], Distribuidora: DIST[dist], Criador: USERS[usr], Status: st, StatusDescricao: ST[st].n, RelatorNome: r[0], InformacoesAdicionais: info, DataAbertura: dstr,
+    f: {
+      RelatorEmail: r[1], RelatorNome: r[0], RelatorTelefone: r[2], RelatorCelular: r[3], Protocolo: `SAC-2026-${String(id).padStart(4, '0')}`, Motivo: motId, Distribuidora: DIST[dist], Status: st,
+      NotaFiscalNumero: m.nf ? nf : '', NotaFiscalSerie: m.nf ? '1' : '', InformacoesAdicionais: info, DataInformacaoRecebimento: `${pad(dt.getDate() - (dt.getDate() > 2 ? 2 : 0))}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}`, CCEmail: id % 2 ? 'qualidade@vitalis.com.br' : '',
+      CNPJ: c[0], Cidade: c[3], RazaoSocial: c[1], Estado: c[4], CodigoCliente: c[2], Rede: c[5],
+      Serie: m.nf ? '1' : '', Vendedor: m.nf ? String(2100 + n) : '', DataEmissao: m.nf ? `${pad(Math.max(1, dt.getDate() - 4))}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}` : '', DataRecebimento: m.nf ? `${pad(Math.max(1, dt.getDate() - 2))}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}` : '', Setor: m.nf ? 'Varejo Alimentar' : '', Recorrencia: id % 4 === 0 ? 1 : 0
+    },
+    products: prods,
+    log: [
+      { reg: `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}`, tipo: 'Abertura da ocorrência', obs: info, dep: '', data: dstr, usu: USERS[usr], anexo: false },
+      ...(st > 1 ? [{ reg: `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}`, tipo: 'Triagem', obs: 'Encaminhado ao departamento responsável para análise.', dep: DEPS[id % 5], data: `${pad(dt.getDate())}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} ${pad(dt.getHours() + 1)}:${pad(dt.getMinutes())}`, usu: USERS[(usr + 1) % 4], anexo: false }] : []),
+      ...(st > 2 ? [{ reg: `${pad(dt.getDate() + 1)}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()}`, tipo: 'Registrar contato com o cliente', obs: 'Cliente contatado por telefone e orientado sobre o prazo de retorno.', dep: DEPS[id % 5], data: `${pad(dt.getDate() + 1)}/${pad(dt.getMonth() + 1)}/${dt.getFullYear()} 10:20`, usu: USERS[(usr + 2) % 4], anexo: true }] : [])
+    ]
+  };
+}
+const PROTOS = [
+  mkProto(1, 0, 0, 1, 0, 0, '184520', 0, 'Caixas chegaram amassadas e com produtos danificados na entrega de hoje.'),
+  mkProto(3, 3, 1, 3, 1, 3, '184233', 1, 'Lote com validade menor que 30 dias, fora do acordado em contrato.'),
+  mkProto(2, 1, 0, 2, 2, 1, '183990', 1, 'Entregues 18 de 24 caixas do pedido; faltaram 6 caixas de achocolatado.'),
+  mkProto(4, 5, 2, 1, 3, 5, '181877', 2, 'Quantidade conferida no recebimento difere da nota fiscal emitida.'),
+  mkProto(1, 2, 3, 4, 0, 2, '183120', 3, 'Produto avariado confirmado pela qualidade; reposição autorizada.'),
+  mkProto(3, 4, 1, 3, 1, 4, '182988', 3, 'Cliente identificou produtos próximos ao vencimento no pallet recebido.'),
+  mkProto(2, 6, 3, 5, 2, 1, '182515', 4, 'Falta de produto não comprovada pelo canhoto de entrega.'),
+  mkProto(1, 7, 0, 2, 3, 3, '181877', 4, 'Embalagens rasgadas em 3 caixas de macarrão.'),
+  mkProto(4, 0, 2, 1, 0, 0, '181877', 5, 'Divergência entre a quantidade pedida e a faturada.'),
+  mkProto(5, 3, 0, 1, 1, 3, '', 0, 'Entrega prevista para ontem ainda não realizada. Cliente aguardando.'),
+  mkProto(6, 1, 1, 2, 2, 1, '183010', 1, 'Nota fiscal emitida com preço unitário diferente da tabela negociada.'),
+  mkProto(7, 5, 2, 4, 3, 5, '182640', 2, 'Solicitada segunda via da NF por extravio do documento original.'),
+  mkProto(8, 6, 3, 1, 0, 2, '', 2, 'Dúvida sobre condições comerciais da campanha de outubro.'),
+  mkProto(5, 4, 1, 3, 1, 4, '', 3, 'Atraso de 2 dias na entrega do pedido semanal.'),
+  mkProto(6, 2, 0, 5, 2, 2, '181400', 4, 'Contestação de erro de faturamento sem comprovação documental.'),
+  mkProto(9, 7, 3, 4, 3, 5, '', 5, 'Elogio ao atendimento do motorista e da equipe de entrega.'),
+  mkProto(8, 0, 2, 1, 0, 0, '', 6, 'Cliente solicita informações sobre prazo de pagamento.'),
+  mkProto(7, 3, 0, 4, 1, 3, '180954', 6, 'Segunda via de NF enviada por e-mail ao cliente.'),
+  mkProto(5, 5, 1, 2, 2, 5, '', 6, 'Reentrega agendada após falha de agendamento.'),
+  mkProto(6, 6, 3, 3, 3, 1, '180321', 7, 'Divergência de impostos destacados na nota fiscal.')
+];
+const OLD_PRIOR = PROTOS.length; // referência
+let CUR_LOG = null;
+
+/* =============== DataGrid genérico =============== */
+const GRID = {};
+function Grid(id, cfg) {
+  GRID[id] = { cfg, page: 0, size: cfg.size || 10, f: {}, q: '', sel: new Set(), sort: cfg.sort || null };
+  const g = GRID[id];
+  const tw = cfg.fit ? '' : `style="width:${cfg.cols.reduce((a, c) => a + (c.w || 120), 0) + (cfg.select ? 40 : 0)}px"`;
+  const cg = (cfg.select ? '<col style="width:40px">' : '') + cfg.cols.map(c => `<col style="${cfg.fit ? `width:${c.w}` : `width:${c.w}px`}">`).join('');
+  const th = (cfg.select ? `<th class="c"><input type="checkbox" class="chkb" data-all></th>` : '') + cfg.cols.map(c => `<th class="${c.a === 'c' ? 'c' : ''} ${c.fixed ? 'fixed' : ''}" data-s="${c.k || ''}">${esc(c.cap)}${c.hf ? `<svg class="hf" viewBox="0 0 24 24"><path d="${P.funnel}"/></svg>` : ''}<span class="sortm"></span></th>`).join('');
+  const fr = cfg.filter === false ? '' : `<tr class="frow">${cfg.select ? '<td></td>' : ''}${cfg.cols.map(c => `<td class="${c.fixed ? 'fixed' : ''}">${c.k && c.fl !== false ? `<div class="fbox">${c.lookup ? `<select data-fk="${c.k}"><option value="">(Todos)</option>${c.lookup.map(o => `<option>${esc(o)}</option>`).join('')}</select>` : `${ic('search', 13)}<input data-fk="${c.k}">`}</div>` : ''}</td>`).join('')}</tr>`;
+  const tool = cfg.toolbar ? `<div class="gtool">${cfg.toolbar}<span class="sp"></span>${cfg.search ? `<div class="gsearch">${ic('search', 16)}<input data-q placeholder="Search..."></div>` : ''}</div>` : '';
+  return `<div class="dxg ${cfg.fit ? 'fit' : ''} ${cfg.free ? 'free' : ''}" id="g-${id}">${tool}<div class="gscroll" ${cfg.max ? `style="max-height:${cfg.max}"` : ''}><table ${tw}><colgroup>${cg}</colgroup><thead><tr>${th}</tr>${fr}</thead><tbody></tbody></table></div>${cfg.pager === false ? '' : '<div class="gpager"></div>'}</div>`;
+}
+function gridData(id) {
+  const g = GRID[id], c = g.cfg; let rows = c.rows();
+  for (const [k, v] of Object.entries(g.f)) if (v) { const col = c.cols.find(x => x.k === k); rows = rows.filter(r => col.lookup ? String(r[k]) === v : String(r[k] ?? '').toLowerCase().includes(v.toLowerCase())); }
+  if (g.q) rows = rows.filter(r => c.cols.some(col => col.k && String(r[col.k] ?? '').toLowerCase().includes(g.q.toLowerCase())));
+  if (g.sort) rows = [...rows].sort((a, b) => { const x = a[g.sort.k], y = b[g.sort.k]; return (x > y ? 1 : x < y ? -1 : 0) * g.sort.d; });
+  return rows;
+}
+function gridRefresh(id) {
+  const root = $('g-' + id); if (!root) return; const g = GRID[id], c = g.cfg;
+  const all = gridData(id), pages = Math.max(1, Math.ceil(all.length / g.size)); if (g.page >= pages) g.page = pages - 1;
+  const rows = c.pager === false ? all : all.slice(g.page * g.size, g.page * g.size + g.size);
+  const cell = (r, col, i) => {
+    let v = col.render ? col.render(r, i) : esc(r[col.k]);
+    if (col.edit && c.onEdit) return `<td class="${col.a === 'c' ? 'c' : ''} ed" data-ek="${col.k}" data-ri="${r[c.key]}">${v}</td>`;
+    return `<td class="${col.a === 'c' ? 'c' : ''} ${col.fixed ? 'fixed' : ''}">${v}</td>`;
+  };
+  root.querySelector('tbody').innerHTML = rows.map((r, i) => `<tr class="${c.alt && i % 2 ? 'alt' : ''}" data-key="${r[c.key]}" style="${c.rowStyle ? c.rowStyle(r) : ''}">${c.select ? `<td class="c"><input type="checkbox" class="chkb" data-sel="${r[c.key]}" ${g.sel.has(String(r[c.key])) ? 'checked' : ''}></td>` : ''}${c.cols.map(col => cell(r, col, i)).join('')}</tr>`).join('') || `<tr><td class="empty" colspan="${c.cols.length + (c.select ? 1 : 0)}">${c.noData || 'Sem dados'}</td></tr>`;
+  root.querySelectorAll('th').forEach(th => { const m = th.querySelector('.sortm'); if (m) m.innerHTML = g.sort && g.sort.k === th.dataset.s ? `<svg class="sort" viewBox="0 0 24 24"><path d="${g.sort.d > 0 ? P.up : P.down}"/></svg>` : ''; });
+  const pg = root.querySelector('.gpager');
+  if (pg) {
+    const nums = []; for (let i = 0; i < pages; i++) if (i === 0 || i === pages - 1 || Math.abs(i - g.page) <= 1) nums.push(i); else if (nums[nums.length - 1] !== '…') nums.push('…');
+    pg.innerHTML = `<div class="sz">${(c.sizes || [10, 15, 20]).map(s => `<span class="${s === g.size ? 'cur' : ''}" data-sz="${s}">${s}</span>`).join('')}</div><div style="display:flex;align-items:center"><span class="info">Página ${g.page + 1} de ${pages} (${all.length} itens)</span><span class="pg" data-pg="prev">${ic('chevl', 18)}</span>${nums.map(n => n === '…' ? '<span style="padding:0 4px">…</span>' : `<span class="pg ${n === g.page ? 'cur' : ''}" data-pg="${n}">${n + 1}</span>`).join('')}<span class="pg" data-pg="next">${ic('chevr', 18)}</span></div>`;
+  }
+  c.onRender && c.onRender(id);
+}
+function gridMount(id) {
+  const root = $('g-' + id); if (!root) return; const g = GRID[id], c = g.cfg;
+  root.querySelectorAll('[data-fk]').forEach(el => { el.oninput = el.onchange = () => { g.f[el.dataset.fk] = el.value; g.page = 0; gridRefresh(id); }; });
+  const q = root.querySelector('[data-q]'); if (q) q.oninput = () => { g.q = q.value; g.page = 0; gridRefresh(id); };
+  root.querySelectorAll('th[data-s]').forEach(th => th.onclick = e => { const k = th.dataset.s; if (!k || e.target.closest('.chkb')) return; g.sort = g.sort && g.sort.k === k ? { k, d: -g.sort.d } : { k, d: 1 }; gridRefresh(id); });
+  root.onclick = e => {
+    const sz = e.target.closest('[data-sz]'); if (sz) { g.size = +sz.dataset.sz; g.page = 0; return gridRefresh(id); }
+    const pg = e.target.closest('[data-pg]'); if (pg) { const v = pg.dataset.pg, pages = Math.ceil(gridData(id).length / g.size); g.page = v === 'prev' ? Math.max(0, g.page - 1) : v === 'next' ? Math.min(pages - 1, g.page + 1) : +v; return gridRefresh(id); }
+    const ch = e.target.closest('[data-sel]'); if (ch) { ch.checked ? g.sel.add(ch.dataset.sel) : g.sel.delete(ch.dataset.sel); return; }
+    if (e.target.matches('[data-all]')) { gridData(id).slice(g.page * g.size, g.page * g.size + g.size).forEach(r => e.target.checked ? g.sel.add(String(r[c.key])) : g.sel.delete(String(r[c.key]))); return gridRefresh(id); }
+    const ed = e.target.closest('td.ed'); if (ed && !ed.querySelector('input')) {
+      const cur = c.rows().find(r => String(r[c.key]) === ed.dataset.ri)[ed.dataset.ek];
+      ed.innerHTML = `<input value="${esc(cur)}">`; const inp = ed.firstChild; inp.focus();
+      const done = () => { c.onEdit(ed.dataset.ri, ed.dataset.ek, inp.value); gridRefresh(id); };
+      inp.onblur = done; inp.onkeydown = ev => { if (ev.key === 'Enter') inp.blur(); };
+    }
+    const act = e.target.closest('[data-act]'); if (act && c.onAct) c.onAct(act.dataset.act, act.dataset.key);
+  };
+  gridRefresh(id);
+}
+
+/* =============== Tela inicial =============== */
+const rowColor = r => `background:${ST[r.Status].bg};${ST[r.Status].fg ? `color:${ST[r.Status].fg};` : ''}`;
+const mainCols = () => [
+  { k: 'Protocolo', cap: 'Protocolo', w: 130, hf: 1 }, { k: 'NotaFiscal', cap: 'Nota Fiscal', w: 100 },
+  { k: 'Cliente', cap: 'Cod. Cliente', w: 270, lookup: [...new Set(CL.map(c => c[2]))].sort() }, { k: 'Distribuidora', cap: 'Distribuidora', w: 170, lookup: DIST },
+  { k: 'Criador', cap: 'Criador', w: 170, lookup: USERS },
+  { k: 'MotivoDescricao', cap: 'Motivo', w: 290, lookup: null }, { k: 'StatusDescricao', cap: 'Status', w: 200, lookup: Object.values(ST).map(s => s.n) },
+  { k: 'RelatorNome', cap: 'Nome do Relator', w: 190 }, { k: 'InformacoesAdicionais', cap: 'Informações Adicionais', w: 520 }, { k: 'DataAbertura', cap: 'Data de Abertura', w: 160 },
+  { cap: 'Ações', w: 60, a: 'c', fixed: true, fl: false, render: r => `<div class="eic" data-act="open" data-key="${r.Ocorrencia}" style="color:${ST[r.Status].ic}">${ic('edit', 18)}</div>` }
+];
+function viewMain() {
+  const prior = mainCols(); prior[5].lookup = MOT.filter(m => m.pr).map(m => m.d);
+  const other = mainCols(); other[5].lookup = MOT.filter(m => !m.pr).map(m => m.d);
+  const mk = (id, title, flag, cols) => `<div class="Table"><input class="dxi tt" readonly value="${title}" style="border:1px solid #ddd"><div class="gw">${Grid(id, {
+    key: 'Ocorrencia', cols, rows: () => PROTOS.filter(p => p.Prioritario === flag), rowStyle: rowColor, sort: { k: 'Ocorrencia', d: -1 }, onAct: (a, k) => openProto(+k)
+  })}</div></div>`;
+  $('view-main').innerHTML = `<section class="initial" style="display:flex"><div class="grids">${mk('prior', 'Ocorrências - Motivos Prioritários', 'S', prior)}${mk('other', 'Ocorrências - Demais Motivos', 'N', other)}</div>
+    <div class="side"><button class="ibtn" id="bAdd" title="adicionar novo protocolo">${ic('add')}</button><button class="ibtn" id="bRef" title="recarregar">${ic('cached')}</button><button class="ibtn" id="bClr" title="eliminar filtros">${ic('foff')}</button></div></section>`;
+  document.querySelector('#bAdd svg').style.color = '#2e7d32'; document.querySelector('#bRef svg').style.color = '#1976d2'; document.querySelector('#bClr svg').style.color = '#d32f2f';
+  gridMount('prior'); gridMount('other');
+  $('bAdd').onclick = newProto;
+  $('bRef').onclick = () => loading(500, () => { gridRefresh('prior'); gridRefresh('other'); });
+  $('bClr').onclick = () => { ['prior', 'other'].forEach(id => { GRID[id].f = {}; GRID[id].q = ''; GRID[id].page = 0; document.querySelectorAll(`#g-${id} [data-fk]`).forEach(e => e.value = ''); gridRefresh(id); }); };
+}
+
+/* =============== Abas =============== */
+const TABS = [{ id: 'main', title: 'Protocolos', main: true }]; let ACTIVE = 'main', NEWSEQ = 1;
+function renderTabs() {
+  $('tabs').innerHTML = TABS.map(t => `<div class="tab ${t.id === ACTIVE ? 'active' : ''}" data-t="${t.id}"><span>${esc(t.title)}</span>${t.main ? '' : `<svg class="x" viewBox="0 0 24 24" data-x="${t.id}"><path d="${P.close}"/></svg>`}</div>`).join('');
+  $('tabs').querySelectorAll('.tab').forEach(el => el.onclick = e => { const x = e.target.closest('[data-x]'); if (x) return closeTab(x.dataset.x); selectTab(el.dataset.t); });
+}
+function selectTab(id) {
+  ACTIVE = id; renderTabs(); const t = TABS.find(x => x.id === id);
+  $('view-main').classList.toggle('on', !!t.main); $('view-p').classList.toggle('on', !t.main);
+  if (!t.main) renderProto(t);
+}
+function closeTab(id) { const i = TABS.findIndex(x => x.id === id); TABS.splice(i, 1); selectTab(ACTIVE === id ? 'main' : ACTIVE); }
+function openProto(oc) {
+  const p = PROTOS.find(x => x.Ocorrencia === oc), id = '#' + p.Protocolo;
+  if (!TABS.some(t => t.id === id)) {
+    TABS.push({ id, title: id, p, data: { ...p.f }, products: p.products.map(x => ({ ...x })), isNew: false });
+    const t = TABS[TABS.length - 1]; if (p.Status === 4) setTimeout(() => toast('Esse Protocolo já está em encerrado procedente por isso não é possível interagir', 'warning'), 150);
+    if (p.Status === 5) setTimeout(() => toast('Esse Protocolo já está em encerrado improcedente por isso não é possível interagir', 'warning'), 150);
+  }
+  selectTab(id);
+}
+function newProto() {
+  const id = 'new' + NEWSEQ++;
+  TABS.push({ id, title: 'Nova ocorrência', isNew: true, data: { Status: 1, Motivo: '', Distribuidora: '' }, products: [] });
+  selectTab(id);
+}
+
+/* =============== Formulário do protocolo =============== */
+const L = (t, req) => `<label>${t}${req ? '<span class="rq">*</span>' : ''}:</label>`;
+function T(tab, name, label, o = {}) {
+  const d = tab.data, ro = o.ro, v = d[name] ?? '';
+  let ed;
+  if (o.type === 'select') ed = `<select class="dxi ${ro ? 'ro' : ''}" data-n="${name}" ${ro ? 'tabindex="-1"' : ''}><option value=""></option>${o.opts.map(x => `<option value="${esc(x.v)}" ${String(x.v) === String(v) ? 'selected' : ''}>${esc(x.t)}</option>`).join('')}</select>`;
+  else if (o.type === 'area') ed = `<textarea class="dxi ${ro ? 'ro' : ''}" data-n="${name}" ${ro ? 'readonly' : ''}>${esc(v)}</textarea>`;
+  else if (o.type === 'date') ed = `<div class="dxdate"><input class="dxi ${ro ? 'ro' : ''}" data-n="${name}" value="${esc(v)}" ${ro ? 'readonly' : ''} placeholder="dd/mm/aaaa">${ic('cal', 18)}</div>`;
+  else ed = `<input class="dxi ${ro ? 'ro' : ''}" data-n="${name}" value="${esc(v)}" ${ro ? 'readonly' : ''} placeholder="${o.ph || ''}">`;
+  return `<div class="it ${o.cls || ''}" data-it="${name}" data-req="${o.req || ''}">${L(label, !!o.req)}${ed}<div class="err"></div></div>`;
+}
+function protoHTML(tab) {
+  const d = tab.data, isNew = tab.isNew, st = +d.Status || 1, closed = st === 4 || st === 5;
+  const blocked = st === 1 ? false : (!isNew); // readonly se não for Aberto e já gravado
+  const motOpts = MOT.map(m => ({ v: m.id, t: m.d })), distOpts = DIST.map(x => ({ v: x, t: x })), stOpts = Object.entries(ST).map(([k, s]) => ({ v: k, t: s.n }));
+  const m = MOT.find(x => x.id == d.Motivo), nfRO = blocked || !(m && m.nf);
+  const sameNF = d.NotaFiscalNumero ? PROTOS.filter(p => String(p.NotaFiscal) === String(d.NotaFiscalNumero) && p.Protocolo !== d.Protocolo) : [];
+  tab.same = sameNF;
+  return `<div class="pnav"><div>
+      <button class="dxb success i" data-a="save" ${closed ? 'disabled' : ''} title="Salvar">${ic('save')}</button>
+      <button class="dxb default i" data-a="refresh" title="Atualizar">${ic('refresh')}</button>
+      ${Object.keys(d).length > 2 ? `<label class="recurrence ${st !== 1 ? 'dis' : ''}"><input type="checkbox" class="chkb" data-n="Recorrencia" ${d.Recorrencia == 1 ? 'checked' : ''}> Recorrência</label>` : ''}
+      ${!isNew ? `<button class="dxb" data-a="triagem" ${closed ? 'disabled' : ''}>${ic('folder', 18)} Realizar Triagem</button><button class="dxb" data-a="interact" ${closed ? 'disabled' : ''}>${ic('comment', 18)} Interagir</button><button class="dxb" data-a="log">${ic('save', 18)} Log Interações</button><button class="dxb" data-a="report">${ic('msg', 18)} Relatório</button>` : ''}
+    </div></div>
+    <div class="pcont"><form onsubmit="return false" novalidate>
+      <div class="grp"><div class="cap">Dados do Relator</div><div class="gl c2">
+        ${T(tab, 'RelatorEmail', 'E-mail do relator', { ro: blocked, req: 'É necessário digitar um email' })}${T(tab, 'RelatorNome', 'Nome do relator', { ro: blocked, req: 'É necessário digitar um relator' })}
+        ${T(tab, 'RelatorTelefone', 'Telefone (DDD) + (Número)', { ro: blocked, req: 'É necessário informar um telefone' })}${T(tab, 'RelatorCelular', 'Celular (DDD) + (Número)', { ro: blocked, req: 'É necessário informar um celular' })}</div></div>
+      <div class="grp"><div class="cap">Detalhes da Ocorrência</div><div class="gl c3">
+        ${T(tab, 'Protocolo', 'Protocolo', { ro: true })}${T(tab, 'Motivo', 'Motivo', { type: 'select', opts: motOpts, ro: blocked, req: 'É necessário selecionar um motivo' })}${T(tab, 'Distribuidora', 'Distribuidora', { type: 'select', opts: distOpts, ro: blocked, req: 'É necessário selecionar uma distribuidora' })}
+        ${T(tab, 'Status', 'Status', { type: 'select', opts: stOpts, ro: true })}${T(tab, 'NotaFiscalNumero', 'Numero da NF', { ro: nfRO, req: m && m.nf ? 'É necessário digitar uma nota fiscal' : '' })}${T(tab, 'NotaFiscalSerie', 'Serie da NF', { ro: nfRO, req: m && m.nf ? 'É necessário digitar um série de nota fiscal' : '' })}
+        ${T(tab, 'InformacoesAdicionais', 'Detalhes da Ocorrência', { type: 'area', ro: blocked, req: 'É necessário digitar os detalhes da ocorrência', cls: 's3' })}
+        ${T(tab, 'DataInformacaoRecebimento', 'Data de recebimento informada', { type: 'date', ro: blocked })}${T(tab, 'CCEmail', 'CC E-mail', { ro: blocked })}
+        <div class="it"><label>Anexo:</label><div class="fup ${blocked ? 'dis' : ''}"><label class="fb" style="margin:0">Selecionar Anexo<input type="file" data-file="main" hidden></label><span class="fn" id="fn-main">${tab.file ? esc(tab.file) : ''}</span></div></div></div></div>
+      <div class="grp"><div class="cap">Informações do Cliente</div><div class="gl c2">
+        ${T(tab, 'CNPJ', 'CNPJ', { ro: closed, req: 'É obrigatório informar um CNPJ', ph: '00.000.000/0000-00' })}${T(tab, 'Cidade', 'Cidade', { ro: true, req: 'Campo obrigatório' })}
+        ${T(tab, 'RazaoSocial', 'Razão Social', { ro: true, req: 'Campo obrigatório' })}${T(tab, 'Estado', 'Estado', { ro: true, req: 'Campo obrigatório' })}
+        ${T(tab, 'CodigoCliente', 'Nome Fantasia', { ro: true, req: 'Campo obrigatório' })}${T(tab, 'Rede', 'Rede', { ro: true, req: 'Campo obrigatório' })}</div></div>
+      <div class="grp"><div class="cap">Informações da Nota de Origem</div><div class="gl c4">
+        ${T(tab, 'Serie', 'Série', { ro: true, cls: 's2' })}${T(tab, 'Vendedor', 'Cod. Vendedor', { ro: true, cls: 's2' })}${T(tab, 'DataEmissao', 'Data Emissão', { ro: true, type: 'date' })}${T(tab, 'DataRecebimento', 'Data Recebimento', { ro: true, type: 'date' })}${T(tab, 'Setor', 'Setor', { ro: true, cls: 's2' })}</div></div>
+      <div class="grp"><div class="cap">Ocorrências que possuem a mesma nota</div><div id="same-host">${Grid(tab.id + '-same', { key: 'Ocorrencia', fit: true, free: true, alt: true, size: 5, sizes: [5, 10, 15], noData: 'Sem ocorrências que possuem a mesma nota', rows: () => sameNF.map(p => ({ Ocorrencia: p.Ocorrencia, Protocolo: p.Protocolo, StatusDescricao: p.StatusDescricao, MotivoDescricao: p.MotivoDescricao })),
+        cols: [{ k: 'Protocolo', cap: 'Protocolo', w: '25%', hf: 1 }, { k: 'Ocorrencia', cap: 'Ocorrência', w: '15%', hf: 1 }, { k: 'StatusDescricao', cap: 'Status', w: '25%', hf: 1 }, { k: 'MotivoDescricao', cap: 'Motivo da Ocorrência', w: '35%', hf: 1 }] })}</div></div>
+      <div class="grp"><div class="cap">Produtos da Ocorrência</div><div id="prod-host">${Grid(tab.id + '-prod', {
+        key: 'key', select: true, fit: false, free: true, size: 5, sizes: [5, 10, 15], search: true, noData: 'Sem Produtos',
+        toolbar: `<button class="dxb success" data-a="addprod" ${st !== 1 ? 'disabled' : ''}>${ic('plus', 18)} Adicionar Produtos</button><button class="dxb danger" data-a="delprod" ${st !== 1 ? 'disabled' : ''}>${ic('trash', 18)} Deletar Produtos</button>`,
+        rows: () => tab.products.map(p => ({ ...p, total: (parseFloat(p.preco) || 0) * (parseFloat(p.qtdO) || 0) })),
+        onEdit: (key, k, v) => { const p = tab.products.find(x => String(x.key) === String(key)); if (p) p[k] = v; },
+        cols: [{ k: 'desc', cap: 'Descrição do Produto', w: 300 }, { k: 'ean', cap: 'EAN', w: 140, edit: !d.NotaFiscalNumero }, { k: 'loteNF', cap: 'Lote NF', w: 110, edit: !d.NotaFiscalNumero }, { k: 'valNF', cap: 'Validade NF', w: 120, edit: !d.NotaFiscalNumero },
+          { k: 'qtdNF', cap: 'Quantidade NF', w: 130, a: 'c', edit: !d.NotaFiscalNumero }, { k: 'preco', cap: 'Preço Líquido NF', w: 140, a: 'c', render: r => brl(r.preco) }, { k: 'loteF', cap: 'Lote Físico NF', w: 130, edit: true }, { k: 'valF', cap: 'Validade Física', w: 130, edit: true },
+          { k: 'qtdO', cap: 'Quantidade de Ocorrência', w: 190, a: 'c', edit: true }, { k: 'total', cap: 'Valor Total', w: 120, a: 'c', render: r => brl(r.total) }]
+      })}</div></div>
+    </form></div>`;
+}
+function renderProto(tab) {
+  const host = $('view-p'), top = host.scrollTop;
+  host.innerHTML = protoHTML(tab); host.scrollTop = top;
+  gridMount(tab.id + '-same'); gridMount(tab.id + '-prod');
+  host.querySelectorAll('[data-n]').forEach(el => {
+    const n = el.dataset.n;
+    el.oninput = () => { tab.data[n] = el.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value; };
+    el.onchange = () => {
+      tab.data[n] = el.type === 'checkbox' ? (el.checked ? 1 : 0) : el.value;
+      if (n === 'RelatorEmail') autoReporter(tab);
+      else if (n === 'CNPJ') autoClient(tab);
+      else if (n === 'Motivo' || n === 'Distribuidora' || n === 'NotaFiscalNumero' || n === 'NotaFiscalSerie') { if (n === 'Motivo') { const m = MOT.find(x => x.id == el.value); if (!m || !m.nf) { tab.data.NotaFiscalNumero = ''; tab.data.NotaFiscalSerie = ''; } } autoNote(tab); renderProto(tab); }
+    };
+  });
+  const f = host.querySelector('[data-file="main"]'); if (f) f.onchange = () => { tab.file = f.files[0] ? f.files[0].name : ''; $('fn-main').textContent = tab.file; };
+  host.querySelectorAll('[data-a]').forEach(b => b.onclick = () => actions(tab, b.dataset.a));
+}
+function autoReporter(tab) {
+  const r = REP.find(x => x[1].toLowerCase() === String(tab.data.RelatorEmail).toLowerCase());
+  if (r) { loading(400, () => { Object.assign(tab.data, { RelatorNome: r[0], RelatorTelefone: r[2], RelatorCelular: r[3] }); renderProto(tab); }); }
+  else if (tab.data.RelatorEmail) toast('Relator não encontrado na base de dados', 'warning');
+}
+function autoClient(tab) {
+  const c = CL.find(x => x[0] === tab.data.CNPJ);
+  if (c) loading(400, () => { Object.assign(tab.data, { RazaoSocial: c[1], CodigoCliente: c[2], Cidade: c[3], Estado: c[4], Rede: c[5] }); renderProto(tab); });
+  else if (tab.data.CNPJ) toast('CNPJ Inválido', 'error');
+}
+function autoNote(tab) {
+  const d = tab.data; if (!(d.NotaFiscalNumero && d.NotaFiscalSerie && d.Distribuidora)) return;
+  if (!tab.isNew) return;
+  const c = CL.find(x => x[0] === d.CNPJ) || CL[0];
+  loading(400, () => {
+    Object.assign(d, { Serie: d.NotaFiscalSerie, Vendedor: '2104', DataEmissao: '28/09/2026', DataRecebimento: '30/09/2026', Setor: 'Varejo Alimentar' });
+    if (!d.CNPJ) { d.CNPJ = c[0]; Object.assign(d, { RazaoSocial: c[1], CodigoCliente: c[2], Cidade: c[3], Estado: c[4], Rede: c[5] }); }
+    if (!tab.products.length) tab.products = [0, 1].map(i => { const p = CAT[i + 2]; return { key: Date.now() + i, desc: p[0], ean: p[1], loteNF: p[2], valNF: '15/05/2027', qtdNF: 36, preco: p[3], loteF: '', valF: '', qtdO: '' }; });
+    renderProto(tab);
+  });
+}
+function validateForm(tab) {
+  let ok = true; const host = $('view-p');
+  host.querySelectorAll('[data-it]').forEach(it => {
+    const msg = it.dataset.req; if (!msg) return; const inp = it.querySelector('input,select,textarea'); if (!inp || inp.classList.contains('ro') && !tab.isNew && it.dataset.it !== 'CNPJ') { it.classList.remove('bad'); return; }
+    let bad = !String(tab.data[it.dataset.it] ?? '').trim(); let m = msg;
+    if (!bad && it.dataset.it === 'RelatorEmail' && !/^\S+@\S+\.\S+$/.test(tab.data.RelatorEmail)) { bad = true; m = 'Digite um formato de email válido'; }
+    if (inp.classList.contains('ro') && ['Cidade', 'RazaoSocial', 'Estado', 'CodigoCliente', 'Rede'].includes(it.dataset.it) === false && !bad) { }
+    it.classList.toggle('bad', bad); it.querySelector('.err').textContent = m; if (bad) ok = false;
+  });
+  return ok;
+}
+function actions(tab, a) {
+  if (a === 'refresh') return loading(500, () => { renderProto(tab); });
+  if (a === 'report') return toast('Abriria o relatório do protocolo em nova aba', 'info');
+  if (a === 'triagem') return popTriagem(tab);
+  if (a === 'interact') return popInteract(tab);
+  if (a === 'log') return popLog(tab);
+  if (a === 'addprod') return popProducts(tab);
+  if (a === 'delprod') { const g = GRID[tab.id + '-prod']; if (!g.sel.size) return toast('Selecione ao menos um produto', 'warning'); return loading(400, () => { tab.products = tab.products.filter(p => !g.sel.has(String(p.key))); g.sel.clear(); gridRefresh(tab.id + '-prod'); toast('Produtos excluidos com sucesso', 'success'); }); }
+  if (a === 'save') {
+    if (!validateForm(tab)) return toast('Preencha os campos obrigatórios', 'warning');
+    if (tab.products.some(p => !String(p.loteF).trim() || !String(p.valF).trim() || !String(p.qtdO).trim())) return toast('É necessário preencher o Lote físico, validade física e a quantidade da ocorrência dos produtos inseridos', 'error');
+    loading(700, () => {
+      if (tab.isNew) {
+        const m = MOT.find(x => x.id == tab.data.Motivo), id = SEQ++;
+        const proto = { Ocorrencia: id, Protocolo: `SAC-2026-${String(id).padStart(4, '0')}`, NotaFiscal: tab.data.NotaFiscalNumero, Motivo: +tab.data.Motivo, MotivoDescricao: m.d, Prioritario: m.pr ? 'S' : 'N', Cliente: tab.data.CodigoCliente || '', Distribuidora: tab.data.Distribuidora, Criador: 'Ana Beatriz Souza', Status: 1, StatusDescricao: ST[1].n, RelatorNome: tab.data.RelatorNome, InformacoesAdicionais: tab.data.InformacoesAdicionais, DataAbertura: '02/10/2026 14:32', f: tab.data, products: tab.products, log: [{ reg: '02/10/2026', tipo: 'Abertura da ocorrência', obs: tab.data.InformacoesAdicionais, dep: '', data: '02/10/2026 14:32', usu: 'Ana Beatriz Souza', anexo: !!tab.file }] };
+        tab.data.Protocolo = proto.Protocolo; tab.data.Status = 1; tab.isNew = false; tab.p = proto; PROTOS.push(proto);
+        tab.id = '#' + proto.Protocolo; tab.title = tab.id; ACTIVE = tab.id; renderTabs();
+      }
+      toast('Sucesso ao salvar a ocorrencia', 'success'); renderProto(tab); gridRefresh('prior'); gridRefresh('other');
+    });
+  }
+}
+
+/* =============== Popups =============== */
+function popup(title, body, foot, w = '95%', h = '90%', after) {
+  const p = $('popup'); p.style.width = w; p.style.height = h;
+  p.innerHTML = `<div class="ph"><span>${title}</span><button class="xbtn" id="px">${ic('close', 18)}</button></div><div class="pbody">${body}</div>${foot ? `<div class="pfoot">${foot}</div>` : ''}`;
+  $('ov').classList.add('show'); $('px').onclick = closePop; after && after();
+}
+function closePop() { $('ov').classList.remove('show'); }
+$('ov').onclick = e => { if (e.target === $('ov')) closePop(); };
+const pfRow = (id, label, ed) => `<div class="pf" data-pf="${id}"><label>${label}:</label><div class="e">${ed}<div class="err"></div></div></div>`;
+const selectHTML = (id, opts, ph = '') => `<select class="dxi" id="${id}"><option value="">${ph}</option>${opts.map(o => `<option value="${esc(o.v)}">${esc(o.t)}</option>`).join('')}</select>`;
+function setBad(id, msg) { const r = document.querySelector(`[data-pf="${id}"]`); if (!r) return; r.classList.toggle('bad', !!msg); r.querySelector('.err').textContent = msg || ''; }
+
+function popTriagem(tab) {
+  const foot = `<button class="dxb" id="tLimpar">${ic('refresh', 18)} Limpar</button><button class="dxb success" id="tSalvar">${ic('check', 18)} Salvar</button>`;
+  popup('Triagem de Ocorrência', pfRow('dep', 'Departamentos', selectHTML('t-dep', DEPS.map(x => ({ v: x, t: x })))) + pfRow('inf', 'Informações adicionais', `<textarea class="dxi" id="t-inf" style="height:100px"></textarea>`), foot, '95%', '90%', () => {
+    $('tLimpar').onclick = () => { $('t-dep').value = ''; $('t-inf').value = ''; };
+    $('tSalvar').onclick = () => {
+      setBad('dep', $('t-dep').value ? '' : 'É necessário Selecionar um Departamento'); setBad('inf', $('t-inf').value.trim() ? '' : 'É necessário adicionar alguma informação adicional');
+      if (!$('t-dep').value || !$('t-inf').value.trim()) return;
+      const dep = $('t-dep').value, inf = $('t-inf').value; closePop();
+      loading(600, () => { tab.p.log.push({ reg: '02/10/2026', tipo: 'Triagem', obs: inf, dep, data: '02/10/2026 14:40', usu: 'Ana Beatriz Souza', anexo: false }); if (tab.data.Status == 1) { tab.data.Status = 2; tab.p.Status = 2; tab.p.StatusDescricao = ST[2].n; } toast('Sucesso ao gravar a triagem', 'success'); renderProto(tab); gridRefresh('prior'); gridRefresh('other'); });
+    };
+  });
+}
+function popInteract(tab) {
+  const st = { file: null, url: '' };
+  const foot = `<button class="dxb" id="iLimpar">${ic('refresh', 18)} Limpar</button><button class="dxb success" id="iSalvar">${ic('check', 18)} Salvar</button>`;
+  popup('Interações', `<div id="ibody"></div>`, foot, '95%', '90%', () => {
+    const draw = () => {
+      const ty = INTER.find(x => x.id == (st.type || 0)) || {};
+      $('ibody').innerHTML = pfRow('type', 'Tipo de interação', selectHTML('i-type', INTER.map(x => ({ v: x.id, t: x.d })))) +
+        pfRow('inf', 'Informações adicionais', `<textarea class="dxi" id="i-inf" style="height:100px">${esc(st.inf || '')}</textarea>`) +
+        (ty.extra ? pfRow('nf', 'Chave da Nota Fiscal de Devolução', `<input class="dxi" id="i-nf" value="${esc(st.nf || '')}">`) : '') +
+        (ty.reason ? pfRow('rs', 'Motivo da Interação', selectHTML('i-rs', REASONS.map(x => ({ v: x, t: x })))) : '') +
+        pfRow('file', 'Anexo', `<div class="itemBorder"><div class="fup"><label class="fb" style="margin:0">Selecionar Anexo<input type="file" id="i-file" hidden></label></div>${st.file ? `<div class="attachment"><button class="dxb danger i" id="i-clr">${ic('close', 18)}</button><div class="nm">${esc(st.file.name)}</div></div>` : ''}</div>`) +
+        (st.file ? `<div class="pf"><label></label><div class="e"><div class="docview">${st.file.type.startsWith('image') ? `<img src="${st.url}" alt="document-viewer">` : `<div class="ph2">${ic('img', 40)}<br>Pré-visualização do documento<br><small>${esc(st.file.name)}</small></div>`}</div></div></div>` : '');
+      $('i-type').value = st.type || ''; if (ty.reason) $('i-rs').value = st.rs || '';
+      $('i-type').onchange = e => { st.type = e.target.value; st.inf = $('i-inf').value; draw(); };
+      $('i-inf').oninput = e => st.inf = e.target.value; if ($('i-nf')) $('i-nf').oninput = e => st.nf = e.target.value; if ($('i-rs')) $('i-rs').onchange = e => st.rs = e.target.value;
+      $('i-file').onchange = e => { st.file = e.target.files[0] || null; st.url = st.file ? URL.createObjectURL(st.file) : ''; st.inf = $('i-inf').value; draw(); };
+      if ($('i-clr')) $('i-clr').onclick = () => { st.file = null; draw(); };
+    };
+    draw();
+    $('iLimpar').onclick = () => { st.type = st.inf = st.nf = st.rs = ''; st.file = null; draw(); };
+    $('iSalvar').onclick = () => {
+      const ty = INTER.find(x => x.id == st.type); let bad = false;
+      const chk = (id, ok, msg) => { setBad(id, ok ? '' : msg); if (!ok) bad = true; };
+      chk('type', !!ty, 'É necessário Selecionar um tipo de interação'); chk('inf', !!(st.inf || '').trim(), 'É necessário adicionar alguma informação adicional');
+      if (ty && ty.extra) chk('nf', !!(st.nf || '').trim(), 'É necessário o número da nota fiscal'); if (ty && ty.reason) chk('rs', !!st.rs, 'É necessário Selecionar um motivo');
+      if (ty && ty.attach && !st.file) { chk('file', false, 'É necessário inserir um anexo'); }
+      if (bad) return toast('Preencha todos os campos', 'warning');
+      closePop(); loading(700, () => {
+        tab.p.log.push({ reg: '02/10/2026', tipo: ty.d, obs: st.inf, dep: '', data: '02/10/2026 14:45', usu: 'Ana Beatriz Souza', anexo: !!st.file });
+        const ns = ty.id === 8 ? 4 : ty.id === 9 ? 5 : (tab.data.Status < 3 ? 3 : tab.data.Status);
+        tab.data.Status = ns; tab.p.Status = ns; tab.p.StatusDescricao = ST[ns].n;
+        toast('Sucesso ao gravar a interação', 'success'); renderProto(tab); gridRefresh('prior'); gridRefresh('other');
+      });
+    };
+  });
+}
+function popLog(tab) {
+  const id = 'log-' + tab.p.Ocorrencia;
+  const toolbar = '';
+  popup('Log de Interações', Grid(id, {
+    key: 'i', alt: true, fit: true, search: true, toolbar: ' ', size: 10, sizes: [10, 15, 20], free: false,
+    rows: () => tab.p.log.map((x, i) => ({ i, ...x })),
+    cols: [{ k: 'reg', cap: 'Registro', w: '9%', a: 'c' }, { k: 'tipo', cap: 'Tipo', w: '17%', hf: 1 }, { k: 'obs', cap: 'Observação', w: '30%', render: r => `<span style="white-space:normal">${esc(r.obs)}</span>` }, { k: 'dep', cap: 'Departamentos', w: '12%', hf: 1 }, { k: 'data', cap: 'Data', w: '14%', a: 'c' }, { k: 'usu', cap: 'Usuário', w: '13%', hf: 1 },
+      { cap: 'Anexo', w: '5%', a: 'c', fl: false, render: r => r.anexo ? `<button class="dxb default i" style="height:28px;width:34px" data-act="img" data-key="${r.i}">${ic('img', 16)}</button>` : '' }],
+    onAct: () => toast('Abriria o anexo em nova aba', 'info')
+  }), '', '95%', '90%', () => gridMount(id));
+}
+function popProducts(tab) {
+  const id = 'pp-' + tab.id, hasNF = !!tab.data.NotaFiscalNumero;
+  const catRows = CAT.map((p, i) => ({ key: i, produto: 1000 + i, desc: p[0], ean: p[1], lote: p[2] }));
+  popup('Produtos', Grid(id, { key: 'key', select: true, fit: true, alt: true, size: 15, sizes: [15, 20, 30], rows: () => catRows,
+    cols: hasNF ? [{ k: 'produto', cap: 'Produto', w: '12%' }, { k: 'desc', cap: 'Descrição', w: '50%' }, { k: 'ean', cap: 'EAN', w: '20%' }, { k: 'lote', cap: 'LoteNF', w: '18%' }] : [{ k: 'produto', cap: 'Produto', w: '15%' }, { k: 'desc', cap: 'Descrição', w: '85%' }] }),
+    `<button class="dxb success" id="pConf">Confirmar</button>`, '95%', '90%', () => {
+      gridMount(id);
+      $('pConf').onclick = () => {
+        const g = GRID[id]; if (!g.sel.size) return toast('Selecione ao menos um produto', 'warning');
+        closePop(); loading(500, () => { [...g.sel].forEach(k => { const p = CAT[+k]; if (!tab.products.some(x => x.ean === p[1])) tab.products.push({ key: Date.now() + +k, desc: p[0], ean: hasNF ? p[1] : '', loteNF: hasNF ? p[2] : '', valNF: '', qtdNF: '', preco: p[3], loteF: '', valF: '', qtdO: '' }); }); renderProto(tab); });
+      };
+    });
+}
+
+/* =============== init =============== */
+renderTabs(); viewMain();
+</script>
+</body>
+</html>

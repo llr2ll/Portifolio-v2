@@ -18,9 +18,9 @@ export const ui = {
     role: ["Full-stack developer who ships", "Desenvolvedor full-stack que entrega", "Desarrollador full-stack que entrega"] as L3,
     roleAccent: ["clean, fast, useful products", "produtos limpos, rápidos e úteis", "productos limpios, rápidos y útiles"] as L3,
     text: [
-      "Based in the province of Pontevedra - Spain (north), EU citizen. I turn business needs into well-structured digital solutions — combining technology, performance and quality execution.",
-      "Baseado na província de Pontevedra - Espanha (norte), cidadão da UE. Transformo necessidades de negócio em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade.",
-      "Resido en la provincia de Pontevedra - España (norte), ciudadano de la UE. Transformo necesidades de negocio en soluciones digitales bien estructuradas, combinando tecnología, rendimiento y calidad.",
+      "At the moment in the province of Pontevedra - Spain (north), EU citizen. I turn business needs into well-structured digital solutions — combining technology, performance and quality execution.",
+      "Atualmente na província de Pontevedra - Espanha (norte), cidadão da UE. Transformo necessidades de negócio em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade.",
+      "Actualmente en la provincia de Pontevedra - España (norte), ciudadano de la UE. Transformo necesidades de negocio en soluciones digitales bien estructuradas, combinando tecnología, rendimiento y calidad.",
     ] as L3,
     cta1: ["See my work", "Ver projetos", "Ver proyectos"] as L3,
     cta2: ["Get in touch", "Fale comigo", "Hablemos"] as L3,
@@ -93,6 +93,17 @@ export const featured = {
 
 export const projects: Project[] = [
   {
+    name: "SAC",
+    accent: "#7C3AED",
+    desc: [
+      "Enterprise customer service and incident management platform with protocol registration, customer and invoice management, product-level occurrences, triage workflows, interaction history, attachments, status tracking and reporting.",
+      "Plataforma empresarial de atendimento ao cliente e gestão de ocorrências, com registro de protocolos, gestão de clientes e notas fiscais, ocorrências por produto, fluxos de triagem, histórico de interações, anexos, acompanhamento de status e relatórios.",
+      "Plataforma empresarial de atención al cliente y gestión de incidencias, con registro de protocolos, gestión de clientes y facturas, incidencias por producto, flujos de triaje, historial de interacciones, archivos adjuntos, seguimiento de estados e informes.",
+    ],
+    stack: ["React", "TypeScript", "REST API", "DevExtreme", "SVG"],
+    code: "/projects/sac.html"
+  },
+  {
     name: "MMC Plug and Play",
     accent: "#0162DD",
     desc: [
@@ -100,19 +111,8 @@ export const projects: Project[] = [
       "Dashboard de configuração empresarial com fluxos em múltiplas etapas para onboarding de clientes, gestão de lojas e fornecedores, integrações com ERP/webhooks, regras de compra e administração de usuários.",
       "Dashboard de configuración empresarial con flujos por etapas para onboarding de clientes, gestión de tiendas y proveedores, integraciones con ERP/webhooks, reglas de compra y administración de usuarios.",
     ],
-    stack: ["React", "CSS3", "TypeScript", "REST API", "DevExtreme"],
+    stack: ["React", "SyncFusion", "TypeScript", "REST API", "MaterialUI"],
     code: "/projects/plug-and-play.html"
-  },
-  {
-    name: "Trade Marketing",
-    accent: "#286B2A",
-    desc: [
-      "Trade marketing management dashboard for retail execution, with composition showcases, location-based filters, favorites, contracts, pre-contract creation, execution proofs and planogram visualization.",
-      "Dashboard de gestão de Trade Marketing para execução no varejo, com vitrine de composições, filtros por localização, favoritos, contratos, criação de pré-contratos, comprovações de execução e visualização de planogramas.",
-      "Dashboard de gestión de Trade Marketing para ejecución en retail, con escaparate de composiciones, filtros por ubicación, favoritos, contratos, creación de precontratos, comprobaciones de ejecución y visualización de planogramas.",
-    ],
-    stack: ["React", "MaterialUI", "TypeScript", "SVG", "DevExtreme"],
-    code: "/projects/Trade.html"
   },
   {
     name: "PHOTU",
@@ -125,6 +125,17 @@ export const projects: Project[] = [
     stack: ["React", "Tailwind 4", "TypeScript", "Supabase"],
     live: "https://photu-one.vercel.app"
   },
+  {
+    name: "Trade Marketing",
+    accent: "#286B2A",
+    desc: [
+      "Trade marketing management dashboard for retail execution, with composition showcases, location-based filters, favorites, contracts, pre-contract creation, execution proofs and planogram visualization.",
+      "Dashboard de gestão de Trade Marketing para execução no varejo, com vitrine de composições, filtros por localização, favoritos, contratos, criação de pré-contratos, comprovações de execução e visualização de planogramas.",
+      "Dashboard de gestión de Trade Marketing para ejecución en retail, con escaparate de composiciones, filtros por ubicación, favoritos, contratos, creación de precontratos, comprobaciones de ejecución y visualización de planogramas.",
+    ],
+    stack: ["React", "MaterialUI", "TypeScript", "SVG", "DevExtreme"],
+    code: "/projects/Trade.html"
+  }
 ];
 
 export type SkillGroup = { title: L3; color: string; items: string[] };

@@ -192,12 +192,9 @@ function App() {
                 <h3>{featured.name[lang]}</h3>
                 <p className="featured-sub">{featured.sub[lang]}</p>
                 <p>{featured.desc[lang]}</p>
-                {/* <ul className="bullets">
-                  {featured.bullets[lang].map((b) => <li key={b}>{b}</li>)}
-                </ul> */}
                 <div className="chips small">{featured.stack.map((t) => <span key={t} className="tag">{t}</span>)}</div>
                 <div className="project-actions">
-                  <a className="btn-orange" href={featured.code} rel="noreferrer">{ui.projects.live[lang]}</a>
+                  <a className="btn-orange" href={featured.code} rel="noreferrer"><FaRegFileCode /> {ui.projects.code[lang]}</a>
                 </div>
             </article>
             <div className="project-grid">
