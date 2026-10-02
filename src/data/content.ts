@@ -25,7 +25,7 @@ export const ui = {
     cta1: ["See my work", "Ver projetos", "Ver proyectos"] as L3,
     cta2: ["Get in touch", "Fale comigo", "Hablemos"] as L3,
     stats: [
-      { n: "37", l: ["Certificates", "Certificados", "Certificados"] as L3 },
+      { n: "35", l: ["Certificates", "Certificados", "Certificados"] as L3 },
       { n: "3", l: ["Languages spoken", "Idiomas", "Idiomas"] as L3 },
       { n: "EU", l: ["Work-ready", "Pronto p/ trabalhar", "Listo para trabajar"] as L3 },
     ],
@@ -235,20 +235,18 @@ export const skillGroups: SkillGroup[] = [
 
 
 // Optimized images live in /public/certificates (full = 1800px, thumb = 480px, both webp).
-const asset = (kind: "full" | "thumb", id: string) => `${process.env.PUBLIC_URL}/certificates/${kind}/${id}.webp`;
+const asset = (kind: "full" | "thumb", id: string) => `${process.env.PUBLIC_URL}/certificates/${kind}/${id}.jpg`;
 export const certificates: { title: string; full: string; thumb: string }[] = ([
-  ["React JS (Degree)", "react-js"],
-  ["React: Hooks, Contexts & Best Practices", "react-hooks-contextos-e-boas-praticas"],
+  ["React: Hooks, Contexts & Best Practices", "react-hooks-contexts-and-best-practices"],
   ["React Router: Navigating a SPA", "react-router-navigating-a-spa"],
   ["React: Styled Components", "react-abstracting-your-css-with-styled-components"],
   ["React: Automated Front-end Tests", "react-automating-tests-in-front-end-applications"],
   ["React: Function Components", "react-function-components-uma-abordagem-moderna"],
   ["React: Component Lifecycle", "react-ciclo-de-vida-dos-componentes"],
-  ["React: How the Library Works", "react-entendendo-como-a-biblioteca-funciona"],
+  ["React: How the Library Works", "react-understanding-how-the-library-works"],
   ["TypeScript — Part 1", "typescript-parte-1-evoluindo-seu-javascript"],
   ["TypeScript — Part 2", "typescript-parte-2-mais-tecnicas-e-boas-praticas"],
   ["REST with Node.js, Express & MySQL", "rest-com-nodejs-api-com-express-e-mysql"],
-  ["JavaScript for Backend", "javascript-for-backend"],
   ["Web Accessibility: Inclusive Design", "web-accessibility-create-inclusive-designs"],
   ["Web Accessibility — Part 1", "web-accessibility-part-1-making-your-frontend-inclusive"],
   ["Git & GitHub", "git-and-github-control-and-share-your-code"],
@@ -273,6 +271,7 @@ export const certificates: { title: string; full: string; thumb: string }[] = ([
   ["HTTP: Understanding the Web", "http-understanding-the-web"],
   ["Linux I: Using the Terminal", "Linux-I-using-the-terminal"],
   ["Dart: First Steps", "dart-primeiros-passos-com-a-linguagem"],
+  ["Cross-cutting competence in information and communication technology", "Senai"],
   ["Blender + Krita (Udemy)", "blender-plus-krita"],
 ] as [string, string][]).map(([title, id]) => ({ title, full: asset("full", id), thumb: asset("thumb", id) }));
 
@@ -286,7 +285,7 @@ export type Job = {
   period: L3;
   team?: L3;
   bullets: [string[], string[], string[]]; // EN, PT, ES
-  result: { link: string; text: [string, string, string] }; // EN, PT, ES
+  result: { link: string; label: string,text: [string, string, string] }; // EN, PT, ES
 };
 
 export const experience = {
@@ -331,6 +330,7 @@ export const experience = {
       ],
       result: {
         link: "https://panoramafarmaceutico.com.br/automacao-de-compras-do-cosmos-pro/",
+        label: "Panorama Farmacêutico ↗",
         text:[
           "Featured: MMC project results in 2024 Minha Melhor Compra (MMC)- Procfit’s Cosmos Pro purchasing automation platform had a busy year in 2024. On December 19, the solution reached the milestone of R$ 4 billion in orders, solidifying its strategic role in supporting merchandise replenishment operations across more than 4,000 points of sale. In total, MMC automatically transmitted 10 million orders to its 168 suppliers, including distributors and logistics operators.",
           "Destaque: resultados do projeto MMC em 2024 — Minha Melhor Compra (MMC) — A plataforma de automação de compras Cosmos Pro, da Procfit, teve um ano movimentado em 2024. Em 19 de dezembro, a solução atingiu a marca de R$ 4 bilhões em pedidos, consolidando seu papel estratégico no suporte às operações de reposição de mercadorias em mais de 4.000 pontos de venda. Ao todo, a MMC transmitiu automaticamente 10 milhões de pedidos para seus 168 fornecedores, incluindo distribuidores e operadores logísticos.",

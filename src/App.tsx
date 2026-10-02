@@ -140,7 +140,8 @@ function App() {
                     {job.result && <span className="result" key={job.company}>
                         <strong>{job.result.text[lang]}</strong>
                         <br></br>
-                       <a href={job.result.link}><strong>{job.result.link}</strong></a> 
+                        <br></br>
+                      <a href={job.result.link} target="_blank" rel="noreferrer"><strong>{job.result.label}</strong></a>
                     </span>}
                   </ul>
                 </article>
