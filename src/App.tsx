@@ -116,12 +116,21 @@ function App() {
         {/* EXPERIENCE */}
         <section id="experience" className="section">
           <div className="container">
-            <div className="head reveal"><span className="section-label">{experience.label[lang]}</span>
-              <h2>{experience.title[lang]}</h2></div>
+            <div className="head reveal">
+              <span className="section-label">{experience.label[lang]}</span>
+              <h2>{experience.title[lang]}</h2>
+            </div>
 
             <div className="timeline">
+              <article className="reveal" style={{ position: "relative", ["--c" as any]: "#e91e8c", transitionDelay: `80ms` }}>
+                <header className="job-head" style={{ marginBottom: 0 }}>
+                  <span className="job-dot" style={{ top: 10 }}/>
+                  <h2>Companies</h2>
+                </header>
+              </article>
+              
               {experience.jobs.map((job, i) => (
-                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, transitionDelay: `${i * 80}ms` }}>
+                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, ["--next-c" as any]: experience.jobs[i + 1]?.accent, transitionDelay: `${i * 80}ms` }}>
                   <span className="job-dot" />
                   <header className="job-head">
                     <div>
@@ -131,6 +140,43 @@ function App() {
                     <div className="job-meta">
                       <span className="tag">{job.period[lang]}</span>
                       <span className="tag">{job.place[lang]}</span>
+                      {job.team && <span className="tag">{job.team[lang]}</span>}
+                    </div>
+                  </header>
+                  <ul className="bullets">
+                    {job.bullets[lang].map((b) => <li key={b}>{b}</li>)}
+                    
+                    {job.result && <span className="result" key={job.company}>
+                        <strong>{job.result.text[lang]}</strong>
+                        <br></br>
+                        <br></br>
+                      <a href={job.result.link} target="_blank" rel="noreferrer"><strong>{job.result.label}</strong></a>
+                    </span>}
+                  </ul>
+                </article>
+              ))}
+            </div> 
+
+            <div className="timeline">
+              <article className="reveal" style={{ position: "relative", ["--c" as any]: "#e91e8c", transitionDelay: `80ms` }}>
+                <header className="job-head" style={{ marginBottom: 0 }}>
+                  <span className="job-dot" style={{ top: 10 }}/>
+                  <h3>{experience.freelance.role[lang]}</h3>
+                  <span className="tag">{experience.freelance.period[lang]}</span>
+                  <div className="job-meta">
+                    <p>{experience.freelance.text[lang]}</p>
+                    <h4 className="selected-projects">Selected Projects:</h4>
+                  </div>
+                </header>
+              </article>
+
+              {experience.freelance.jobs.map((job, i) => (
+                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, ["--next-c" as any]: experience.jobs[i + 1]?.accent, transitionDelay: `${i * 80}ms` }}>
+                  <span className="job-dot" />
+                  <header className="job-head">
+                    <div><h3 className="job-company">{job.company}</h3></div>
+                    <div className="job-meta">
+                      <span className="tag">{job.place && job.place[lang]}</span>
                       {job.team && <span className="tag">{job.team[lang]}</span>}
                     </div>
                   </header>

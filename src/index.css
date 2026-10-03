@@ -157,6 +157,10 @@ img { max-width: 100%; display: block; }
 .meter { display: flex; gap: 5px; } .meter i { flex: 1; height: 5px; border-radius: 3px; background: rgba(255,255,255,.1); } .meter i.on { background: var(--c); box-shadow: 0 0 8px color-mix(in srgb, var(--c) 55%, transparent); }
 .job a, .job .result { overflow-wrap: anywhere; }
 
+.selected-projects { margin: 10px 0 4px; font-size: 18px; font-weight: 600; }
+.job-head > h3 { font-size: 22px; font-weight: 900;}
+.job-head > .job-meta > p { color: rgba(255,255,255,.68); }
+
 /* Featured project */
 .featured { position: relative; overflow: hidden; padding: 32px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px; border-color: rgba(255,107,53,.3); }
 .featured::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 100% 0%, color-mix(in srgb, var(--c) 18%, transparent), transparent 100%); pointer-events: none; }
@@ -179,3 +183,11 @@ img { max-width: 100%; display: block; }
   .lang-grid { grid-template-columns: repeat(2, 1fr); } .featured { padding: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal, .fade-up { opacity: 1; transform: none; } }
+
+
+/* Timeline: cada card desenha o próprio trecho da linha, então ela usa a cor do card */
+.timeline::before { display: none; }
+.job-dot { z-index: 1; }
+.job::after { content: ""; position: absolute; z-index: 0; left: -27px; top: 42px; width: 2px; height: calc(100% + 24px); background: linear-gradient(var(--c), var(--next-c, var(--c))); border-radius: 2px; opacity: .7; }
+.job:last-child::after { height: calc(100% - 42px); background: linear-gradient(var(--c), transparent); }
+@media (max-width: 860px) { .job::after { left: -19px; } }

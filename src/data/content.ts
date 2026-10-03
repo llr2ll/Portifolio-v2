@@ -25,8 +25,8 @@ export const ui = {
     cta1: ["See my work", "Ver projetos", "Ver proyectos"] as L3,
     cta2: ["Get in touch", "Fale comigo", "Hablemos"] as L3,
     stats: [
-      { n: "35", l: ["Certificates", "Certificados", "Certificados"] as L3 },
-      { n: "3", l: ["Languages spoken", "Idiomas", "Idiomas"] as L3 },
+      { n: "36", l: ["Certificates", "Certificados", "Certificados"] as L3 },
+      { n: "4", l: ["Languages spoken", "Idiomas", "Idiomas"] as L3 },
       { n: "EU", l: ["Work-ready", "Pronto p/ trabalhar", "Listo para trabajar"] as L3 },
     ],
   },
@@ -115,6 +115,17 @@ export const projects: Project[] = [
     code: "/projects/plug-and-play.html"
   },
   {
+    name: "Gestão de Stock",
+    accent: "#F5C542",
+    desc: [
+      "Web-based business management and inventory platform focused on stock control, product movement, inventory tracking and operational workflows.",
+      "Plataforma web de gestão empresarial e inventário, focada no controle de estoque, movimentação de produtos, acompanhamento de inventário e fluxos operacionais.",
+      "Plataforma web de gestión empresarial e inventario, enfocada en el control de stock, movimiento de productos, seguimiento del inventario y flujos operativos.",
+    ],
+    stack: ["React", "TypeScript", "Tailwind CSS", "Material UI", "Supabase", "UX/UI"],
+    code: "/projects/estela-do-mar.html"
+  },
+  {
     name: "PHOTU",
     accent: "#e91e8c",
     desc: [
@@ -122,7 +133,7 @@ export const projects: Project[] = [
       "Plataforma de produtos e serviços de fotografia: cursos, produtos digitais, planos de restauração de fotos e um editor de imagens online em desenvolvimento.",
       "Plataforma de productos y servicios de fotografía: cursos, productos digitales, planes de restauración de fotos y un editor de imágenes online en desarrollo.",
     ],
-    stack: ["React", "Tailwind 4", "TypeScript", "Supabase"],
+    stack: ["React", "Tailwind", "TypeScript", "Supabase"],
     live: "https://photu-one.vercel.app"
   },
   {
@@ -293,76 +304,214 @@ export const experience = {
   title: ["Where I've worked", "Onde já trabalhei", "Dónde he trabajado"] as L3,
   jobs: [
     {
-      company: "Procfit (Cosmos Pro)",
-      accent: "#e91e8c",
-      role: ["Full-Stack Developer Senior", "Desenvolvedor Full-Stack Senior", "Desarrollador Full-Stack Senior"],
-      place: ["Brazil", "Brasil", "Brasil"],
-      period: ["Aug 2022 – Oct 2024", "Ago 2022 – Out 2024", "Ago 2022 – Oct 2024"],
-      team: ["Team of 13", "Equipe de 13 pessoas", "Equipo de 13 personas"],
-      bullets: [
-        [
-          "Developed web solutions using React for accounting systems and pharmacy purchasing and sales processes.",
-          "Maintained and enhanced an Angular-based SaaS platform, resolving issues and developing new features, metrics, and interactive grids.",
-          "Developed Node.js REST APIs for customer service and chat integrations (including WhatsApp) using OAuth and token-based authentication.",
-          "Created and optimized databases and advanced queries in SQL Server.",
-          "Automated deployments and version releases using Azure DevOps, with version control via Git.",
-          "Developed new features and provided maintenance, support, and customer service within Scrum, Kanban, and Agile environments, while offering ad-hoc support to junior developers.",
-          "Collaborated with User Experience (UX) and User Interface (UI) Designers, contributing to the definition, implementation, and improvement of interfaces and user experiences."
-        ],
-        [
-          "Desenvolvimento de soluções web com React para sistemas contábeis e processos de compra e venda de farmácias.",
-          "Manutenção e evolução de uma plataforma SaaS em Angular, resolvendo problemas e desenvolvendo novas funcionalidades, métricas e grids interativos.",
-          "Desenvolvimento de APIs REST em Node.js para atendimento ao cliente e integrações de chat (incluindo WhatsApp), com autenticação OAuth e baseada em tokens.",
-          "Criação e otimização de bancos de dados e consultas avançadas em SQL Server.",
-          "Automação de deploys e lançamentos de versões com Azure DevOps, com controle de versão via Git.",
-          "Desenvolvimento de novas funcionalidades, manutenção, suporte e atendimento ao cliente em ambientes Scrum, Kanban e Ágil, além de apoio pontual a desenvolvedores juniores.",
-          "Trabalho em conjunto com Designers de Experiência do Usuário (UX) e de Interfaces (UI), contribuindo para a definição, implementação e aprimoramento das interfaces e da experiência dos usuários."
-        ],
-        [
-          "Desarrollo de soluciones web con React para sistemas contables y procesos de compra y venta de farmacias.",
-          "Mantenimiento y mejora de una plataforma SaaS en Angular, resolviendo problemas y desarrollando nuevas funcionalidades, métricas y grids interactivos.",
-          "Desarrollo de APIs REST en Node.js para atención al cliente e integraciones de chat (incluido WhatsApp), con autenticación OAuth y basada en tokens.",
-          "Creación y optimización de bases de datos y consultas avanzadas en SQL Server.",
-          "Automatización de despliegues y lanzamientos de versiones con Azure DevOps, con control de versiones mediante Git.",
-          "Desarrollo de nuevas funcionalidades, mantenimiento, soporte y atención al cliente en entornos Scrum, Kanban y Ágiles, además de apoyo puntual a desarrolladores junior.",
-          "Trabajo en conjunto con Diseñadores de Experiencia de Usuario (UX) e Interfaces de Usuario (UI), contribuyendo a la definición, implementación y mejora de las interfaces y de la experiencia de los usuarios."
-        ],
-      ],
-      result: {
-        link: "https://panoramafarmaceutico.com.br/automacao-de-compras-do-cosmos-pro/",
-        label: "Panorama Farmacêutico ↗",
-        text:[
-          "Featured: MMC project results in 2024 Minha Melhor Compra (MMC)- Procfit’s Cosmos Pro purchasing automation platform had a busy year in 2024. On December 19, the solution reached the milestone of R$ 4 billion in orders, solidifying its strategic role in supporting merchandise replenishment operations across more than 4,000 points of sale. In total, MMC automatically transmitted 10 million orders to its 168 suppliers, including distributors and logistics operators.",
-          "Destaque: resultados do projeto MMC em 2024 — Minha Melhor Compra (MMC) — A plataforma de automação de compras Cosmos Pro, da Procfit, teve um ano movimentado em 2024. Em 19 de dezembro, a solução atingiu a marca de R$ 4 bilhões em pedidos, consolidando seu papel estratégico no suporte às operações de reposição de mercadorias em mais de 4.000 pontos de venda. Ao todo, a MMC transmitiu automaticamente 10 milhões de pedidos para seus 168 fornecedores, incluindo distribuidores e operadores logísticos.",
-          "Destacado: resultados del proyecto MMC en 2024 — Minha Melhor Compra (MMC) — La plataforma de automatización de compras Cosmos Pro de Procfit tuvo un año muy activo en 2024. El 19 de diciembre, la solución alcanzó el hito de 4.000 millones de reales brasileños (R$ 4 mil millones) en pedidos, consolidando su papel estratégico en el apoyo a las operaciones de reposición de mercancías en más de 4.000 puntos de venta. En total, MMC transmitió automáticamente 10 millones de pedidos a 168 proveedores, entre distribuidores y operadores logísticos."
-        ]
-      }
-    },
-    {
       company: "UNIMES",
-      accent: "#00d4ff",
-      role: ["Web Developer", "Desenvolvedor Web", "Desarrollador Web"],
-      place: ["Brazil", "Brasil", "Brasil"],
-      period: ["Oct 2021 – Jul 2022", "Out 2021 – Jul 2022", "Oct 2021 – Jul 2022"],
+      accent: "#7c3aed",
+      role: [
+        "Web Developer",
+        "Desenvolvedor Web",
+        "Desarrollador Web",
+      ],
+      place: [
+        "Brazil",
+        "Brasil",
+        "Brasil",
+      ],
+      period: [
+        "Oct 2021 – Jul 2022",
+        "Out 2021 – Jul 2022",
+        "Oct 2021 – Jul 2022",
+      ],
+      team: [
+        "Universidade Metropolitana de Santos",
+        "Universidade Metropolitana de Santos",
+        "Universidad Metropolitana de Santos",
+      ],
       bullets: [
         [
           "End-to-end development and maintenance of institutional websites featuring academic information, schedules, registration details, and course content.",
           "Creation and updating of web pages using WordPress and Elementor, in coordination with internal departments.",
           "Use of HTML, CSS, and JavaScript for interfaces and troubleshooting, particularly regarding WordPress bugs.",
+          "Built responsive and reusable UI components using React and TypeScript.",
+          "Designed user flows and interfaces with a focus on UX/UI and usability.",
+          "Optimized web interfaces for desktop, tablet, and mobile devices.",
+          "Maintained and continuously enhanced websites based on evolving institutional requirements.",
         ],
         [
           "Desenvolvimento e manutenção completos de sites institucionais com informações acadêmicas, horários, dados de matrícula e conteúdo dos cursos.",
-          "Criação e atualização de páginas web com WordPress e Elementor, em coordenação com os departamentos internos.",
-          "Uso de HTML, CSS e JavaScript em interfaces e na resolução de problemas, principalmente bugs do WordPress.",
+          "Criação e atualização de páginas web utilizando WordPress e Elementor, em coordenação com os departamentos internos.",
+          "Uso de HTML, CSS e JavaScript para interfaces e resolução de problemas, especialmente relacionados a bugs do WordPress.",
+          "Desenvolvimento de componentes de UI responsivos e reutilizáveis utilizando React e TypeScript.",
+          "Criação de fluxos de usuário e interfaces com foco em UX/UI e usabilidade.",
+          "Otimização das interfaces web para desktop, tablet e dispositivos móveis.",
+          "Manutenção e evolução contínua dos sites de acordo com as necessidades institucionais.",
         ],
         [
           "Desarrollo y mantenimiento integral de sitios web institucionales con información académica, horarios, datos de matrícula y contenido de los cursos.",
-          "Creación y actualización de páginas web con WordPress y Elementor, en coordinación con los departamentos internos.",
-          "Uso de HTML, CSS y JavaScript en interfaces y resolución de problemas, especialmente errores de WordPress.",
+          "Creación y actualización de páginas web utilizando WordPress y Elementor, en coordinación con los departamentos internos.",
+          "Uso de HTML, CSS y JavaScript para interfaces y resolución de problemas, especialmente relacionados con errores de WordPress.",
+          "Desarrollo de componentes de UI responsivos y reutilizables utilizando React y TypeScript.",
+          "Diseño de flujos de usuario e interfaces con enfoque en UX/UI y usabilidad.",
+          "Optimización de las interfaces web para escritorio, tablet y dispositivos móviles.",
+          "Mantenimiento y mejora continua de los sitios web de acuerdo con las necesidades institucionales.",
         ],
       ],
     },
+    {
+      company: "Procfit (Cosmos Pro)",
+      accent: "#e91e8c",
+      role: [
+        "Full-Stack Developer Senior",
+        "Desenvolvedor Full-Stack Senior",
+        "Desarrollador Full-Stack Senior",
+      ],
+      place: [
+        "Brazil",
+        "Brasil",
+        "Brasil",
+      ],
+      period: [
+        "Aug 2022 – Oct 2024",
+        "Ago 2022 – Out 2024",
+        "Ago 2022 – Oct 2024",
+      ],
+      team: [
+        "Team of 13",
+        "Equipe de 13 pessoas",
+        "Equipo de 13 personas",
+      ],
+      bullets: [
+        [
+          "Developed and maintained web applications using React and Angular, supporting accounting operations and pharmacy purchasing and sales workflows.",
+          "Enhanced an Angular-based SaaS platform, implementing new features, performance improvements, business metrics, interactive data grids, and resolving application issues.",
+          "Designed and developed Node.js REST APIs for customer service and chat integrations, using OAuth and token-based authentication.",
+          "Designed and optimized SQL Server databases, developing complex SQL queries and improving data retrieval and application performance.",
+          "Managed software releases and automated deployment workflows using Azure DevOps, with Git for source control and version management.",
+          "Participated in the full software development lifecycle, from requirements analysis and development to testing, deployment, maintenance, and production support.",
+          "Worked in Scrum, Kanban, and Agile environments, collaborating with cross-functional teams to deliver new features and resolve technical issues.",
+          "Collaborated with UX/UI designers to define, implement, and improve user interfaces and overall user experience.",
+          "Provided technical support and troubleshooting for customers and internal teams, ensuring timely resolution of application and integration issues.",
+          "Supported junior developers through technical guidance, code review, troubleshooting, and ad-hoc assistance on development tasks.",
+        ],
+        [
+          "Desenvolvimento e manutenção de aplicações web utilizando React e Angular, atendendo operações contábeis e fluxos de compra e venda de farmácias.",
+          "Evolução de uma plataforma SaaS baseada em Angular, implementando novas funcionalidades, melhorias de performance, métricas de negócio, grids interativos e correções de problemas da aplicação.",
+          "Desenvolvimento de APIs REST em Node.js para atendimento ao cliente e integrações de chat, utilizando autenticação OAuth e baseada em tokens.",
+          "Desenvolvimento e otimização de bancos de dados SQL Server, criando consultas SQL complexas e melhorando a recuperação de dados e a performance das aplicações.",
+          "Gerenciamento de releases e automação de fluxos de deploy utilizando Azure DevOps, com Git para controle de código-fonte e versionamento.",
+          "Participação em todo o ciclo de desenvolvimento de software, desde análise de requisitos e desenvolvimento até testes, deploy, manutenção e suporte em produção.",
+          "Atuação em ambientes Scrum, Kanban e Ágil, colaborando com equipes multidisciplinares para entregar novas funcionalidades e resolver problemas técnicos.",
+          "Colaboração com designers de UX/UI na definição, implementação e melhoria das interfaces e da experiência geral dos usuários.",
+          "Suporte técnico e troubleshooting para clientes e equipes internas, garantindo a resolução dos problemas de aplicação e integrações.",
+          "Apoio a desenvolvedores juniores por meio de orientação técnica, code review, troubleshooting e suporte pontual em tarefas de desenvolvimento.",
+        ],
+        [
+          "Desarrollo y mantenimiento de aplicaciones web utilizando React y Angular, dando soporte a operaciones contables y flujos de compra y venta de farmacias.",
+          "Mejora de una plataforma SaaS basada en Angular, implementando nuevas funcionalidades, mejoras de rendimiento, métricas de negocio, grids interactivos y resolución de problemas de la aplicación.",
+          "Diseño y desarrollo de APIs REST en Node.js para atención al cliente e integraciones de chat, utilizando autenticación OAuth y basada en tokens.",
+          "Diseño y optimización de bases de datos SQL Server, desarrollando consultas SQL complejas y mejorando la recuperación de datos y el rendimiento de las aplicaciones.",
+          "Gestión de releases y automatización de flujos de despliegue mediante Azure DevOps, utilizando Git para el control de código fuente y versionado.",
+          "Participación en todo el ciclo de desarrollo de software, desde el análisis de requisitos y desarrollo hasta pruebas, despliegue, mantenimiento y soporte en producción.",
+          "Trabajo en entornos Scrum, Kanban y Ágiles, colaborando con equipos multidisciplinares para entregar nuevas funcionalidades y resolver problemas técnicos.",
+          "Colaboración con diseñadores de UX/UI para definir, implementar y mejorar las interfaces y la experiencia general de los usuarios.",
+          "Soporte técnico y troubleshooting para clientes y equipos internos, garantizando la resolución oportuna de problemas de aplicaciones e integraciones.",
+          "Apoyo a desarrolladores junior mediante orientación técnica, revisión de código, troubleshooting y asistencia puntual en tareas de desarrollo.",
+        ],
+      ],
+      result: {
+        link: "https://panoramafarmaceutico.com.br/automacao-de-compras-do-cosmos-pro/",
+        label: "Panorama Farmacêutico ↗",
+        text: [
+          "Featured: MMC project results in 2024 — Procfit's Cosmos Pro purchasing automation platform reached R$ 4 billion in orders on December 19, 2024. The solution supported merchandise replenishment operations across more than 4,000 points of sale and automatically transmitted 10 million orders to 168 suppliers, including distributors and logistics operators.",
+          "Destaque: resultados do projeto MMC em 2024 — A plataforma de automação de compras Cosmos Pro, da Procfit, atingiu R$ 4 bilhões em pedidos em 19 de dezembro de 2024. A solução apoiou operações de reposição de mercadorias em mais de 4.000 pontos de venda e transmitiu automaticamente 10 milhões de pedidos para 168 fornecedores, incluindo distribuidores e operadores logísticos.",
+          "Destacado: resultados del proyecto MMC en 2024 — La plataforma de automatización de compras Cosmos Pro de Procfit alcanzó los 4.000 millones de reales brasileños en pedidos el 19 de diciembre de 2024. La solución apoyó las operaciones de reposición de mercancías en más de 4.000 puntos de venta y transmitió automáticamente 10 millones de pedidos a 168 proveedores, incluidos distribuidores y operadores logísticos.",
+        ],
+      },
+    }
   ] as Job[],
+  freelance: {
+    role: [ "Full-Stack Developer | Freelancer", "Desenvolvedor Full-Stack | Freelancer", "Desarrollador Full-Stack | Freelancer" ],
+    text: [
+      "Developing web applications and digital solutions for independent businesses, from requirements analysis and UI/UX design to frontend development, backend integration, database management, and deployment.",
+      "Desenvolvimento de aplicações web e soluções digitais para empresas independentes, desde a análise de requisitos e design de UI/UX até o desenvolvimento frontend, integração com backend, gerenciamento de banco de dados e implantação.",
+      "Desarrollo de aplicaciones web y soluciones digitales para empresas independientes, desde el análisis de requisitos y diseño de UI/UX hasta el desarrollo frontend, integración backend, gestión de bases de datos y despliegue.",
+    ] as L3,
+    period: [ "Nov 2024 – Present", "Nov 2024 – Presente", "Nov 2024 – Presente" ],
+    jobs : [
+      {
+        company: "PHOTU",
+        accent: "#f59e0b",
+        team: [ "Former partner of Studio Yastrees", "Ex-parceiro do Studio Yastrees", "Exsocio de Studio Yastrees" ],
+        place: [ "Brazil", "Brasil", "Brasil" ],
+        bullets: [
+          [
+            "Developed a digital platform for photography courses, digital products, photo restoration services, and an upcoming online image editor.",
+            "Built responsive and reusable UI components using React and TypeScript.",
+            "Designed user flows and interfaces with a focus on UX/UI and usability.",
+            "Optimized the platform for desktop, tablet, and mobile devices.",
+            "Maintained and continuously enhanced the platform based on evolving business requirements.",
+          ],
+          [
+            "Desenvolvimento de uma plataforma digital para cursos de fotografia, produtos digitais, serviços de restauração de fotos e um futuro editor de imagens online.",
+            "Desenvolvimento de componentes de UI responsivos e reutilizáveis utilizando React e TypeScript.",
+            "Criação de fluxos de usuário e interfaces com foco em UX/UI e usabilidade.",
+            "Otimização da plataforma para desktop, tablet e dispositivos móveis.",
+            "Manutenção e evolução contínua da plataforma de acordo com as necessidades do negócio.",
+          ],
+          [
+            "Desarrollo de una plataforma digital para cursos de fotografía, productos digitales, servicios de restauración de fotos y un futuro editor de imágenes online.",
+            "Desarrollo de componentes de UI responsivos y reutilizables utilizando React y TypeScript.",
+            "Diseño de flujos de usuario e interfaces con enfoque en UX/UI y usabilidad.",
+            "Optimización de la plataforma para escritorio, tablet y dispositivos móviles.",
+            "Mantenimiento y mejora continua de la plataforma de acuerdo con las necesidades del negocio.",
+          ],
+        ],
+      },
+      {
+        company: "Castro de Agueiro (Estrela do Mar)",
+        accent: "#00d4ff",
+        team: [ "Independent", "Independente", "Independiente" ],
+        place: [ "Remote · Brazil / Spain", "Remoto · Brasil / Espanha", "Remoto · Brasil / España" ],
+        bullets: [
+          [
+            "Developed a web-based business management and inventory platform for Castro de Agueiro, digitalizing and streamlining operational processes.",
+            "Analyzed business requirements and translated operational processes into digital workflows, including product entries, exits, inventory control, and stock management.",
+            "Implemented real-time inventory tracking, product movement records, dashboards, and data views for monitoring operational information.",
+            "Centralized business data and management processes within a single web platform, integrating Supabase for data management and backend services.",
+            "Performed testing, troubleshooting, maintenance, and continuous feature improvements based on evolving business requirements.",
+            "Developed web applications and digital solutions for independent businesses, covering requirements analysis, UI/UX design, frontend development, backend integration, database management, and deployment.",
+            "Built responsive and reusable UI components using React and TypeScript, with a focus on usability and consistent user experience across desktop, tablet, and mobile devices.",
+          ],
+          [
+            "Desenvolvimento de uma plataforma web de gestão empresarial e controle de estoque para a Castro de Agueiro, digitalizando e otimizando processos operacionais.",
+            "Análise de requisitos de negócio e transformação de processos operacionais em fluxos digitais, incluindo entradas e saídas de produtos, controle de inventário e gestão de estoque.",
+            "Implementação de acompanhamento de inventário em tempo real, registros de movimentação de produtos, dashboards e visualizações de dados para monitoramento das informações operacionais.",
+            "Centralização dos dados e processos de gestão empresarial em uma única plataforma web, integrando Supabase para gerenciamento de dados e serviços de backend.",
+            "Realização de testes, resolução de problemas, manutenção e evolução contínua das funcionalidades de acordo com as necessidades do negócio.",
+            "Desenvolvimento de aplicações web e soluções digitais para empresas independentes, abrangendo análise de requisitos, design de UI/UX, desenvolvimento frontend, integração com backend, gerenciamento de banco de dados e deploy.",
+            "Desenvolvimento de componentes de UI responsivos e reutilizáveis com React e TypeScript, com foco em usabilidade e experiência consistente em desktop, tablet e dispositivos móveis.",
+          ],
+          [
+            "Desarrollo de una plataforma web de gestión empresarial y control de inventario para Castro de Agueiro, digitalizando y optimizando los procesos operativos.",
+            "Análisis de requisitos de negocio y transformación de procesos operativos en flujos digitales, incluyendo entradas y salidas de productos, control de inventario y gestión de stock.",
+            "Implementación de seguimiento de inventario en tiempo real, registros de movimientos de productos, dashboards y visualizaciones de datos para el monitoreo de información operativa.",
+            "Centralización de datos y procesos de gestión empresarial en una única plataforma web, integrando Supabase para la gestión de datos y servicios backend.",
+            "Realización de pruebas, resolución de problemas, mantenimiento y mejora continua de funcionalidades de acuerdo con las necesidades del negocio.",
+            "Desarrollo de aplicaciones web y soluciones digitales para empresas independientes, abarcando análisis de requisitos, diseño de UI/UX, desarrollo frontend, integración backend, gestión de bases de datos y despliegue.",
+            "Desarrollo de componentes de UI responsivos y reutilizables con React y TypeScript, con enfoque en usabilidad y experiencia consistente en escritorio, tablet y dispositivos móviles.",
+          ],
+        ],
+        result: {
+          link: "",
+          label: "",
+          text: [
+            "Business Management and Inventory Platform — Developed a web-based platform to digitalize business operations, with inventory management, stock control, product movement tracking, dashboards, and centralized business data.",
+            "Plataforma de Gestão Empresarial e Inventário — Desenvolvimento de uma plataforma web para digitalizar as operações do negócio, com gerenciamento de inventário, controle de estoque, acompanhamento da movimentação de produtos, dashboards e centralização dos dados empresariais.",
+            "Plataforma de Gestión Empresarial e Inventario — Desarrollo de una plataforma web para digitalizar las operaciones del negocio, con gestión de inventario, control de stock, seguimiento de movimientos de productos, dashboards y centralización de los datos empresariales.",
+          ],
+        },
+      }
+    ]
+  } 
 };
 
 export const languagesSpoken = {
