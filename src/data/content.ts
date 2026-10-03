@@ -16,7 +16,7 @@ export const ui = {
     hi: ["Hi, I'm", "Olá, eu sou", "Hola, soy"] as L3,
     name: "Raphael Sanseverino",
     role: ["Full-stack developer who ships", "Desenvolvedor full-stack que entrega", "Desarrollador full-stack que entrega"] as L3,
-    roleAccent: ["clean, fast, useful products", "produtos limpos, rápidos e úteis", "productos limpios, rápidos y útiles"] as L3,
+    roleAccent: ["clean, fast, useful projects", "projetos limpos, rápidos e úteis", "proyectos limpios, rápidos y útiles"] as L3,
     text: [
       "At the moment in the province of Pontevedra - Spain (north), EU citizen. I turn business needs into well-structured digital solutions — combining technology, performance and quality execution.",
       "Atualmente na província de Pontevedra - Espanha (norte), cidadão da UE. Transformo necessidades de negócio em soluções digitais bem estruturadas, combinando tecnologia, performance e qualidade.",
@@ -27,7 +27,7 @@ export const ui = {
     stats: [
       { n: "36", l: ["Certificates", "Certificados", "Certificados"] as L3 },
       { n: "4", l: ["Languages spoken", "Idiomas", "Idiomas"] as L3 },
-      { n: "EU", l: ["Work-ready", "Pronto p/ trabalhar", "Listo para trabajar"] as L3 },
+      { n: "UE", l: ["Work-ready", "Pronto p/ trabalhar", "Listo para trabajar"] as L3 },
     ],
   },
   skills: {
@@ -37,7 +37,7 @@ export const ui = {
   projects: {
     label: ["Selected work", "Trabalhos", "Trabajos"] as L3,
     title: ["Things I've built", "O que já construí", "Lo que he construido"] as L3,
-    code: ["Code", "Código", "Código"] as L3,
+
     live: ["Live", "Ver online", "Ver online"] as L3,
   },
   certs: {
@@ -115,28 +115,6 @@ export const projects: Project[] = [
     code: "/projects/plug-and-play.html"
   },
   {
-    name: "Gestão de Stock",
-    accent: "#F5C542",
-    desc: [
-      "Web-based business management and inventory platform focused on stock control, product movement, inventory tracking and operational workflows.",
-      "Plataforma web de gestão empresarial e inventário, focada no controle de estoque, movimentação de produtos, acompanhamento de inventário e fluxos operacionais.",
-      "Plataforma web de gestión empresarial e inventario, enfocada en el control de stock, movimiento de productos, seguimiento del inventario y flujos operativos.",
-    ],
-    stack: ["React", "TypeScript", "Tailwind CSS", "Material UI", "Supabase", "UX/UI"],
-    code: "/projects/estela-do-mar.html"
-  },
-  {
-    name: "PHOTU",
-    accent: "#e91e8c",
-    desc: [
-      "Photography products & services platform: courses, digital products, photo-restoration plans and an in-progress online image editor.",
-      "Plataforma de produtos e serviços de fotografia: cursos, produtos digitais, planos de restauração de fotos e um editor de imagens online em desenvolvimento.",
-      "Plataforma de productos y servicios de fotografía: cursos, productos digitales, planes de restauración de fotos y un editor de imágenes online en desarrollo.",
-    ],
-    stack: ["React", "Tailwind", "TypeScript", "Supabase"],
-    live: "https://photu-one.vercel.app"
-  },
-  {
     name: "Trade Marketing",
     accent: "#286B2A",
     desc: [
@@ -146,6 +124,17 @@ export const projects: Project[] = [
     ],
     stack: ["React", "MaterialUI", "TypeScript", "SVG", "DevExtreme"],
     code: "/projects/Trade.html"
+  },
+  {
+    name: "Inventory Management",
+    accent: "#F5C542",
+    desc: [
+      "Web-based business management and inventory platform focused on stock control, product movement, inventory tracking and operational workflows.",
+      "Plataforma web de gestão empresarial e inventário, focada no controle de estoque, movimentação de produtos, acompanhamento de inventário e fluxos operacionais.",
+      "Plataforma web de gestión empresarial e inventario, enfocada en el control de stock, movimiento de productos, seguimiento del inventario y flujos operativos.",
+    ],
+    stack: ["React", "TypeScript", "Tailwind CSS", "Material UI", "Supabase", "UX/UI"],
+    code: "/projects/estela-do-mar.html"
   }
 ];
 
@@ -296,66 +285,15 @@ export type Job = {
   period: L3;
   team?: L3;
   bullets: [string[], string[], string[]]; // EN, PT, ES
-  result: { link: string; label: string,text: [string, string, string] }; // EN, PT, ES
+  result?: { link: string; label: string; text?: [string, string, string] }; // EN, PT, ES
 };
 
 export const experience = {
   label: ["Career", "Carreira", "Carrera"] as L3,
   title: ["Where I've worked", "Onde já trabalhei", "Dónde he trabajado"] as L3,
+  companiesTitle: ["Companies", "Empresas", "Empresas"] as L3,
+  selectedProjects: ["Selected projects:", "Projetos selecionados:", "Proyectos seleccionados:"] as L3,
   jobs: [
-    {
-      company: "UNIMES",
-      accent: "#7c3aed",
-      role: [
-        "Web Developer",
-        "Desenvolvedor Web",
-        "Desarrollador Web",
-      ],
-      place: [
-        "Brazil",
-        "Brasil",
-        "Brasil",
-      ],
-      period: [
-        "Oct 2021 – Jul 2022",
-        "Out 2021 – Jul 2022",
-        "Oct 2021 – Jul 2022",
-      ],
-      team: [
-        "Universidade Metropolitana de Santos",
-        "Universidade Metropolitana de Santos",
-        "Universidad Metropolitana de Santos",
-      ],
-      bullets: [
-        [
-          "End-to-end development and maintenance of institutional websites featuring academic information, schedules, registration details, and course content.",
-          "Creation and updating of web pages using WordPress and Elementor, in coordination with internal departments.",
-          "Use of HTML, CSS, and JavaScript for interfaces and troubleshooting, particularly regarding WordPress bugs.",
-          "Built responsive and reusable UI components using React and TypeScript.",
-          "Designed user flows and interfaces with a focus on UX/UI and usability.",
-          "Optimized web interfaces for desktop, tablet, and mobile devices.",
-          "Maintained and continuously enhanced websites based on evolving institutional requirements.",
-        ],
-        [
-          "Desenvolvimento e manutenção completos de sites institucionais com informações acadêmicas, horários, dados de matrícula e conteúdo dos cursos.",
-          "Criação e atualização de páginas web utilizando WordPress e Elementor, em coordenação com os departamentos internos.",
-          "Uso de HTML, CSS e JavaScript para interfaces e resolução de problemas, especialmente relacionados a bugs do WordPress.",
-          "Desenvolvimento de componentes de UI responsivos e reutilizáveis utilizando React e TypeScript.",
-          "Criação de fluxos de usuário e interfaces com foco em UX/UI e usabilidade.",
-          "Otimização das interfaces web para desktop, tablet e dispositivos móveis.",
-          "Manutenção e evolução contínua dos sites de acordo com as necessidades institucionais.",
-        ],
-        [
-          "Desarrollo y mantenimiento integral de sitios web institucionales con información académica, horarios, datos de matrícula y contenido de los cursos.",
-          "Creación y actualización de páginas web utilizando WordPress y Elementor, en coordinación con los departamentos internos.",
-          "Uso de HTML, CSS y JavaScript para interfaces y resolución de problemas, especialmente relacionados con errores de WordPress.",
-          "Desarrollo de componentes de UI responsivos y reutilizables utilizando React y TypeScript.",
-          "Diseño de flujos de usuario e interfaces con enfoque en UX/UI y usabilidad.",
-          "Optimización de las interfaces web para escritorio, tablet y dispositivos móviles.",
-          "Mantenimiento y mejora continua de los sitios web de acuerdo con las necesidades institucionales.",
-        ],
-      ],
-    },
     {
       company: "Procfit (Cosmos Pro)",
       accent: "#e91e8c",
@@ -426,6 +364,59 @@ export const experience = {
           "Destacado: resultados del proyecto MMC en 2024 — La plataforma de automatización de compras Cosmos Pro de Procfit alcanzó los 4.000 millones de reales brasileños en pedidos el 19 de diciembre de 2024. La solución apoyó las operaciones de reposición de mercancías en más de 4.000 puntos de venta y transmitió automáticamente 10 millones de pedidos a 168 proveedores, incluidos distribuidores y operadores logísticos.",
         ],
       },
+    },
+    {
+      company: "UNIMES",
+      accent: "#7c3aed",
+      role: [
+        "Web Developer",
+        "Desenvolvedor Web",
+        "Desarrollador Web",
+      ],
+      place: [
+        "Brazil",
+        "Brasil",
+        "Brasil",
+      ],
+      period: [
+        "Oct 2021 – Jul 2022",
+        "Out 2021 – Jul 2022",
+        "Oct 2021 – Jul 2022",
+      ],
+      team: [
+        "Universidade Metropolitana de Santos",
+        "Universidade Metropolitana de Santos",
+        "Universidad Metropolitana de Santos",
+      ],
+      bullets: [
+        [
+          "End-to-end development and maintenance of institutional websites featuring academic information, schedules, registration details, and course content.",
+          "Creation and updating of web pages using WordPress and Elementor, in coordination with internal departments.",
+          "Use of HTML, CSS, and JavaScript for interfaces and troubleshooting, particularly regarding WordPress bugs.",
+          "Built responsive and reusable UI components using React and TypeScript.",
+          "Designed user flows and interfaces with a focus on UX/UI and usability.",
+          "Optimized web interfaces for desktop, tablet, and mobile devices.",
+          "Maintained and continuously enhanced websites based on evolving institutional requirements.",
+        ],
+        [
+          "Desenvolvimento e manutenção completos de sites institucionais com informações acadêmicas, horários, dados de matrícula e conteúdo dos cursos.",
+          "Criação e atualização de páginas web utilizando WordPress e Elementor, em coordenação com os departamentos internos.",
+          "Uso de HTML, CSS e JavaScript para interfaces e resolução de problemas, especialmente relacionados a bugs do WordPress.",
+          "Desenvolvimento de componentes de UI responsivos e reutilizáveis utilizando React e TypeScript.",
+          "Criação de fluxos de usuário e interfaces com foco em UX/UI e usabilidade.",
+          "Otimização das interfaces web para desktop, tablet e dispositivos móveis.",
+          "Manutenção e evolução contínua dos sites de acordo com as necessidades institucionais.",
+        ],
+        [
+          "Desarrollo y mantenimiento integral de sitios web institucionales con información académica, horarios, datos de matrícula y contenido de los cursos.",
+          "Creación y actualización de páginas web utilizando WordPress y Elementor, en coordinación con los departamentos internos.",
+          "Uso de HTML, CSS y JavaScript para interfaces y resolución de problemas, especialmente relacionados con errores de WordPress.",
+          "Desarrollo de componentes de UI responsivos y reutilizables utilizando React y TypeScript.",
+          "Diseño de flujos de usuario e interfaces con enfoque en UX/UI y usabilidad.",
+          "Optimización de las interfaces web para escritorio, tablet y dispositivos móviles.",
+          "Mantenimiento y mejora continua de los sitios web de acuerdo con las necesidades institucionales.",
+        ],
+      ],
     }
   ] as Job[],
   freelance: {
@@ -438,9 +429,50 @@ export const experience = {
     period: [ "Nov 2024 – Present", "Nov 2024 – Presente", "Nov 2024 – Presente" ],
     jobs : [
       {
-        company: "PHOTU",
+        company: "Castro de Agueiro (Estrela do Mar)",
+        accent: "#00d4ff",
+        team: [ "Independent", "Independente", "Independiente" ],
+        place: [ "Remote · Brazil / Spain", "Remoto · Brasil / Espanha", "Remoto · Brasil / España" ],
+        bullets: [
+          [
+            "Designed and developed a web-based management solution to digitalize and streamline business operations, focusing on inventory, stock control, and product movement management, built with React and TypeScript.",
+            "Analyzed business requirements and translated operational processes into digital workflows, covering product entries and exits, inventory control, and stock management.",
+            "Implemented real-time inventory tracking, product movement records, dashboards, and data views, giving the business clear and up-to-date visibility over its operational information.",
+            "Centralized business data and management processes within a single web platform, integrating Supabase for data management and backend services.",
+            "Applied UX/UI design principles to create clear, intuitive interfaces, using Material UI components together with Tailwind CSS for a consistent, responsive layout.",
+            "Performed testing, troubleshooting, maintenance, and continuous feature improvements to keep the platform reliable and aligned with the business's day-to-day needs.",
+          ],
+          [
+            "Projetei e desenvolvi uma solução web de gestão para digitalizar e otimizar as operações empresariais, com foco em inventário, controle de estoque e gestão da movimentação de produtos, utilizando React e TypeScript.",
+            "Analisei os requisitos de negócio e transformei os processos operacionais em fluxos digitais, abrangendo entradas e saídas de produtos, controle de inventário e gestão de estoque.",
+            "Implementei o acompanhamento de inventário em tempo real, registros de movimentação de produtos, dashboards e visualizações de dados, oferecendo ao negócio uma visão clara e atualizada das informações operacionais.",
+            "Centralizei os dados e os processos de gestão empresarial em uma única plataforma web, integrando o Supabase para gerenciamento de dados e serviços de backend.",
+            "Apliquei princípios de UX/UI Design para criar interfaces claras e intuitivas, combinando componentes do Material UI com Tailwind CSS para um layout consistente e responsivo.",
+            "Realizei testes, solução de problemas, manutenção e melhorias contínuas de funcionalidades, mantendo a plataforma confiável e alinhada às necessidades do dia a dia do negócio.",
+          ],
+          [
+            "Diseñé y desarrollé una solución web de gestión para digitalizar y optimizar las operaciones empresariales, con enfoque en inventario, control de stock y gestión del movimiento de productos, utilizando React y TypeScript.",
+            "Analicé los requisitos de negocio y transformé los procesos operativos en flujos digitales, abarcando entradas y salidas de productos, control de inventario y gestión de stock.",
+            "Implementé el seguimiento de inventario en tiempo real, registros de movimientos de productos, dashboards y visualizaciones de datos, ofreciendo al negocio una visión clara y actualizada de su información operativa.",
+            "Centralicé los datos y los procesos de gestión empresarial en una única plataforma web, integrando Supabase para la gestión de datos y los servicios de backend.",
+            "Apliqué principios de diseño UX/UI para crear interfaces claras e intuitivas, combinando componentes de Material UI con Tailwind CSS para un diseño coherente y responsivo.",
+            "Realicé pruebas, resolución de problemas, mantenimiento y mejoras continuas de las funcionalidades, manteniendo la plataforma fiable y alineada con las necesidades diarias del negocio.",
+          ],
+        ],
+        result: {
+          link: "",
+          label: "",
+          text: [
+            "Business Management and Inventory Platform — End-to-end web platform that takes a business from manual tracking to a single digital system: real-time inventory, stock control, product entry and exit tracking, and dashboards that turn daily operations into clear, actionable data. Built with React, TypeScript, Tailwind CSS, Material UI, and Supabase.",
+            "Plataforma de Gestão Empresarial e Inventário — Plataforma web completa que leva o negócio do controle manual para um único sistema digital: inventário em tempo real, controle de estoque, acompanhamento de entradas e saídas de produtos e dashboards que transformam a operação diária em dados claros e acionáveis. Desenvolvida com React, TypeScript, Tailwind CSS, Material UI e Supabase.",
+            "Plataforma de Gestión Empresarial e Inventario — Plataforma web integral que lleva el negocio del control manual a un único sistema digital: inventario en tiempo real, control de stock, seguimiento de entradas y salidas de productos y dashboards que convierten la operación diaria en datos claros y accionables. Desarrollada con React, TypeScript, Tailwind CSS, Material UI y Supabase.",
+          ],
+        },
+      },
+      {
+        company: "Studio Prime",
         accent: "#f59e0b",
-        team: [ "Former partner of Studio Yastrees", "Ex-parceiro do Studio Yastrees", "Exsocio de Studio Yastrees" ],
+        team: [ "Former partner of Studio Studio Prime", "Ex-parceiro do Studio Yastrees", "Exsocio de Studio Prime" ],
         place: [ "Brazil", "Brasil", "Brasil" ],
         bullets: [
           [
@@ -465,51 +497,8 @@ export const experience = {
             "Mantenimiento y mejora continua de la plataforma de acuerdo con las necesidades del negocio.",
           ],
         ],
+        result: {  link: "https://photu-one.vercel.app", label: "Studio Prime ↗" }
       },
-      {
-        company: "Castro de Agueiro (Estrela do Mar)",
-        accent: "#00d4ff",
-        team: [ "Independent", "Independente", "Independiente" ],
-        place: [ "Remote · Brazil / Spain", "Remoto · Brasil / Espanha", "Remoto · Brasil / España" ],
-        bullets: [
-          [
-            "Developed a web-based business management and inventory platform for Castro de Agueiro, digitalizing and streamlining operational processes.",
-            "Analyzed business requirements and translated operational processes into digital workflows, including product entries, exits, inventory control, and stock management.",
-            "Implemented real-time inventory tracking, product movement records, dashboards, and data views for monitoring operational information.",
-            "Centralized business data and management processes within a single web platform, integrating Supabase for data management and backend services.",
-            "Performed testing, troubleshooting, maintenance, and continuous feature improvements based on evolving business requirements.",
-            "Developed web applications and digital solutions for independent businesses, covering requirements analysis, UI/UX design, frontend development, backend integration, database management, and deployment.",
-            "Built responsive and reusable UI components using React and TypeScript, with a focus on usability and consistent user experience across desktop, tablet, and mobile devices.",
-          ],
-          [
-            "Desenvolvimento de uma plataforma web de gestão empresarial e controle de estoque para a Castro de Agueiro, digitalizando e otimizando processos operacionais.",
-            "Análise de requisitos de negócio e transformação de processos operacionais em fluxos digitais, incluindo entradas e saídas de produtos, controle de inventário e gestão de estoque.",
-            "Implementação de acompanhamento de inventário em tempo real, registros de movimentação de produtos, dashboards e visualizações de dados para monitoramento das informações operacionais.",
-            "Centralização dos dados e processos de gestão empresarial em uma única plataforma web, integrando Supabase para gerenciamento de dados e serviços de backend.",
-            "Realização de testes, resolução de problemas, manutenção e evolução contínua das funcionalidades de acordo com as necessidades do negócio.",
-            "Desenvolvimento de aplicações web e soluções digitais para empresas independentes, abrangendo análise de requisitos, design de UI/UX, desenvolvimento frontend, integração com backend, gerenciamento de banco de dados e deploy.",
-            "Desenvolvimento de componentes de UI responsivos e reutilizáveis com React e TypeScript, com foco em usabilidade e experiência consistente em desktop, tablet e dispositivos móveis.",
-          ],
-          [
-            "Desarrollo de una plataforma web de gestión empresarial y control de inventario para Castro de Agueiro, digitalizando y optimizando los procesos operativos.",
-            "Análisis de requisitos de negocio y transformación de procesos operativos en flujos digitales, incluyendo entradas y salidas de productos, control de inventario y gestión de stock.",
-            "Implementación de seguimiento de inventario en tiempo real, registros de movimientos de productos, dashboards y visualizaciones de datos para el monitoreo de información operativa.",
-            "Centralización de datos y procesos de gestión empresarial en una única plataforma web, integrando Supabase para la gestión de datos y servicios backend.",
-            "Realización de pruebas, resolución de problemas, mantenimiento y mejora continua de funcionalidades de acuerdo con las necesidades del negocio.",
-            "Desarrollo de aplicaciones web y soluciones digitales para empresas independientes, abarcando análisis de requisitos, diseño de UI/UX, desarrollo frontend, integración backend, gestión de bases de datos y despliegue.",
-            "Desarrollo de componentes de UI responsivos y reutilizables con React y TypeScript, con enfoque en usabilidad y experiencia consistente en escritorio, tablet y dispositivos móviles.",
-          ],
-        ],
-        result: {
-          link: "",
-          label: "",
-          text: [
-            "Business Management and Inventory Platform — Developed a web-based platform to digitalize business operations, with inventory management, stock control, product movement tracking, dashboards, and centralized business data.",
-            "Plataforma de Gestão Empresarial e Inventário — Desenvolvimento de uma plataforma web para digitalizar as operações do negócio, com gerenciamento de inventário, controle de estoque, acompanhamento da movimentação de produtos, dashboards e centralização dos dados empresariais.",
-            "Plataforma de Gestión Empresarial e Inventario — Desarrollo de una plataforma web para digitalizar las operaciones del negocio, con gestión de inventario, control de stock, seguimiento de movimientos de productos, dashboards y centralización de los datos empresariales.",
-          ],
-        },
-      }
     ]
   } 
 };

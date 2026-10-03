@@ -8,6 +8,7 @@ import { BiBookBookmark } from "react-icons/bi";
 import { RiGalleryLine } from "react-icons/ri";
 import { FiSmartphone } from "react-icons/fi";
 import profile from "./assets/profile.jpeg";
+import { JobCard, TimelineItem } from "./components/experience/timeline";
 
 function App() {
   const [lang, setLang] = useState<number>(() => {
@@ -120,77 +121,36 @@ function App() {
               <span className="section-label">{experience.label[lang]}</span>
               <h2>{experience.title[lang]}</h2>
             </div>
-
+            
+            {/* Timeline 1 — companies */}
             <div className="timeline">
-              <article className="reveal" style={{ position: "relative", ["--c" as any]: "#e91e8c", transitionDelay: `80ms` }}>
-                <header className="job-head" style={{ marginBottom: 0 }}>
-                  <span className="job-dot" style={{ top: 10 }}/>
-                  <h2>Companies</h2>
-                </header>
-              </article>
-              
-              {experience.jobs.map((job, i) => (
-                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, ["--next-c" as any]: experience.jobs[i + 1]?.accent, transitionDelay: `${i * 80}ms` }}>
-                  <span className="job-dot" />
-                  <header className="job-head">
-                    <div>
-                      <h3 className="job-company">{job.company}</h3>
-                      <p className="job-role">{job.role[lang]}</p>
-                    </div>
-                    <div className="job-meta">
-                      <span className="tag">{job.period[lang]}</span>
-                      <span className="tag">{job.place[lang]}</span>
-                      {job.team && <span className="tag">{job.team[lang]}</span>}
-                    </div>
-                  </header>
-                  <ul className="bullets">
-                    {job.bullets[lang].map((b) => <li key={b}>{b}</li>)}
-                    
-                    {job.result && <span className="result" key={job.company}>
-                        <strong>{job.result.text[lang]}</strong>
-                        <br></br>
-                        <br></br>
-                      <a href={job.result.link} target="_blank" rel="noreferrer"><strong>{job.result.label}</strong></a>
-                    </span>}
-                  </ul>
-                </article>
-              ))}
-            </div> 
-
-            <div className="timeline">
-              <article className="reveal" style={{ position: "relative", ["--c" as any]: "#e91e8c", transitionDelay: `80ms` }}>
-                <header className="job-head" style={{ marginBottom: 0 }}>
-                  <span className="job-dot" style={{ top: 10 }}/>
-                  <h3>{experience.freelance.role[lang]}</h3>
+              <TimelineItem head color="var(--pink)" next={experience.freelance.jobs[0]?.accent}>
+                <div className="tl-head">
+                  <h3 className="tl-title">{experience.freelance.role[lang]}</h3>
                   <span className="tag">{experience.freelance.period[lang]}</span>
-                  <div className="job-meta">
-                    <p>{experience.freelance.text[lang]}</p>
-                    <h4 className="selected-projects">Selected Projects:</h4>
-                  </div>
-                </header>
-              </article>
+                  <p className="tl-text">{experience.freelance.text[lang]}</p>
+                  <h4 className="tl-subtitle">{experience.selectedProjects[lang]}</h4>
+                </div>
+              </TimelineItem>
 
               {experience.freelance.jobs.map((job, i) => (
-                <article key={job.company} className="job card reveal" style={{ ["--c" as any]: job.accent, ["--next-c" as any]: experience.jobs[i + 1]?.accent, transitionDelay: `${i * 80}ms` }}>
-                  <span className="job-dot" />
-                  <header className="job-head">
-                    <div><h3 className="job-company">{job.company}</h3></div>
-                    <div className="job-meta">
-                      <span className="tag">{job.place && job.place[lang]}</span>
-                      {job.team && <span className="tag">{job.team[lang]}</span>}
-                    </div>
-                  </header>
-                  <ul className="bullets">
-                    {job.bullets[lang].map((b) => <li key={b}>{b}</li>)}
-                    
-                    {job.result && <span className="result" key={job.company}>
-                        <strong>{job.result.text[lang]}</strong>
-                        <br></br>
-                        <br></br>
-                      <a href={job.result.link} target="_blank" rel="noreferrer"><strong>{job.result.label}</strong></a>
-                    </span>}
-                  </ul>
-                </article>
+                <TimelineItem key={job.company} color={job.accent} next={experience.freelance.jobs[i + 1]?.accent} delay={(i + 1) * 80}>
+                  <JobCard job={job} lang={lang} />
+                </TimelineItem>
+              ))}
+            </div>
+
+            {/* Timeline 2 — freelance */}
+            
+            <div className="timeline">
+              <TimelineItem head color="var(--pink)" next={experience.jobs[0]?.accent}>
+                <h3 className="tl-title">{experience.companiesTitle[lang]}</h3>
+              </TimelineItem>
+
+              {experience.jobs.map((job, i) => (
+                <TimelineItem key={job.company} color={job.accent} next={experience.jobs[i + 1]?.accent} delay={(i + 1) * 80}>
+                  <JobCard job={job} lang={lang} />
+                </TimelineItem>
               ))}
             </div>
 
@@ -241,7 +201,7 @@ function App() {
                 <p>{featured.desc[lang]}</p>
                 <div className="chips small">{featured.stack.map((t) => <span key={t} className="tag">{t}</span>)}</div>
                 <div className="project-actions">
-                  <a className="btn-orange" href={featured.code} rel="noreferrer"><FaRegFileCode /> {ui.projects.code[lang]}</a>
+                  <a className="btn-orange" href={featured.code} rel="noreferrer"><FaRegFileCode /> Mockup</a>
                 </div>
             </article>
             <div className="project-grid">
@@ -251,7 +211,7 @@ function App() {
                   <p>{p.desc[lang]}</p>
                   <div className="chips small">{p.stack.map((s) => <span key={s} className="tag">{s}</span>)}</div>
                   <div className="project-actions">
-                    {p.code && <a className="btn-pink" href={p.code} rel="noreferrer"><FaRegFileCode /> {ui.projects.code[lang]}</a>}
+                    {p.code && <a className="btn-pink" href={p.code} rel="noreferrer"><FaRegFileCode /> Mockup</a>}
                     {p.live && <a className="btn-orange" href={p.live} target="_blank" rel="noreferrer"><FaExternalLinkAlt /> {ui.projects.live[lang]}</a>}
                   </div>
                 </article>
