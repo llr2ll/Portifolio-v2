@@ -497,7 +497,15 @@ export const experience = {
             "Mantenimiento y mejora continua de la plataforma de acuerdo con las necesidades del negocio.",
           ],
         ],
-        result: {  link: "https://photu-one.vercel.app", label: "Studio Prime ↗" }
+        result: {  
+          link: "https://photu-one.vercel.app", 
+          label: "Studio Prime ↗", 
+          text: [
+            "In addition to my experience in Information Technology, co-founded and helped manage Studio Yastrees (now Studio Prime), gaining hands-on experience in entrepreneurship, project management, client relations, and business operations. This experience strengthened my ownership, adaptability, problem-solving, communication, and organizational skills, which I bring to technology and software development environments.",
+            "Além da minha experiência em Tecnologia da Informação, co-fundei e ajudei a gerenciar o Studio Yastrees (atualmente Studio Prime), adquirindo experiência prática em empreendedorismo, gestão de projetos, relacionamento com clientes e operações de negócios. Essa experiência fortaleceu minhas habilidades de senso de responsabilidade e ownership, adaptabilidade, resolução de problemas, comunicação e organização, que aplico em ambientes de tecnologia e desenvolvimento de software.",
+            "Además de mi experiencia en Tecnologías de la Información, cofundé y ayudé a gestionar Studio Yastrees (actualmente Studio Prime), adquiriendo experiencia práctica en emprendimiento, gestión de proyectos, relación con clientes y operaciones empresariales. Esta experiencia fortaleció mis habilidades de responsabilidad y ownership, adaptabilidad, resolución de problemas, comunicación y organización, que aporto a entornos de tecnología y desarrollo de software.",
+          ],
+        }
       },
     ]
   } 
