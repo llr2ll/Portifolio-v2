@@ -51,7 +51,7 @@ export function JobCard({ job, lang }: { job: CardJob; lang: number }) {
 
       {job.result && (
         <div className="job-result">
-          <strong>{job.result.text && job.result.text[lang]}</strong>
+          <p><strong>{job.result.text && job.result.text[lang]}</strong></p>
           <a href={job.result.link} target="_blank" rel="noreferrer">{job.result.label}</a>
         </div>
       )}
