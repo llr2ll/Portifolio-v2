@@ -516,7 +516,7 @@ export const languagesSpoken = {
   title: ["Languages", "Idiomas", "Idiomas"] as L3,
   items: [
     { name: ["Portuguese", "Português", "Portugués"] as L3, level: ["Native", "Nativo", "Nativo"] as L3, dots: 5, color: "#39d353" },
-    { name: ["English", "Inglês", "Inglés"] as L3, level: ["Advanced", "Avançado", "Avanzado"] as L3, dots: 4, color: "#00d4ff" },
+    { name: ["English", "Inglês", "Inglés"] as L3, level: ["Intermediate", "Intermediário", "Intermedio"] as L3, dots: 3, color: "#00d4ff" },
     { name: ["Spanish", "Espanhol", "Español"] as L3, level: ["Intermediate", "Intermediário", "Intermedio"] as L3, dots: 3, color: "#ffd700" },
     { name: ["Galician", "Galego", "Gallego"] as L3, level: ["Intermediate", "Intermediário", "Intermedio"] as L3, dots: 3, color: "#e91e8c" },
   ],
